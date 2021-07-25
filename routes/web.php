@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,6 @@ Route::get('/sample', function () {
 });
 
 Route::get('/test',[test::class, 'index'])->name('test');
+
+Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
