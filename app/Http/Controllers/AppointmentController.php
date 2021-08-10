@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\AppointmentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\AssignOp\Concat;
 
 class AppointmentController extends Controller
 {
@@ -51,9 +54,24 @@ class AppointmentController extends Controller
         return view('appointment.index',compact('data'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $action = $request->action;
+        $id = $request->id;
+
+        $app_service = new AppointmentService();
+
+        switch($action) {
+            case 'Add':
+
+                $data['workouts'] = $app_service->getAllWorkouts();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
+                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+
+                return view('appointment.create',compact('data'));
+                 break;
+            default:
+        }
     }
 
 

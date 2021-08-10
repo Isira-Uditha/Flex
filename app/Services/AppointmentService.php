@@ -36,6 +36,12 @@ class AppointmentService
 
         return $res;
     }
+
+    public function getWorkoutPlans($id = ''){
+        $result = WorkoutPlan::get();
+
+        return $result;
+    }
 }
 
 ?>

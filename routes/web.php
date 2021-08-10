@@ -27,3 +27,5 @@ Route::get('/test',[test::class, 'index'])->name('test');
 
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
+Route::get('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
+

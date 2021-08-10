@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
-                                <a href="#" type="button" id="search" class="btn btn-success">Add Appointment</a>
+                                <a href="{{route('appointment_create',['action' => 'Add','id' => ''])}}" type="button" id="search" class="btn btn-success">Add Appointment</a>
                             </div>
                         </div>
                     </div>
