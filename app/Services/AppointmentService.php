@@ -32,6 +32,7 @@ class AppointmentService
                 return $q->where('appointment.appointment_date','<=',  Carbon::createFromFormat('m/d/Y',$data['to'])->format('Y-m-d'));
             });
         })
+        ->orderBy('appointment_id','DESC')
         ->get();
 
         return $res;

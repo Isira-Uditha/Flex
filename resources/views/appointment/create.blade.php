@@ -14,7 +14,7 @@
         <div class="card custom-card">
             <div class="card-body">
                 <h6 class="card-title mb-3">Add Appointment</h6>
-                <form  method="POST" class="login-form">
+                <form action="{{route('appointment_create',['action' => 'Add','id' => ''])}}"  method="POST" class="login-form">
                     @csrf
                     <input type='text' name="bmi" value="0" hidden id="hidden_bmi">
                     <div class="row">
@@ -23,7 +23,7 @@
 
                             <div class="form-group @error('uid') has-danger @enderror">
                                 <label>User ID</label>
-                                <input class="form-control" type="text" name="uid" value="{{$data['userID']->uid}}" disabled>
+                                <input class="form-control" type="text" name="uid" value="{{$data['userID']->uid}}" readonly>
                                 @error('uid')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -39,7 +39,7 @@
                                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker" value="{{date('d/m/Y')}}" name="appointment_date" type="text" id="appointment_date">
+                                    <input class="form-control fc-datepicker" @if(!empty(old('appointment_date'))) value="{{old('appointment_date')}}" @else value="{{date('d/m/Y')}}" @endif  name="appointment_date" type="text" id="appointment_date">
                                 </div>
                                 @error('appointment_date')
                                 <span class="invalid-feedback" role="alert">
@@ -50,7 +50,7 @@
 
                             <div class="form-group @error('current_height') has-danger @enderror">
                                 <label>Current Height (m)</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
-                                <input class="form-control" type="text" placeholder="please enter current height" name="current_height" id="current_height">
+                                <input class="form-control" type="text" placeholder="please enter current height" value="{{!empty(old('current_height')) ? old('current_height') : ''}}" name="current_height" id="current_height">
                                 @error('current_height')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -65,7 +65,7 @@
                                         Choose one
                                     </option>
                                     @foreach ($data['workouts'] as $res)
-                                    <option value="{{$res->workout_plan_id}}">
+                                    <option value="{{$res->workout_plan_id}}" @if(!empty(old('workout_plan_id')) && old('workout_plan_id') ==  $res->workout_plan_id) selected @endif>
                                         {{$res->workout_plan_name}}
                                     </option>
                                     @endforeach
@@ -84,7 +84,7 @@
 
                             <div class="form-group @error('userName') has-danger @enderror">
                                 <label>User Name</label>
-                                <input class="form-control" type="text" name="userName" value="{{Str::title($data['userName']->userName)}}" disabled>
+                                <input class="form-control" type="text" name="userName" value="{{Str::title($data['userName']->userName)}}" readonly>
                                 @error('userName')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -98,22 +98,22 @@
                                     <option value="" label="Choose one">
                                         Choose one
                                     </option>
-                                    <option value="7-9">
+                                    <option value="7-9" @if(!empty(old('time_slot')) && old('time_slot') ==  "7-9") selected @endif>
                                         7.00 am &nbsp; - &nbsp; 9.00 am
                                     </option>
-                                    <option value="9-11">
+                                    <option value="9-11" @if(!empty(old('time_slot')) && old('time_slot') ==  "9-11") selected @endif>
                                         9.00 am &nbsp; - &nbsp; 11.00 am
                                     </option>
-                                    <option value="13-15">
+                                    <option value="13-15" @if(!empty(old('time_slot')) && old('time_slot') ==  "13-15") selected @endif>
                                         1.00 pm &nbsp; - &nbsp; 3.00 pm
                                     </option>
-                                    <option value="15-17">
+                                    <option value="15-17" @if(!empty(old('time_slot')) && old('time_slot') ==  "15-17") selected @endif>
                                         3.00 pm &nbsp; - &nbsp; 5.00 pm
                                     </option>
-                                    <option value="17-19">
+                                    <option value="17-19" @if(!empty(old('time_slot')) && old('time_slot') ==  "17-19") selected @endif>
                                         5.00 pm &nbsp; - &nbsp; 7.00 pm
                                     </option>
-                                    <option value="19-21">
+                                    <option value="19-21" @if(!empty(old('time_slot')) && old('time_slot') ==  "19-21") selected @endif>
                                         7.00 pm &nbsp; - &nbsp; 9.00 pm
                                     </option>
                                 </select>
@@ -126,7 +126,7 @@
 
                             <div class="form-group @error('current_weight') has-danger @enderror">
                                 <label>Current Weight (Kg)</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
-                                <input class="form-control" type="text" placeholder="please enter current height" name="current_weight" id="current_weight">
+                                <input class="form-control" type="text" placeholder="please enter current height" value="{{!empty(old('current_weight')) ? old('current_weight') : ''}}" name="current_weight" id="current_weight">
                                 @error('current_weight')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -146,8 +146,8 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
-                                <a href="{{route('appointment_create',['action' => 'Add','id' => ''])}}" type="button" id="search" class="btn btn-success">Save</a>
-                                <a type="button" id="search" class="btn btn-secondary text-white">Clear</a>
+                                <button  type="submit" id="save" class="btn btn-success">Save</button>
+                                <a type="button" id="clear" class="btn btn-secondary text-white">Clear</a>
                             </div>
                         </div>
                     </div>
@@ -278,14 +278,20 @@ function bmiCalculator(){
     $('#c_bmi').text(bmi.toFixed(2));
     $('#hidden_bmi').val(bmi.toFixed(2));
     if(bmi.toFixed(2) < 18.50){
-        $('#c_schedule').html('<span class="badge badge-danger tx-13">Underweight</span>');
+        $('#c_status').html('<span class="badge badge-danger tx-13">Underweight</span>');
+        $('#c_schedule').text('WorkoutPlan A');
     }else if(bmi.toFixed(2) >= 18.50 && bmi.toFixed(2) < 24.90){
-        $('#c_schedule').html('<span class="badge badge-success tx-13">Normal weight</span>');
+        $('#c_status').html('<span class="badge badge-success tx-13">Normal weight</span>');
+        $('#c_schedule').text('WorkoutPlan B');
     }else if(bmi.toFixed(2) >= 24.90 && bmi.toFixed(2) < 30.00){
-        $('#c_schedule').html('<span class="badge badge-warning tx-13">Overweight</span>');
+        $('#c_status').html('<span class="badge badge-warning tx-13">Overweight</span>');
+        $('#c_schedule').text('WorkoutPlan C');
     }else{
-        $('#c_schedule').html('<span class="badge badge-danger tx-13">Obese</span>');
+        $('#c_status').html('<span class="badge badge-danger tx-13">Obesity</span>');
+        $('#c_schedule').text('WorkoutPlan D');
     }
+    getSugestedSchedules(bmi.toFixed(2));
+
 }
 
 function keyupValidation(keyCode,value){
@@ -325,5 +331,31 @@ function bookingDetails(id){
         $('#b_date').text($('#appointment_date').val());
     }
 }
+
+function getSugestedSchedules(bmi){
+    $.ajax({
+        type: "GET",
+        url: "{{route('getSugestedSchedules')}}",
+        data: {'bmi': bmi},
+        success: function (response) {
+            $("#c_schedule").empty();
+           $.each(response.data, function (index, value) {
+                $("#c_schedule").append('<span class="text-primary">'+value.workout_plan_name + '</span><br>');
+            });
+        }
+    });
+}
 </script>
+
+@if(!empty(old('bmi')) || !empty(old('uid')) || !empty(old('appointment_date')) || !empty(old('time_slot')) || !empty(old('current_height')) || !empty(old('workout_plan_id')) || !empty(old('userName')) || !empty(old('current_weight')))
+    <script>
+        if( $('#current_height').val() != "" && $('#current_weight').val() != ""){
+            bmiCalculator();
+        }
+
+        $('#b_date').text($('#appointment_date').val());
+        $('#b_schedule').text($('#workout_plan_id option:selected').text());
+        $('#b_time').text($('#time_slot option:selected').text());
+    </script>
+@endif
 @endpush
