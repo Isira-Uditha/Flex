@@ -27,6 +27,8 @@ class User extends Authenticatable
         'bod',
         'role',
         'package_id',
+        'height',
+        'weight',
         'created_at',
         'updated_at',
         'email',

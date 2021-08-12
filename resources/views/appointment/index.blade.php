@@ -153,6 +153,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Appointment ID</th>
+                            <th scope="col">Appointment No</th>
                             <th scope="col">Date</th>
                             <th scope="col">Time Slot</th>
                             <th scope="col">Workout Plan</th>
@@ -178,6 +179,7 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
+    $('.select2').css('width','100%');
     category_table = $('#zero_config').DataTable({
             buttons: [],
             "lengthMenu": [
@@ -205,6 +207,10 @@ $(document).ready(function () {
             columns: [{
                     data: 'appointment_id',
                     name: 'appointment_id'
+                },
+                {
+                    data: 'appointment_no',
+                    name: 'appointment_no'
                 },
                 {
                     data: 'appointment_date',
@@ -243,6 +249,7 @@ $(document).ready(function () {
         $('#search').click(function (e) {
             e.preventDefault();
             category_table.ajax.reload();
+            $('.select2').css('width','100%');
          })
 });
 

@@ -13,6 +13,7 @@ class Appointment extends Model
     public $incrementing = true;
     public $timestamps = true;
     protected $fillable = [
+        'appointment_no',
         'time_slot',
         'appointment_date',
         'current_height',

@@ -25,8 +25,12 @@ class AppointmentController extends Controller
             ->addColumn('appointment_id', function ($row) {
                 return $row->appointment_id;
             })
+            ->addColumn('appointment_no', function ($row) {
+                return $row->appointment_no;
+            })
             ->addColumn('appointment_date', function ($row) {
-                return $row->appointment_date;
+                $app_date = Carbon::createFromFormat('Y-m-d',$row->appointment_date)->format('m/d/Y');
+                return $app_date;
             })
             ->addColumn('time_slot', function ($row) {
                 return $row->time_slot;
@@ -38,7 +42,19 @@ class AppointmentController extends Controller
                 return $row->bmi;
             })
             ->addColumn('bmi_type', function ($row) {
-                return $row->bmi_type;
+                $bmi_type = '';
+
+                if($row->bmi_type == 'Underweight'){
+                    $bmi_type = '<span class="tag tag-red">Underweight</span>';
+                }else if($row->bmi_type == 'Normal weight'){
+                    $bmi_type = '<span class="tag tag-green">Normal weight</span>';
+                }else if($row->bmi_type == 'Overweight'){
+                    $bmi_type = '<span class="tag tag-yellow">Overweight</span>';
+                }else{
+                    $bmi_type = '<span class="tag tag-red tx-12">Obesity</span>';
+                }
+
+                return $bmi_type;
             })
             ->addColumn('current_height', function ($row) {
                 return $row->current_height;
@@ -47,9 +63,11 @@ class AppointmentController extends Controller
                 return $row->current_weight;
             })
             ->addColumn('action', function ($row) {
-                return '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16"></i></a>';
+                $delete = '<a href="' . route('appointment_view',['action' => 'Delete','id' => $row->appointment_id]) . '" data-placement="top" data-toggle="tooltip-primary" title="Delete"><i class="fas fa-trash-alt text-danger font-16"></i></a> ';
+                $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning font-16" data-placement="top"></i></a>';
+                return $edit.' '.$delete;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','bmi_type'])
 
             ->make(true);
         }
@@ -61,7 +79,6 @@ class AppointmentController extends Controller
     public function view(Request $request){
         $action = $request->action;
         $id = $request->id;
-
         $app_service = new AppointmentService();
 
         switch($action) {
@@ -70,9 +87,19 @@ class AppointmentController extends Controller
                 $data['workouts'] = $app_service->getAllWorkouts();
                 $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
                 $data['userID'] = User::select('uid')->where('uid', 1)->first();
-
+                $data['action'] = 'Add';
                 return view('appointment.create',compact('data'));
                  break;
+            case 'Edit':
+
+                $data['workouts'] = $app_service->getAllWorkouts();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
+                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+                $data['result'] = Appointment::where('appointment_id',$id)->first();
+                $data['action'] = 'Edit';
+                $data['id'] = $id;
+                return view('appointment.create',compact('data'));
+                break;
             default:
         }
     }
@@ -83,7 +110,7 @@ class AppointmentController extends Controller
         $id = $request->id;
         $data = $request->all();
 
-        if($action == 'Add'){
+        if($action == 'Add' || $action == 'Edit'){
             $rules = [
                 'uid' => 'required',
                 'userName' => 'required',
@@ -94,6 +121,8 @@ class AppointmentController extends Controller
                 'time_slot' => 'required',
                 'bmi' => 'required',
             ];
+        }else{
+            $rules = [];
         }
 
         $validatedData = Validator::make(
@@ -120,12 +149,29 @@ class AppointmentController extends Controller
                 case 'Add':
                     $res = $this->store($data);
                     if($res){
-                        return redirect(route('appointment_index'))->with('success_message', 'Record created succefully ');
+                        if($this->updateUserDetails($data)){
+                            return redirect(route('appointment_index'))->with('success_message', 'Record created succefully ');
+                        }else{
+                            return redirect()->back()->with('error_message', 'User details are not updated.');
+                        }
                     }else{
                         return redirect()->back()->withInput()->withErrors($validatedData->errors())
                         ->with('error_message', 'please check as we’re missing some information.');
                     }
                     // return view('appointment.create',compact('data'));
+                    break;
+                case 'Edit':
+                    $res = $this->update($data,$id);
+                    if($res){
+                        if($this->updateUserDetails($data)){
+                            return redirect()->back()->with('success_message', 'Record updated succefully ');
+                        }else{
+                            return redirect()->back()->with('error_message', 'User details are not updated.');
+                        }
+                    }else{
+                        return redirect()->back()->withInput()->withErrors($validatedData->errors())
+                        ->with('error_message', 'please check as we’re missing some information.');
+                    }
                     break;
                 default:
             }
@@ -139,8 +185,8 @@ class AppointmentController extends Controller
         $appointment = new Appointment();
 
         $bmi = $this->getBMIAndType($data['current_height'],$data['current_weight']);
-
         $appointment->uid = $data['uid'];
+        $appointment->appointment_no = $data['appointment_no'];
         $appointment->appointment_date = Carbon::createFromFormat('m/d/Y',$data['appointment_date'])->format('Y-m-d');
         $appointment->current_height = $data['current_height'];
         $appointment->current_weight = $data['current_weight'];
@@ -166,9 +212,23 @@ class AppointmentController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update($data,$id)
     {
-        //
+        $appointment = Appointment::where('appointment_id',$id)->first();
+
+        $bmi = $this->getBMIAndType($data['current_height'],$data['current_weight']);
+
+        $appointment->appointment_no = $data['appointment_no'];
+        $appointment->appointment_date = Carbon::createFromFormat('m/d/Y',$data['appointment_date'])->format('Y-m-d');
+        $appointment->current_height = $data['current_height'];
+        $appointment->current_weight = $data['current_weight'];
+        $appointment->workout_plan_id = $data['workout_plan_id'];
+        $appointment->diet_plan_id = $bmi['diet_plan'];
+        $appointment->time_slot = $data['time_slot'];
+        $appointment->bmi = $bmi['bmi'];
+        $appointment->bmi_type = $bmi['bmi_type'];
+
+        return $appointment->save();
     }
 
     public function destroy($id)
@@ -215,4 +275,30 @@ class AppointmentController extends Controller
 
         return response()->json(['success' => 1, 'data' => $res], 200);
     }
+
+    public function checkAppointmentStatus(Request $request){
+        $res = Appointment::where('appointment_date',Carbon::createFromFormat('m/d/Y',$request->appointment_date)->format('Y-m-d'))
+        ->where('time_slot',$request->time_slot)
+        ->get();
+
+        $count = $res->count();
+        if($count < 8){
+            $availablity = true;
+            $number = $count + 1;
+        }else{
+            $availablity = false;
+            $number = '';
+        }
+        return response()->json(['data' => $res,'availablity' => $availablity,'number' => $number],200);
+    }
+
+    public function updateUserDetails($data){
+        $user = User::where('uid', 1)->first();
+
+        $user->height = $data['current_height'];
+        $user->weight = $data['current_weight'];
+
+        return $user->save();
+    }
+
 }
