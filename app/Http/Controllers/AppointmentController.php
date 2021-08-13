@@ -63,9 +63,8 @@ class AppointmentController extends Controller
                 return $row->current_weight;
             })
             ->addColumn('action', function ($row) {
-                // href="' . route('appointment_view',['action' => 'Delete','id' => $row->appointment_id]) . '"
-                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger font-16 delete"></i></a> ';
-                $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning font-16" data-placement="top"></i></a>';
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
+                $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                 return $edit.' '.$delete;
             })
             ->rawColumns(['action','bmi_type'])

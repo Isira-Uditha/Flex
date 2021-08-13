@@ -278,7 +278,7 @@ $(document).ready(function () {
                                 $('*[data-appid="' + appid + '"]').closest("tr").remove();
                                 Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
+                                'Record has been deleted successfully.',
                                 'success'
                                 );
                             }
