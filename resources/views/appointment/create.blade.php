@@ -20,7 +20,7 @@
                 <h6 class="card-title mb-3">{{$action}} Appointment {{isset($data['id']) ? '- '.$data['id'] : ''}}</h6>
                 <input type='text' name="bmi" value="0" hidden id="hidden_bmi">
                 <input type='text' name="action" value="{{$action}}" hidden id="hidden_action">
-                <input type='text' name="appointment_no" @if(!empty(old('appointment_no'))) value="{{old('appointment_no')}}" @elseif(isset($data['result'])) value="{{$data['result']->appointment_no}}" @endif hidden id="hidden_appointment_no">
+                <input type='text' name="appointment_no" @if(!empty(old('appointment_no'))) value="{{old('appointment_no')}}" @elseif(isset($data['result'])) value="{{$data['result']->appointment_no}}" @else value=" " @endif hidden id="hidden_appointment_no">
                 <div class="row">
 
                     <div class="col-md-6">
@@ -153,7 +153,7 @@
                     <div class="col-md-6 text-right">
                         <div class="form-group col-md-12">
                             <button  type="submit" id="save" class="btn btn-success">{{(isset($data['result'])) ? 'Update' : 'Save'}}</button>
-                            <a type="button" id="clear" class="btn btn-secondary text-white">Clear</a>
+                            <button type="button" id="clear" class="btn btn-secondary text-white">Clear</button>
                         </div>
                     </div>
                 </div>
@@ -289,7 +289,21 @@ $(document).ready(function () {
         $('.select2').css('width','100%');
 
     });
+
+    $('#clear').click(function (e) {
+        e.preventDefault();
+        $('#current_height, #current_weight, #appointment_date').val("");
+        $('.select2').val('');
+        $('.select2').trigger('change');
+        $('#b_availability, #b_number, #c_status, #c_schedule').text('Not Checked');
+        $('#b_time, #b_schedule, #b_date').text('Not Selected');
+        $('#c_height, #c_weight, #c_bmi').text('0');
+        $('.select2').css('width','100%');
+    });
+
 });
+
+
 
 function bmiCalculator(){
     var height = $('#current_height').val();
@@ -378,6 +392,7 @@ function checkAppointmentStatus(){
                 if(response.availablity == true){
                     $('#b_availability').html('<span class="tag tag-lime">Available</span>');
                     $('#b_number').text(response.number);
+                    $('#hidden_appointment_no').val(response.number);
                     $('#save').removeAttr('disabled',false);
                 }else{
                     $('#b_availability').html('<span class="tag tag-red">Unavailable</span>');
@@ -406,22 +421,29 @@ function checkUpdateAppointmentStatus(){
             }
         });
 }
+
+
 </script>
 
 @if(!empty(old('bmi')) || !empty(old('uid')) || !empty(old('appointment_date')) || !empty(old('time_slot')) || !empty(old('current_height')) || !empty(old('workout_plan_id')) || !empty(old('userName')) || !empty(old('current_weight')))
     <script>
-        if( $('#current_height').val() != "" && $('#current_weight').val() != ""){
-            bmiCalculator();
-        }
+        $(document).ready(function () {
+            $('#workout_div').show();
 
-        if($('#appointment_date').val() != "" && $('#time_slot').val() != ""){
+            if( $('#current_height').val() != "" && $('#current_weight').val() != ""){
+            bmiCalculator();
+            }
+
+            if($('#appointment_date').val() != "" && $('#time_slot').val() != ""){
+                checkAppointmentStatus();
+            }
             checkAppointmentStatus();
-        }
-        checkAppointmentStatus();
-        $('.select2').css('width','100%');
-        $('#b_date').text($('#appointment_date').val());
-        $('#b_schedule').text($('#workout_plan_id option:selected').text());
-        $('#b_time').text($('#time_slot option:selected').text());
+            $('.select2').css('width','100%');
+            $('#b_date').text($('#appointment_date').val());
+            $('#b_schedule').text($('#workout_plan_id option:selected').text());
+            $('#b_time').text($('#time_slot option:selected').text());
+        });
+
     </script>
 @endif
 

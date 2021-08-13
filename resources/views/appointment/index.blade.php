@@ -251,6 +251,43 @@ $(document).ready(function () {
             category_table.ajax.reload();
             $('.select2').css('width','100%');
          })
+
+        $(document).on('click','.delete',function (e) {
+            e.preventDefault();
+            var appid = $(this).closest("a").data('appid');
+            var res = deleteAppointment(appid);
+        });
+
+        function deleteAppointment(appid){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{route('appointment_create',['action' => 'Delete','id' =>"appid"])}}",
+                        data: {'id':appid,'_token':'{{csrf_token()}}'},
+                        success: function (response) {
+                            if(response.success){
+                                $('*[data-appid="' + appid + '"]').closest("tr").remove();
+                                Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                                );
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
 });
 
 </script>

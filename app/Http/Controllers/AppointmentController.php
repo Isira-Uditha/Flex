@@ -63,7 +63,8 @@ class AppointmentController extends Controller
                 return $row->current_weight;
             })
             ->addColumn('action', function ($row) {
-                $delete = '<a href="' . route('appointment_view',['action' => 'Delete','id' => $row->appointment_id]) . '" data-placement="top" data-toggle="tooltip-primary" title="Delete"><i class="fas fa-trash-alt text-danger font-16"></i></a> ';
+                // href="' . route('appointment_view',['action' => 'Delete','id' => $row->appointment_id]) . '"
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger font-16 delete"></i></a> ';
                 $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning font-16" data-placement="top"></i></a>';
                 return $edit.' '.$delete;
             })
@@ -173,6 +174,13 @@ class AppointmentController extends Controller
                         ->with('error_message', 'please check as we’re missing some information.');
                     }
                     break;
+                    case 'Delete':
+                        $res = $this->destroy($id);
+                        if($res){
+                            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+                        }else{
+                            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+                        }
                 default:
             }
         }
@@ -183,7 +191,6 @@ class AppointmentController extends Controller
     public function store($data)
     {
         $appointment = new Appointment();
-
         $bmi = $this->getBMIAndType($data['current_height'],$data['current_weight']);
         $appointment->uid = $data['uid'];
         $appointment->appointment_no = $data['appointment_no'];
@@ -233,7 +240,8 @@ class AppointmentController extends Controller
 
     public function destroy($id)
     {
-        //
+        $res = Appointment::where('appointment_id',$id)->delete();
+        return $res;
     }
 
     public function getBMIAndType($height,$weight)
