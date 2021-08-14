@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\WorkoutExerciseController;
+use App\Http\Controllers\WorkoutPlanController;
+use App\Http\Controllers\DietPlanController;
+use App\Models\Equipment;
+use App\Models\WorkoutExercise;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +29,24 @@ Route::get('/sample', function () {
 
 Route::get('/test',[test::class, 'index'])->name('test');
 
+
+
+Route::get('/workout/workout_exercise', function () {
+    $equipments=Equipment::all();
+    return view('workoutplans.create_exercise')->with('equipments', $equipments);
+})->name('createExercise_view');
+
+Route::get('/workout/workout_plan/create', function () {
+    $exercises=WorkoutExercise::all();
+    return view('workoutplans.create_workoutplan')->with('exercises',  $exercises);;
+})->name('create_workoutPlan_view');
+
+Route::get('/diet_plan/create', function () {
+    return view('dietplans.create_diet_plan');
+})->name('create_dietPlan_view');
+
+Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class, 'store'])->name('createExercise');
+
+Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store'])->name('create_workout_plan');
+
+Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name('create_diet_plan');
