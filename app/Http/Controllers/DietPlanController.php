@@ -16,6 +16,7 @@ class DietPlanController extends Controller
     public function index()
     {
         //
+        return view('dietplans.index_diet_plan');
     }
 
     /**
@@ -37,9 +38,15 @@ class DietPlanController extends Controller
     public function store(Request $request)
     {
         //
+        $dietPlansCount=DietPlan::count();
 
+        if($dietPlansCount >= 4){
+            return redirect()->back()->withInput()
+            ->with('error_message', 'SORRY , System is not allowed to create more than 4 diet plans, There are already 4 diet plans in the system');
+
+        }else{
         $rules = [
-            'diet_plan_name' => 'required',
+            'diet_plan_name' => 'required|min:5|unique:diet_plan',
             'diet_plan_dinner' => 'required',
             'diet_plan_lunch' => 'required',
             'diet_plan_breakfast' => 'required',
@@ -124,12 +131,14 @@ class DietPlanController extends Controller
 
 
         if($res_plan){
-            return redirect(route('create_dietPlan_view'))->with('success_message', 'Diet Plan created succefully ');
+            return redirect(route('diet_plan_index'))->with('success_message', 'Diet Plan created succefully ');
         }else{
             return redirect()->back()->withInput()->withErrors($validatedData->errors())
             ->with('error_message', 'please check as we’re missing some information.');
         }
     }
+
+}
 
     }
 
@@ -176,5 +185,29 @@ class DietPlanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function checkValid()
+    {
+        //
+        $dietPlansCount=DietPlan::count();
+
+        if($dietPlansCount < 4){
+            $availablity = true;
+
+        }else{
+            $availablity = false;
+
+        }
+        return response()->json(['data' => $availablity],200);
+
+
+
     }
 }

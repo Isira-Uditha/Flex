@@ -31,6 +31,33 @@
                                     @enderror
                                 </div>
 
+                                <div class="form-group @error('workout_plan_bmi_category') has-danger @enderror">
+                                    <label>BMI Category</label>
+                                    <select class="form-control select2" name="workout_plan_bmi_category" id="workout_plan_bmi_category">
+                                        <option value="" label="Select a Category">
+                                           Select a Category
+                                        </option>
+                                        <option value="Underweight" label="Underweight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Underweight')) selected @endif>
+                                            Underweight
+                                        </option>
+                                        <option value="Normal weight" label="Normal weight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Normal weight')) selected @endif>
+                                            Normal weight
+                                        </option>
+                                        <option value="Overweight" label="Overweight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Overweight')) selected @endif>
+                                            Overweight
+                                        </option>
+                                        <option value="Obesity" label="Obesity" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Obesity')) selected @endif>
+                                            Obesity
+                                        </option>
+                                    </select>
+                                    @error('workout_plan_bmi_category')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                        </div>
+                        <div class="col-md-4">
 
                                 <div class="form-group @error('workout_plan_duration') has-danger @enderror">
                                     <label>Duration (Number of Months)</label>
@@ -62,33 +89,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group @error('workout_plan_bmi_category') has-danger @enderror">
-                                    <label>BMI Category</label>
-                                    <select class="form-control select2" name="workout_plan_bmi_category" id="workout_plan_bmi_category">
-                                        <option value="" label="Select a Category">
-                                           Select a Category
-                                        </option>
-                                        <option value="Underweight" label="Underweight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Underweight')) selected @endif>
-                                            Underweight
-                                        </option>
-                                        <option value="Normal weight" label="Normal weight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Normal weight')) selected @endif>
-                                            Normal weight
-                                        </option>
-                                        <option value="Overweight" label="Overweight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Overweight')) selected @endif>
-                                            Overweight
-                                        </option>
-                                        <option value="Obesity" label="Obesity" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Obesity')) selected @endif>
-                                            Obesity
-                                        </option>
-                                    </select>
-                                    @error('workout_plan_bmi_category')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-md-8">

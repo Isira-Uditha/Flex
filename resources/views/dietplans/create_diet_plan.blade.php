@@ -16,7 +16,7 @@
                 <div>
                     <h6 class="card-title mb-1">Diet Plan</h6>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
 
                             <form   action="{{route('create_diet_plan')}}" method="POST" class="login-form" id="create_workout_plan_form">
                                 @csrf
@@ -30,6 +30,29 @@
                                     </span>
                                     @enderror
                                 </div>
+
+                                <div class="form-group @error('diet_plan_breakfast') has-danger @enderror">
+                                    <label>Breakfast</label>
+                                        <textarea class="form-control" placeholder="Enter Meals for Breakfast" name="diet_plan_breakfast" id="diet_plan_breakfast" rows="3"></textarea>
+                                    @error('diet_plan_breakfast')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group @error('diet_plan_dinner') has-danger @enderror">
+                                    <label>Dinner</label>
+                                        <textarea class="form-control" placeholder="Enter Meals for Dinner" name="diet_plan_dinner" id="diet_plan_dinner" rows="3"></textarea>
+                                    @error('diet_plan_dinner')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
 
                                 <div class="form-group @error('diet_plan_bmi_category') has-danger @enderror">
                                     <label>BMI Category</label>
@@ -57,17 +80,6 @@
                                     @enderror
                                 </div>
 
-
-                                <div class="form-group @error('diet_plan_breakfast') has-danger @enderror">
-                                    <label>Breakfast</label>
-                                        <textarea class="form-control" placeholder="Enter Meals for Breakfast" name="diet_plan_breakfast" id="diet_plan_breakfast" rows="3"></textarea>
-                                    @error('diet_plan_breakfast')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-
                                 <div class="form-group @error('diet_plan_lunch') has-danger @enderror">
                                     <label>Lunch</label>
                                         <textarea class="form-control" placeholder="Enter Meals for Lunch" name="diet_plan_lunch" id="diet_plan_lunch" rows="3"></textarea>
@@ -78,18 +90,11 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group @error('diet_plan_dinner') has-danger @enderror">
-                                    <label>Dinner</label>
-                                        <textarea class="form-control" placeholder="Enter Meals for Dinner" name="diet_plan_dinner" id="diet_plan_dinner" rows="3"></textarea>
-                                    @error('diet_plan_dinner')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+                            </div>
 
+                            <div class="col-md-8">
                                 <div class="form-group @error('diet_plan_day') has-danger @enderror">
-                                    <label>Select the Days</label>
+                                    <label>Select the Days</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
 
                                     <div class="row">
 										<div class="col-lg-3">
@@ -122,10 +127,11 @@
                                     </span>
                                     @enderror
                                 </div>
-
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group @error('diet_plan_description') has-danger @enderror">
                                     <label>Description</label>
-                                        <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3"></textarea>
+                                        <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3"  @if(!empty(old('diet_plan_description'))) value="{{old('diet_plan_description')}}" @else value="" @endif></textarea>
                                     @error('diet_plan_description')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -133,10 +139,11 @@
                                     @enderror
                                 </div>
 
+
                                 <div class="form-group">
                                     <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Add Diet Plan</button>
                                 </div>
-
+                            </div>
                             </form>
                         </div>
                     </div>

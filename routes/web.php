@@ -51,6 +51,13 @@ Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class
 Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store'])->name('create_workout_plan');
 
 Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name('create_diet_plan');
+
+Route::get('/workout/workout_plan/index',[WorkoutPlanController::class, 'index'])->name('workout_plan_index');
+
+Route::get('/diet_plan/index',[DietPlanController::class, 'index'])->name('diet_plan_index');
+
+Route::get('/diet_plan/create/check',[DietPlanController::class, 'checkValid'])->name('check_valid_create_diet');
+
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
 Route::get('/appointment/view/{action}/{id?}',[AppointmentController::class, 'view'])->name('appointment_view');

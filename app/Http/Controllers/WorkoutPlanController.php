@@ -17,6 +17,7 @@ class WorkoutPlanController extends Controller
     public function index()
     {
         //
+        return view('workoutplans.index_workoutplan');
     }
 
     /**
@@ -40,7 +41,7 @@ class WorkoutPlanController extends Controller
         //
 
         $rules = [
-            'workout_plan_name' => 'required',
+            'workout_plan_name' => 'required|min:5|unique:workout_plan',
             'workout_plan_duration' => 'required',
             'workout_plan_exercises' => 'required',
             'workout_plan_bmi_category' => 'required',
@@ -132,7 +133,7 @@ class WorkoutPlanController extends Controller
         }
 
         if($res_plan && $res_plan_exercise){
-            return redirect(route('create_workoutPlan_view'))->with('success_message', 'Workout Plan created succefully ');
+            return redirect(route('workout_plan_index'))->with('success_message', 'Workout Plan created succefully ');
         }else{
             return redirect()->back()->withInput()->withErrors($validatedData->errors())
             ->with('error_message', 'please check as we’re missing some information.');
