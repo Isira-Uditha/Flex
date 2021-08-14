@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EquipmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,14 @@ Route::get('/', function () {
 Route::get('/sample', function () {
     return view('sample');
 });
+
+Route::get('/equipment/create', function () {
+    return view('equipment.create_equipment');
+});
+
+Route::post('/equipment/create',[EquipmentController::class, 'store'])->name('createEquipment');
+
+
 
 Route::get('/test',[test::class, 'index'])->name('test');
 
