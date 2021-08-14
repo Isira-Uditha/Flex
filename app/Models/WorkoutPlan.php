@@ -9,9 +9,10 @@ class WorkoutPlan extends Model
 {
     use HasFactory;
     protected $table = 'workout_plan';
-    protected $primaryKey = 'workout_plan_id ';
+    protected $primaryKey = 'workout_plan_id';
     public $incrementing = true;
     public $timestamps = true;
+
     protected $fillable = [
         'workout_plan_name',
         'duration',

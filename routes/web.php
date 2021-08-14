@@ -5,6 +5,7 @@ use App\Http\Controllers\WorkoutPlanController;
 use App\Http\Controllers\DietPlanController;
 use App\Models\Equipment;
 use App\Models\WorkoutExercise;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 
@@ -50,3 +51,13 @@ Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class
 Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store'])->name('create_workout_plan');
 
 Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name('create_diet_plan');
+Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
+
+Route::get('/appointment/view/{action}/{id?}',[AppointmentController::class, 'view'])->name('appointment_view');
+
+Route::get('/appointment/getSugestedSchedules',[AppointmentController::class, 'getSugestedSchedules'])->name('getSugestedSchedules');
+
+Route::get('/appointment/checkAppointmentStatus',[AppointmentController::class, 'checkAppointmentStatus'])->name('checkAppointmentStatus');
+
+Route::post('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
+
