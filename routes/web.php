@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,12 @@ Route::get('/sample', function () {
 
 Route::get('/test',[test::class, 'index'])->name('test');
 
+Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
+
+// Route::get('/package/createform', function () {
+//     return view('package.create');
+// });
+
+Route::post('/package/create', [PackageController::class, 'create'])->name('package_create');
+
+Route::get('/package/view/{action}', [PackageController::class, 'view'])->name('package_view');

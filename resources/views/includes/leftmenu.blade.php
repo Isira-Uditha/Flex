@@ -45,6 +45,14 @@
                 </ul>
             </li>
             <li class="slide">
+                <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-package"></i>&nbsp;&nbsp;<span class="side-menu__label">Package</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{route('package_index')}}">Active Packages</a></li>
+                    <li><a class="slide-item" href="{{route('package_view',['action'=>'Add'])}}">Create Package</a></li>
+                    <li><a class="slide-item" href="#">Summary</a></li>
+                </ul>
+            </li>
+            <li class="slide">
                 <a class="side-menu__item text-white" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span><i class="bx bx-log-out"></i></span>&nbsp;&nbsp;<span
                         class="side-menu__label">Sign Out</span></a>
                         <form id="logout-form" action="#" method="POST" class="d-none">
