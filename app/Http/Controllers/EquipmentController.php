@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipment;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class EquipmentController extends Controller
@@ -36,11 +38,13 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
+        // $sss = Storage::disk('accountsdocs')->download($file_path);
+
         // dd($request-> all());
         $rules = [
-            'equipment_code' => 'required',
+            'equipment_code' => 'required|min:5',
             'category' => 'required',
-            'equipment_price' => 'required',
+            'equipment_price' => 'required|numeric',
             'equipment_name' => 'required',
             'registered_date' => 'required',
             'status' => 'required',
@@ -54,7 +58,7 @@ class EquipmentController extends Controller
             $rules,
             [
                 'equipment_code.required' => 'Equipment Code is required ',
-                'category.required' => 'Equipment Category field is required b',
+                'category.required' => 'Equipment Category field is required',
                 'equipment_price.required' => 'Equipment Price field is required',
                 'equipment_name.required' => 'Equipment Name field is required',
                 'registered_date.required' => 'Equipment Registered Date field is required',
@@ -71,14 +75,15 @@ class EquipmentController extends Controller
         }else{
 
             $equipment = new Equipment();
+            $file_path = Storage::disk('accountsdocs')->putFileAs('EQUIPMENT', $request->file('image'), $request->image->getClientOriginalName());
 
             $equipment->equipment_code=$request->equipment_code;
             $equipment->category=$request->category;
             $equipment->equipment_price=$request->equipment_price;
             $equipment->equipment_name=$request->equipment_name;
-            $equipment->registered_date=$request->registered_date;
+            $equipment->registered_date= Carbon::createFromFormat('m/d/Y',$request->registered_date)->format('Y-m-d');
             $equipment->status=$request->status;
-            $equipment->image=$request->image;
+            $equipment->image= $file_path;
             $equipment->muscles_used=$request->muscles_used;
             $equipment->equipment_desc=$request->equipment_desc;
 

@@ -1,7 +1,8 @@
 @extends('layouts.default')
 
 @push('styles')
-
+<!---Internal Fileupload css-->
+<link href="../../assets/plugins/fileuploads/css/fileupload.css" rel="stylesheet" type="text/css"/>
 @endpush
 
 @section('title','Equipment')
@@ -16,7 +17,7 @@
                 <div>
                     <h6 class="card-title mb-1">Register Equipment</h6>
 
-                    <form action="{{route('createEquipment')}}" method="POST" class="login-form" id="create_equipment">
+                    <form action="{{route('createEquipment')}}" method="POST" class="login-form" enctype="multipart/form-data" id="create_equipment">
                         @csrf
                         <div class="row row-sm">
                             <div class="col-6">
@@ -102,8 +103,8 @@
 
                                 <div class="form-group" @error('registered_date') has-danger @enderror>
                                 <label class="form-label">Registered Date: <span class="tx-danger">*</span></label>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="input-group col-md-4">
+                                <div class="row row-sm ">
+                                    <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
                                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
@@ -144,8 +145,10 @@
 
                         <div class="form-group @error('image') has-danger @enderror">
                             <label for="image">Equipment Image (please upload 270 x 355 size)</label>
-                            <input type="file" class="form-control" name="image" id="image" value=""
-                            @if(!empty(old('image'))) value="{{old('image')}}" @else value="" @endif>
+                            {{-- <input type="file" class="form-control" name="image" id="image"> --}}
+                            <div class="col-md-8">
+                                <input type="file" name="image" id="image" class="dropify form-control" data-height="200" />
+                            </div>
                             @error('image')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
