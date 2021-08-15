@@ -78,7 +78,7 @@
                                         <div class="input-group-text">
                                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                         </div>
-                                    </div><input class="form-control fc-datepicker" onkeydown="false" name="to" value="{{date('m/d/Y')}}" id="created_date" type="text">
+                                    </div><input class="form-control fc-datepicker" onkeydown="false" name="created_date" value="{{date('m/d/Y')}}" id="created_date" type="text">
                                 </div>
                                 @error('created_date')
                                 <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
 
                                 <div class="form-group @error('workout_plan_bmi_category') has-danger @enderror">
                                     <label>BMI Category</label>
-                                    <select class="form-control select2" name="diet_plan_bmi_category" id="workout_plan_bmi_category">
+                                    <select class="form-control select2" name="workout_plan_bmi_category" id="workout_plan_bmi_category">
                                         <option value="" label="Select a Category">
                                            Select a Category
                                         </option>
@@ -117,6 +117,13 @@
                                 <div>
                                     <label>&nbsp;</label>
                                 </div>
+                                <div class="form-group">
+                                    <label class="ckbox">
+                                        <input type="checkbox" name="sts_date" id="sts_date" checked
+                                            {{ old('sts_date') ? 'checked' : '' }}>
+                                        <span>{{ __('Ignore Date') }}</span>
+                                    </label>
+                                </div>
 
                             </div>
 
@@ -132,7 +139,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
-                                <a href="{{route('create_workoutPlan_view')}}" type="button" id="search" class="btn btn-success">Add Workout Plan</a>
+                                <a href="{{route('create_workoutPlan_view')}}" type="button" id="add" class="btn btn-success">Add Workout Plan</a>
                             </div>
                         </div>
                     </div>
@@ -151,6 +158,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Workout Plan ID</th>
+                            <th scope="col">Created Date</th>
                             <th scope="col">Workout Plan Name</th>
                             <th scope="col">BMI Category</th>
                             <th scope="col">Duration (Months)</th>
@@ -173,6 +181,66 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
+    $('.select2').css('width','100%');
+    category_table = $('#zero_config').DataTable({
+            buttons: [],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            dom: 'Bflrtip',
+            processing: false,
+            serverSide: true,
+            filter: false,
+            order:false,
+            responsive: true,
+            ajax: {
+                url: "{{url()->current()}}",
+                "type": "GET",
+                "data": function (d) {
+                    var frm = $('#form_id').serializeArray();
+                    $.each(frm, function (indexInArray, valueOfElement) {
+                        var name = valueOfElement.name;
+                        d[name] = valueOfElement.value;
+                    });
+                }
+            },
+            "fnDrawCallback": function (oSettings) {},
+            columns: [{
+                    data: 'workout_id',
+                    name: 'workout_id'
+                },
+                {
+                    data: 'created_date',
+                    name: 'created_date'
+                },
+                {
+                    data: 'workout_plan_name',
+                    name: 'workout_plan_name'
+                },
+                {
+                    data: 'bmi_category',
+                    name: 'bmi_category'
+                },
+                {
+                    data: 'duration',
+                    name: 'duration'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+            ]
+        });
+        $('#search').click(function (e) {
+            e.preventDefault();
+            category_table.ajax.reload();
+            $('.select2').css('width','100%');
+         })
 
 });
 

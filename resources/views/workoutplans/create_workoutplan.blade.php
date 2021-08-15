@@ -149,7 +149,7 @@
 
                                 <div class="form-group @error('workout_plan_description') has-danger @enderror">
                                     <label>Description</label>
-                                        <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3"></textarea>
+                                        <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3"> @if(!empty(old('workout_plan_description'))) value="{{old('workout_plan_description')}}" @else value="" @endif</textarea>
                                     @error('workout_plan_description')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

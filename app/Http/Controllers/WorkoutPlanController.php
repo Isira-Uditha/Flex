@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WorkoutPlan;
 use App\Models\WorkoutPlanExercise;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class WorkoutPlanController extends Controller
@@ -14,9 +15,41 @@ class WorkoutPlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        if ($request->ajax()) {
+            $workouts = WorkoutPlan::getAllWorkoutPlans($request->all());
+            return datatables()->of($workouts)
+            ->addColumn('workout_id', function ($row) {
+                return $row->workout_plan_id;
+            })
+            ->addColumn('created_date', function ($row) {
+                $date =  Carbon::createFromFormat('Y-m-d H:i:s',$row->created_at)->format('m/d/Y');
+                return $date;
+            })
+            ->addColumn('workout_plan_name', function ($row) {
+                return $row->workout_plan_name;
+            })
+            ->addColumn('bmi_category', function ($row) {
+
+                return $row->workout_bmi_category;
+            })
+            ->addColumn('duration', function ($row) {
+                return $row->duration;
+            })
+            ->addColumn('description', function ($row) {
+                return $row->workout_desc;
+            })
+            ->addColumn('action', function ($row) {
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
+                $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                return $edit.' '.$delete;
+            })
+            ->rawColumns(['action'])
+
+            ->make(true);
+        }
         return view('workoutplans.index_workoutplan');
     }
 

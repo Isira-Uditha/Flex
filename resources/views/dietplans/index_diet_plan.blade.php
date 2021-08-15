@@ -124,6 +124,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Diet Plan ID</th>
+                            <th scope="col">Created Dater</th>
                             <th scope="col">Diet Plan Name</th>
                             <th scope="col">BMI Category</th>
                             <th scope="col">Breakfast</th>
@@ -148,6 +149,76 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
+    $('.select2').css('width','100%');
+    category_table = $('#zero_config').DataTable({
+            buttons: [],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            dom: 'Bflrtip',
+            processing: false,
+            serverSide: true,
+            filter: false,
+            order:false,
+            responsive: true,
+            ajax: {
+                url: "{{url()->current()}}",
+                "type": "GET",
+                "data": function (d) {
+                    var frm = $('#form_id').serializeArray();
+                    $.each(frm, function (indexInArray, valueOfElement) {
+                        var name = valueOfElement.name;
+                        d[name] = valueOfElement.value;
+                    });
+                }
+            },
+            "fnDrawCallback": function (oSettings) {},
+            columns: [{
+                    data: 'diet_id',
+                    name: 'diet_id'
+                },
+                {
+                    data: 'created_date',
+                    name: 'created_date'
+                },
+                {
+                    data: 'diet_plan_name',
+                    name: 'diet_plan_name'
+                },
+                {
+                    data: 'bmi_category',
+                    name: 'bmi_category'
+                },
+                {
+                    data: 'breakfast',
+                    name: 'breakfast'
+                },
+                {
+                    data: 'lunch',
+                    name: 'lunch'
+                },
+                {
+                    data: 'dinner',
+                    name: 'dinner'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+            ]
+        });
+        $('#search').click(function (e) {
+            e.preventDefault();
+            category_table.ajax.reload();
+            $('.select2').css('width','100%');
+         })
+
+});
 
 
 });
