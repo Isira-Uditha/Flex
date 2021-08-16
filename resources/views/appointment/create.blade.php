@@ -5,6 +5,13 @@
 @endpush
 @php
     $action = $data['action'];
+    if($action == 'View'){
+        $readonly = "readonly='readonly'";
+        $disabled = "disabled='disabled'";
+    }else{
+        $readonly = '';
+        $disabled = '';
+    }
     (isset($data['id'])) ? $id = $data['id'] : $id = '';
 @endphp
 @section('title','Booking')
@@ -36,14 +43,14 @@
                         </div>
 
                         <div class="form-group @error('appointment_date') has-danger @enderror">
-                            <label>Booking Date</label>
+                            <label>Booking Date</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
                                         <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                     </div>
                                 </div>
-                                <input class="form-control fc-datepicker" @if(!empty(old('appointment_date'))) value="{{old('appointment_date')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->appointment_date))}}" @else value="{{date('m/d/Y')}}" @endif  name="appointment_date" type="text" id="appointment_date">
+                                <input class="form-control fc-datepicker" @if(!empty(old('appointment_date'))) value="{{old('appointment_date')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->appointment_date))}}" @else value="{{date('m/d/Y')}}" @endif  name="appointment_date" type="text" id="appointment_date" {{$readonly}}>
                             </div>
                             @error('appointment_date')
                             <span class="invalid-feedback" role="alert">
@@ -54,7 +61,7 @@
 
                         <div class="form-group @error('current_height') has-danger @enderror">
                             <label>Current Height (m)</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
-                            <input class="form-control" type="text" placeholder="please enter current height" @if(!empty(old('current_height'))) value="{{old('current_height')}}" @elseif(isset($data['result'])) value="{{$data['result']->current_height}}" @endif name="current_height" id="current_height">
+                            <input class="form-control" type="text" placeholder="please enter current height" @if(!empty(old('current_height'))) value="{{old('current_height')}}" @elseif(isset($data['result'])) value="{{$data['result']->current_height}}" @endif name="current_height" id="current_height" {{$readonly}}>
                             @error('current_height')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -64,7 +71,7 @@
 
                         <div class="form-group @error('workout_plan_id') has-danger @enderror"  id="workout_div">
                             <label>Workout Plan</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
-                            <select class="form-control select2" name="workout_plan_id" id="workout_plan_id">
+                            <select class="form-control select2" name="workout_plan_id" id="workout_plan_id" {{$disabled}}>
                                 <option value="" label="Choose one">
                                     Choose one
                                 </option>
@@ -98,7 +105,7 @@
 
                         <div class="form-group @error('time_slot') has-danger @enderror">
                             <label>Time Slot</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
-                            <select class="form-control select2" name="time_slot" id="time_slot">
+                            <select class="form-control select2" name="time_slot" id="time_slot" {{$disabled}}>
                                 <option value="" label="Choose one">
                                     Choose one
                                 </option>
@@ -130,7 +137,7 @@
 
                         <div class="form-group @error('current_weight') has-danger @enderror">
                             <label>Current Weight (Kg)</label><span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>
-                            <input class="form-control" type="text" placeholder="please enter current weight" @if(!empty(old('current_weight'))) value="{{old('current_weight')}}" @elseif(isset($data['result'])) value="{{$data['result']->current_weight}}" @endif name="current_weight" id="current_weight">
+                            <input class="form-control" type="text" placeholder="please enter current weight" @if(!empty(old('current_weight'))) value="{{old('current_weight')}}" @elseif(isset($data['result'])) value="{{$data['result']->current_weight}}" @endif name="current_weight" id="current_weight" {{$readonly}}>
                             @error('current_weight')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -145,10 +152,10 @@
 
             <div class="card-footer w-100" style="position: absolute; bottom: 0;">
                 <div class="row">
+                    @if($action != 'View')
                     <div class="col-md-6 text-left">
                         <div class="form-group col-md-12">
                             <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i>
-
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
@@ -157,6 +164,13 @@
                             <button type="button" id="clear" class="btn btn-secondary text-white">Clear</button>
                         </div>
                     </div>
+                    @else
+                        <div class="col-md-12 text-right">
+                            <div class="form-group col-md-12">
+                                <button  type="submit" class="btn btn-success">{{'Ok'}}</button>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </form>
@@ -448,7 +462,7 @@ function checkUpdateAppointmentStatus(){
     </script>
 @endif
 
-@if($action == 'Edit')
+@if($action == 'Edit' || $action == 'View')
 <script>
     $(document).ready(function () {
         $('#workout_div').show();

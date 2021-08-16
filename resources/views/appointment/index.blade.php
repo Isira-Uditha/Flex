@@ -51,7 +51,7 @@
                             <div class="form-group @error('time_slot') has-danger @enderror">
                                 <label>Time Slot</label>
                                 <select class="form-control select2" name="time_slot">
-                                    <option value="" label="Choose one">
+                                    <option value=" " label="Choose one">
                                         Choose one
                                     </option>
                                     <option value="7-9">
@@ -99,7 +99,7 @@
                             <div class="form-group @error('workout_plan_id') has-danger @enderror">
                                 <label>Workouts</label>
                                 <select class="form-control select2" name="workout_plan_id">
-                                    <option label="Choose one" value="">
+                                    <option label="Choose one" value=" ">
                                         Choose one
                                     </option>
                                     @foreach ($data['workouts'] as $result)
