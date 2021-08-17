@@ -39,7 +39,7 @@
                                         <div class="input-group-text">
                                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                         </div>
-                                    </div><input class="form-control fc-datepicker" onkeydown="false" name="to" value="{{date('m/d/Y')}}" id="created_date" type="text">
+                                    </div><input class="form-control fc-datepicker" onkeydown="false" name="created_date" value="{{date('m/d/Y')}}" id="created_date" type="text">
                                 </div>
                                 @error('created_date')
                                 <span class="invalid-feedback" role="alert">
@@ -57,6 +57,18 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                            </div>
+
+                            <div>
+                                <label>&nbsp;</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="ckbox">
+                                    <input type="checkbox" name="sts_date" id="sts_date" checked
+                                        {{ old('sts_date') ? 'checked' : '' }}>
+                                    <span>{{ __('Ignore Date') }}</span>
+                                </label>
                             </div>
 
                         </div>
@@ -221,7 +233,7 @@ $(document).ready(function () {
 });
 
 
-});
+
 
 $('#btn_add_diet').click(function () {
 

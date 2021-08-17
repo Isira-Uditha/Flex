@@ -11,15 +11,19 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="card custom-card">
-            <div class="card-body">
-                <div>
-                    <h6 class="card-title mb-1">Workout Exercise</h6>
-                    <div class="row">
-                        <div class="col-md-6">
+        <div class="card custom-card h-100">
+            {{-- <div class="card-body"> --}}
+                {{-- <div> --}}
+                    {{-- <h6 class="card-title mb-1">Workout Exercise</h6> --}}
+                    {{-- <div class="row">
+                        <div class="col-md-6"> --}}
 
                             <form action="{{route('createExercise')}}" method="POST" class="login-form" id="create_exercise_form">
                                 @csrf
+                                <div class="card-body">
+                                    <h6 class="card-title mb-1">Workout Exercise</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
                                 <div class="form-group @error('exercise_name') has-danger @enderror">
                                     <label>Exercise Name</label>
                                     <input class="form-control" placeholder="Enter a Name" type="text"
@@ -65,15 +69,35 @@
 
 
                                 <div class="form-group">
-                                    <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Add Exercise</button>
+                                    {{-- <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Add Exercise</button> --}}
+                                    <label>&nbsp;</label>
+                                </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                                <div class="card-footer w-100" style="position: absolute; bottom: 0;">
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <div class="form-group col-md-12">
+                                                {{-- <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i> --}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <div class="form-group col-md-12">
+                                                <button  type="submit" id="submit" class="btn btn-success">Add Exercise</button>
+                                                <button type="reset" id="clear" class="btn btn-secondary text-white" >Clear</button>
+                                            </div>
+                                        </div>
 
-            </div>
+                                    </div>
+                                </div>
+                            </form>
+                        {{-- </div>
+                    </div> --}}
+                {{-- </div> --}}
+
+            {{-- </div> --}}
         </div>
     </div>
 </div>

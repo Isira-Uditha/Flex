@@ -40,7 +40,7 @@ class WorkoutExerciseController extends Controller
         //
 
         $rules = [
-            'exercise_name' => 'required|min:5',
+            'exercise_name' => 'required|min:5|unique:workout_exericse',
             'exercise_equipment_id' => 'required',
         ];
 

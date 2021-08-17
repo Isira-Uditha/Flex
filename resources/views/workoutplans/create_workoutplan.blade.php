@@ -11,15 +11,16 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="card custom-card">
-            <div class="card-body">
-                <div>
-                    <h6 class="card-title mb-1">Workout Plan</h6>
+        <div class="card custom-card h-100">
+            {{-- <div class="card-body"> --}}
+                {{-- <div> --}}
+                    {{-- <h6 class="card-title mb-1">Workout Plan</h6> --}}
                     <form action="{{route('create_workout_plan')}}" method="POST" class="login-form" id="create_workout_plan_form">
                         @csrf
-                    <div class="row">
-                        <div class="col-md-4">
-
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Workout Plan</h6>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group @error('workout_plan_name') has-danger @enderror">
                                     <label>Plan Name</label>
                                     <input class="form-control" placeholder="Enter a Name" type="text"
@@ -34,7 +35,7 @@
                                 <div class="form-group @error('workout_plan_bmi_category') has-danger @enderror">
                                     <label>BMI Category</label>
                                     <select class="form-control select2" name="workout_plan_bmi_category" id="workout_plan_bmi_category">
-                                        <option value="" label="Select a Category">
+                                        <option value="Select a Category" label="Select a Category">
                                            Select a Category
                                         </option>
                                         <option value="Underweight" label="Underweight" @if(!empty(old('workout_plan_bmi_category') && old('workout_plan_bmi_category') == 'Underweight')) selected @endif>
@@ -56,13 +57,12 @@
                                     </span>
                                     @enderror
                                 </div>
-                        </div>
-                        <div class="col-md-4">
-
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group @error('workout_plan_duration') has-danger @enderror">
                                     <label>Duration (Number of Months)</label>
                                     <select class="form-control select2" name="workout_plan_duration" id="workout_plan_duration">
-                                        <option value="" label="Select the Number of Months">
+                                        <option value="Select the Number of Months" label="Select the Number of Months">
                                            Select the Number of Months
                                         </option>
 
@@ -88,19 +88,14 @@
                                     </span>
                                     @enderror
                                 </div>
-
+                            </div>
                         </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-
-
+                        <div class="row">
+                            <div class="col-md-8">
                                 <div class="form-group @error('workout_plan_day') has-danger @enderror">
                                     <label>Select the Days</label>
-
                                     <div class="row">
-										<div class="col-lg-3">
+                                        <div class="col-lg-3">
 											<label class="ckbox"><input type="checkbox" value="yes" name="workout_day_monday"   {{ old('workout_day_monday') ? 'checked' : '' }}><span>Monday</span></label>
 										</div>
 										<div class="col-lg-3">
@@ -123,14 +118,12 @@
 											<label class="ckbox"><input  type="checkbox" value="yes" name="workout_day_sunday" {{ old('workout_day_sunday') ? 'checked' : '' }} ><span>Sunday</span></label>
 										</div>
 									</div>
-
                                     @error('workout_plan_day')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
-
                                 <div class="form-group @error('workout_plan_exercises') has-danger @enderror">
                                     <label>Select Workout Exercises</label>
 
@@ -146,30 +139,48 @@
                                     </span>
                                     @enderror
                                 </div>
-
                                 <div class="form-group @error('workout_plan_description') has-danger @enderror">
                                     <label>Description</label>
-                                        <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3"> @if(!empty(old('workout_plan_description'))) value="{{old('workout_plan_description')}}" @else value="" @endif</textarea>
+                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3">
+                                        @if(!empty(old('workout_plan_description'))) {{old('workout_plan_description')}} @elseif(isset($data['result'])) {{$data['result']->workout_plan_description}} @else  @endif
+                                    </textarea>
+
                                     @error('workout_plan_description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                                 </div>
-
                                 <div class="form-group">
-                                    <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Add Workout Plan</button>
+                                    <label>&nbsp;</label>
                                 </div>
-
                             </div>
                         </div>
+                    </div>
+
+                    <div class="card-footer w-100" style="position: absolute; bottom: 0;">
+                        <div class="row">
+                            <div class="col-md-6 text-left">
+                                <div class="form-group col-md-12">
+                                    {{-- <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i> --}}
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <div class="form-group col-md-12">
+                                    <button  type="submit" id="save" class="btn btn-success">Add Workout Plan</button>
+                                    <button type="reset" id="clear" class="btn btn-secondary text-white" >Clear</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                     </form>
                 </div>
 
             </div>
         </div>
-    </div>
-</div>
+    {{-- </div>
+</div> --}}
 
 
 
@@ -181,9 +192,20 @@
 <script>
 $(document).ready(function () {
 
-
+    // $('#clear').click(function (e) {
+    //     e.preventDefault();
+    //     $('.select2').val('')
+    //   console.log("Hi");
+    // });
 
 
 });
+
+function reset(){
+
+    var dropDown = document.getElementById("workout_plan_bmi_category");
+    dropDown.options[0].selected = true;
+}
+document.getElementById("clear").addEventListener("click", reset);
 </script>
 @endpush

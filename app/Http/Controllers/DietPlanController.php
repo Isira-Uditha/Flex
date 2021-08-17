@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DietPlan;
+use App\Services\DietPlanService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class DietPlanController extends Controller
@@ -13,9 +15,49 @@ class DietPlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $diet_service = new DietPlanService();
+
+        if ($request->ajax()) {
+            $diets = $diet_service->getAllDietPlans($request->all());
+            return datatables()->of($diets)
+            ->addColumn('diet_id', function ($row) {
+                return $row->diet_plan_id;
+            })
+            ->addColumn('created_date', function ($row) {
+                $date =  Carbon::createFromFormat('Y-m-d H:i:s',$row->created_at)->format('m/d/Y');
+                return $date;
+            })
+            ->addColumn('diet_plan_name', function ($row) {
+                return $row->diet_plan_name;
+            })
+            ->addColumn('bmi_category', function ($row) {
+
+                return $row->bmi_category;
+            })
+            ->addColumn('breakfast', function ($row) {
+                return $row->breakfast;
+            })
+            ->addColumn('lunch', function ($row) {
+                return $row->lunch;
+            })
+            ->addColumn('dinner', function ($row) {
+                return $row->dinner;
+            })
+            ->addColumn('description', function ($row) {
+                return $row->diet_desc;
+            })
+            ->addColumn('action', function ($row) {
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
+                $edit = ' <a href="#" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                return $edit.' '.$delete;
+            })
+            ->rawColumns(['action'])
+
+            ->make(true);
+        }
         return view('dietplans.index_diet_plan');
     }
 
