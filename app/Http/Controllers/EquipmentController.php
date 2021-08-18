@@ -15,9 +15,91 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //,compact('data')
+
+        if ($request->ajax()) {
+            $equipments = Equipment::getEqipments($request->all());
+            return datatables()->of($equipments)
+            ->addColumn('equipment_id', function ($row) {
+                return $row->equipment_id;
+            })
+            ->addColumn('image', function ($row) {
+               //return Storage::get('accountsdocs/'.$row->image);
+               $img = Storage::disk('accountsdocs')->get($row->image);
+               $type =  pathinfo(Storage::disk('accountsdocs')->path($row->image), PATHINFO_EXTENSION);
+               $path = 'data:image/' . $type . ';base64,' . base64_encode($img);
+               return '<img src="'. $path .'">';
+            })
+            ->addColumn('equipment_code', function ($row) {
+                return $row->equipment_code;
+            })
+            ->addColumn('equipment_name', function ($row) {
+                return $row->equipment_name;
+            })
+            ->addColumn('registered_date', function ($row) {
+                $app_date = Carbon::createFromFormat('Y-m-d',$row->registered_date)->format('m/d/Y');
+                return $app_date;
+            })
+            ->addColumn('status', function ($row) {
+                $status = '';
+
+                if($row->status == 'In Use'){
+                    $status = '<span class="tag tag-green">In Use</span>';
+                }else if($row->status == 'Repair'){
+                    $status = '<span class="tag tag-red">Repair</span>';
+                }
+                return $status;
+            })
+            ->addColumn('equipment_price', function ($row) {
+                return $row->equipment_price;
+            })
+            ->addColumn('category', function ($row) {
+                // $category = '';
+
+                // if($row->category == 'Fitness & Body Building'){
+                //     $category = '<span class="tag tag-red">Fitness & Body Building</span>';
+                // }else if($row->category == 'Team Sport'){
+                //     $category = '<span class="tag tag-green">Team Sport</span>';
+                // }else if($row->category == 'Sport Safety'){
+                //     $category = '<span class="tag tag-yellow">Sport Safety</span>';
+                // }else if($row->category == 'Gym Equipment'){
+                //     $category = '<span class="tag tag-yellow">Gym Equipment</span>';
+                // }else if($row->category == 'Outdoor Sports'){
+                //     $category = '<span class="tag tag-yellow">Outdoor Sports</span>';
+                // }else if($row->category == 'Indoor Sports'){
+                //     $category = '<span class="tag tag-yellow">Indoor Sports</span>';
+                // }else if($row->category == 'Sports Gloves'){
+                //     $category = '<span class="tag tag-yellow">Sports Gloves</span>';
+                // }else if($row->category == 'Swimming & Diving'){
+                //     $category = '<span class="tag tag-yellow">Swimming & Diving</span>';
+                // }else if($row->category == 'Supplements'){
+                //     $category = '<span class="tag tag-yellow">Supplements</span>';
+                // }else{
+                //     $category = '<span class="tag tag-red tx-12">Other Sports Equipment</span>';
+                // }
+                return $row->category;
+                //return $category;
+            })
+            ->addColumn('muscles_used', function ($row) {
+                return $row->muscles_used;
+            })
+            ->addColumn('equipment_desc', function ($row) {
+                return $row->equipment_desc;
+            })
+            ->addColumn('action', function ($row) {
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->equipment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
+                $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                return $edit.' '.$delete;
+            })
+            ->rawColumns(['action','category','status','image'])
+
+            ->make(true);
+        }
+
+
+        return view('equipment.index_equipment');
     }
 
     /**
@@ -25,9 +107,10 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+
     }
 
     /**
