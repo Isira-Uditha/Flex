@@ -116,27 +116,7 @@
                         </div>
 
                         </div>
-
                     </div><br/>
-
-                    {{-- <div class="col-md-4">
-                    <div class="form-group @error('registered_date') has-danger @enderror">
-                        <label class="">Registered Date:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                                </div>
-                            </div><input class="form-control fc-datepicker" onkeydown="false" name="registered_date" value="{{$registered_date}}" id="registered_date" type="text">
-                        </div>
-                        @error('registered_date')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    </div> --}}
-
                     <div class="row card-footer">
                         <div class="col-md-6 text-left">
                             <div class="form-group col-md-12">
