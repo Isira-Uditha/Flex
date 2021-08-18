@@ -12,9 +12,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card h-100">
-            {{-- <div class="card-body"> --}}
-                {{-- <div> --}}
-                    {{-- <h6 class="card-title mb-1">Workout Plan</h6> --}}
                     <form action="{{route('create_workout_plan')}}" method="POST" class="login-form" id="create_workout_plan_form">
                         @csrf
                     <div class="card-body">
@@ -65,7 +62,6 @@
                                         <option value="Select the Number of Months" label="Select the Number of Months">
                                            Select the Number of Months
                                         </option>
-
                                         <option value="1" label="1 Month" @if(!empty(old('workout_plan_duration') && old('workout_plan_duration') == '1')) selected @endif>
                                           1 Month
                                         </option>
@@ -162,13 +158,12 @@
                         <div class="row">
                             <div class="col-md-6 text-left">
                                 <div class="form-group col-md-12">
-                                    {{-- <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i> --}}
                                 </div>
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="form-group col-md-12">
                                     <button  type="submit" id="save" class="btn btn-success">Add Workout Plan</button>
-                                    <button type="reset" id="clear" class="btn btn-secondary text-white" >Clear</button>
+                                    <button type="button" id="clear" class="btn btn-secondary text-white" >Clear</button>
                                 </div>
                             </div>
 
@@ -176,36 +171,28 @@
                     </div>
                     </form>
                 </div>
-
             </div>
         </div>
-    {{-- </div>
-</div> --}}
-
-
-
 @endsection
-
-
 
 @push('scripts')
 <script>
 $(document).ready(function () {
 
-    // $('#clear').click(function (e) {
-    //     e.preventDefault();
-    //     $('.select2').val('')
-    //   console.log("Hi");
-    // });
-
+    $('#clear').click(function (e) {
+    e.preventDefault();
+    clear();
+});
 
 });
 
-function reset(){
-
-    var dropDown = document.getElementById("workout_plan_bmi_category");
-    dropDown.options[0].selected = true;
+function clear(){
+    $('.select2').val('');
+    $('.select2').trigger('change');
+    $('input[type=text]').val('');
+    $('input[type=checkbox]').prop('checked',false);
+    $('textarea').val('');
 }
-document.getElementById("clear").addEventListener("click", reset);
+
 </script>
 @endpush

@@ -102,11 +102,7 @@
                                 <div>
                                     <label>&nbsp;</label>
                                 </div>
-
                             </div>
-
-
-
 
                     </div><br/>
                     <div class="row card-footer">
@@ -232,21 +228,14 @@ $(document).ready(function () {
 
 });
 
-
-
-
 $('#btn_add_diet').click(function () {
 
-    console.log("Clicked");
     $.ajax({
           url: "{{route('check_valid_create_diet')}}",
           type: 'GET',
           success: function (response) {
-
             if(response.data == true){
-                console.log(response.data);
-                window.location.href = "{{route('create_dietPlan_view')}}"
-
+               window.location.href = "{{route('create_dietPlan_view')}}";
             }
             else{
                 Swal.fire({
@@ -262,7 +251,6 @@ $('#btn_add_diet').click(function () {
                 icon: 'question',
                 title: 'Oops',
                 text: 'Some thing When wrong Please refresh and Try Again',
-
                 })
           }
       });

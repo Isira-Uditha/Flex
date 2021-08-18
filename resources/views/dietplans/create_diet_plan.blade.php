@@ -12,16 +12,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card h-100">
-            {{-- <div class="card-body"> --}}
-                {{-- <div> --}}
-                    {{-- <h6 class="card-title mb-1">Diet Plan</h6> --}}
-                    {{-- <div class="row">
-                        <div class="col-md-6"> --}}
-
                             <form   action="{{route('create_diet_plan')}}" method="POST" class="login-form" id="create_workout_plan_form">
                                 @csrf
                                 <div class="card-body">
-                                    <h6 class="card-title mb-1">Diet Plan</h6>
+                                    <h6 class="card-title mb-3">Diet Plan</h6>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group @error('diet_plan_name') has-danger @enderror">
@@ -153,53 +147,51 @@
                                             </div>
 
                                             <div class="form-group">
-                                                {{-- <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Add Diet Plan</button> --}}
                                                 <label>&nbsp;</label>
                                             </div>
                                         </div>
                                 </div>
                                 </div>
-                            {{-- </div> --}}
-                                    {{-- </div> --}}
+
                                     <div class="card-footer w-100" style="position: absolute; bottom: 0;">
                                         <div class="row">
                                             <div class="col-md-6 text-left">
                                                 <div class="form-group col-md-12">
-                                                    {{-- <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i> --}}
                                                 </div>
                                             </div>
                                             <div class="col-md-6 text-right">
                                                 <div class="form-group col-md-12">
                                                     <button  type="submit" id="submit" class="btn btn-success">Add Diet Plan</button>
-                                                    <button type="reset" id="clear" class="btn btn-secondary text-white" >Clear</button>
+                                                    <button type="button" id="clear" class="btn btn-secondary text-white" >Clear</button>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                             </form>
                         </div>
                     </div>
                 </div>
-
-            {{-- </div>
-        </div> --}}
-    {{-- </div>
-</div> --}}
-
-
-
 @endsection
-
-
 
 @push('scripts')
 <script>
 $(document).ready(function () {
 
-
-
+    $('#clear').click(function (e) {
+    e.preventDefault();
+    clear();
 
 });
+
+});
+
+function clear(){
+    $('.select2').val('');
+    $('.select2').trigger('change');
+    $('input[type=text]').val('');
+    $('input[type=checkbox]').prop('checked',false);
+    $('textarea').val('');
+}
+
 </script>
 @endpush

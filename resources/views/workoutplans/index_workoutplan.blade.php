@@ -88,7 +88,6 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-
                                 <div class="form-group @error('workout_plan_bmi_category') has-danger @enderror">
                                     <label>BMI Category</label>
                                     <select class="form-control select2" name="workout_plan_bmi_category" id="workout_plan_bmi_category">
@@ -124,12 +123,7 @@
                                         <span>{{ __('Ignore Date') }}</span>
                                     </label>
                                 </div>
-
                             </div>
-
-
-
-
                     </div><br/>
                     <div class="row card-footer">
                         <div class="col-md-6 text-left">
@@ -148,7 +142,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-12">
