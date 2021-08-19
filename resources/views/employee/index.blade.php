@@ -4,8 +4,8 @@
 
 @endpush
 
-@section('title','Package')
-@section('sub_title', 'Active Packages')
+@section('title','Members')
+@section('sub_title', 'Currrent Members')
 
 @section('content')
 @php
@@ -23,7 +23,7 @@
     <div class="col-md-12">
         <div class="card custom-card">
             <div class="card-body">
-                <h6 class="card-title mb-1">Search Packages</h6>
+                <h6 class="card-title mb-1">Search Members</h6>
                 <form  method="POST" class="login-form" id="form_id">
                     @csrf
                     <div class="row mt-3">
@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
-                                <a href="{{route('package_view',['action' => 'Add', 'id' => ''])}}" type="button" class="btn btn-success">Add Package</a>
+                                <a href="{{route('employee_view',['action' => 'Add', 'id' => ''])}}" type="button" class="btn btn-success">Add Employee</a>
                             </div>
                         </div>
                     </div>
@@ -120,55 +120,6 @@
 <script>
 
 $(document).ready(function () {
-    category_table = $('#zero_config').DataTable({
-            buttons: [],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            dom: 'Bflrtip',
-            processing: false,
-            serverSide: true,
-            order: false,
-            ajax: {
-                url: "{{url()->current()}}",
-                "type": "GET",
-                "data": function (d) {
-                    var frm = $('#form_id').serializeArray();
-                    $.each(frm, function (indexInArray, valueOfElement) {
-                        var name = valueOfElement.name;
-                        d[name] = valueOfElement.value;
-                    });
-                }
-            },
-            "fnDrawCallback": function (oSettings) {},
-            columns: [{
-                    data: 'package_id',
-                    name: 'package_id'
-                },
-                {
-                    data: 'package_name',
-                    name: 'package_name'
-                },
-                {
-                    data: 'package_description',
-                    name: 'package_description'
-                },
-                {
-                    data: 'package_duration',
-                    name: 'package_duration'
-                },
-                {
-                    data: 'package_price',
-                    name: 'package_price'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                }
-            ]
-        });
-
         $('#submit').click(function (e) {
             e.preventDefault();
             category_table.ajax.reload();
@@ -178,4 +129,3 @@ $(document).ready(function () {
 
 </script>
 @endpush
-

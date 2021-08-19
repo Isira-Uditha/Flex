@@ -12,12 +12,10 @@ class PackageController extends Controller
 {
     public function index(Request $request)
     {
-        // dd($request->all());
         $package_service = new PackageService();
 
         $package_data = $package_service->getAllPackages($request->all());
 
-        // dd($package_data);
         if($request->ajax()) {
             return datatables()->of($package_data)
             ->addColumn('package_id', function($row) {
@@ -36,7 +34,9 @@ class PackageController extends Controller
                 return $row->package_price;
             })
             ->addColumn('action', function ($row) {
-                return '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
+                $delete = '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
+                $edit = ' <a href="' . route('package_view', ['action' => 'Edit','id' => $row->package_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                return $edit.' '.$delete;
             })
             ->rawColumns(['action'])
 
@@ -48,6 +48,7 @@ class PackageController extends Controller
     public function view(Request $request)
     {
         $action = $request->action;
+        $id = $request->id;
 
         switch($action) {
             case 'Add':
@@ -55,6 +56,8 @@ class PackageController extends Controller
                 return view('package.create', compact('data'));
                 break;
             case 'Edit':
+                $data['id'] = $id;
+                $data['result'] = Package::where('package_id',$id)->first();
                 $data['action'] = 'Edit';
                 return view('package.create', compact('data'));
                 break;
@@ -64,15 +67,20 @@ class PackageController extends Controller
 
     public function create(Request $request)
     {
-        //
+        $action = $request->action;
+        $id = $request->id;
         $data = $request->all();
 
-        $rules = [
-            'package_name' => 'required',
-            'package_description' => 'required',
-            'package_price' => 'required',
-            'package_duration' => 'required',
-        ];
+        if($action == 'Add' || $action == 'Edit') {
+            $rules  = [
+                'package_name' => 'required',
+                'package_description' => 'required',
+                'package_price' => 'required',
+                'package_duration' => 'required',
+            ];
+        } else {
+            $rules = [];
+        }
 
         $validatedDate = Validator::make(
             $request->all(),
@@ -89,13 +97,33 @@ class PackageController extends Controller
             return redirect()->back()->withInput()->withErrors($validatedDate->errors())
                 ->with('error_message','Please check the missing information');
         } else {
-            $this->store($data);
+            switch($action){
+                case 'Add':
+                    $res = $this->store($data);
+                    if($res) {
+                        return redirect(route('package_index'))->with('success_message', 'Record created succefully ');
+                    } else {
+                        return redirect()->back()->withInput()->withErrors($validatedDate->errors())
+                            ->with('error_message','Please check the missing information');
+                    }
+                    break;
+                case 'Edit':
+                    $res = $this->update($data, $id);
+                    if($res) {
+                        return redirect()->back()->with('success_message', 'Record updated succefully ');
+                    } else {
+                        return redirect()->back()->with('success_message', 'Something went wrong, package details not updated');
+                    }
+                    break;
+                case 'Delete':
+                    break;
+                default:
+            }
         }
     }
 
     public function store($data)
     {
-        //
         $package = new Package();
 
         $package->package_name = $data['package_name'];
@@ -128,16 +156,16 @@ class PackageController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update($data, $id)
     {
-        //
+        $package = Package::where('package_id', $id)->first();
+
+        $package->package_name = $data['package_name'];
+        $package->package_description = $data['package_description'];
+        $package->package_duration = $data['package_duration'];
+        $package->package_price = $data['package_price'];
+
+        return $package->save();
     }
 
     /**

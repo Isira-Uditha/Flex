@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 
@@ -26,15 +28,21 @@ Route::get('/sample', function () {
 
 Route::get('/test',[test::class, 'index'])->name('test');
 
+//Package Routes
 Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
+Route::post('/package/create/{action}/{id?}', [PackageController::class, 'create'])->name('package_create');
+Route::get('/package/view/{action}/{id?}', [PackageController::class, 'view'])->name('package_view');
 
-// Route::get('/package/createform', function () {
-//     return view('package.create');
-// });
+//User Routes
+Route::get('/user/index',[UserController::class, 'index'])->name('user_index');
+Route::get('/user/view/{action}/{id?}', [UserController::class, 'view'])->name('user_view');
+Route::post('/user/create/{action}/{id?}', [UserController::class, 'create'])->name('user_create');
 
-Route::post('/package/create', [PackageController::class, 'create'])->name('package_create');
+//Employee Routes
+Route::get('/employee/index',[EmployeeController::class, 'index'])->name('employee_index');
+Route::get('/employee/view/{action}/{id?}', [UserController::class, 'view'])->name('employee_view');
 
-Route::get('/package/view/{action}', [PackageController::class, 'view'])->name('package_view');
+
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
 Route::get('/appointment/view/{action}/{id?}',[AppointmentController::class, 'view'])->name('appointment_view');
