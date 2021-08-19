@@ -26,7 +26,6 @@ class EquipmentController extends Controller
                 return $row->equipment_id;
             })
             ->addColumn('image', function ($row) {
-               //return Storage::get('accountsdocs/'.$row->image);
                $img = Storage::disk('accountsdocs')->get($row->image);
                $type =  pathinfo(Storage::disk('accountsdocs')->path($row->image), PATHINFO_EXTENSION);
                $path = 'data:image/' . $type . ';base64,' . base64_encode($img);
@@ -56,31 +55,7 @@ class EquipmentController extends Controller
                 return $row->equipment_price;
             })
             ->addColumn('category', function ($row) {
-                // $category = '';
-
-                // if($row->category == 'Fitness & Body Building'){
-                //     $category = '<span class="tag tag-red">Fitness & Body Building</span>';
-                // }else if($row->category == 'Team Sport'){
-                //     $category = '<span class="tag tag-green">Team Sport</span>';
-                // }else if($row->category == 'Sport Safety'){
-                //     $category = '<span class="tag tag-yellow">Sport Safety</span>';
-                // }else if($row->category == 'Gym Equipment'){
-                //     $category = '<span class="tag tag-yellow">Gym Equipment</span>';
-                // }else if($row->category == 'Outdoor Sports'){
-                //     $category = '<span class="tag tag-yellow">Outdoor Sports</span>';
-                // }else if($row->category == 'Indoor Sports'){
-                //     $category = '<span class="tag tag-yellow">Indoor Sports</span>';
-                // }else if($row->category == 'Sports Gloves'){
-                //     $category = '<span class="tag tag-yellow">Sports Gloves</span>';
-                // }else if($row->category == 'Swimming & Diving'){
-                //     $category = '<span class="tag tag-yellow">Swimming & Diving</span>';
-                // }else if($row->category == 'Supplements'){
-                //     $category = '<span class="tag tag-yellow">Supplements</span>';
-                // }else{
-                //     $category = '<span class="tag tag-red tx-12">Other Sports Equipment</span>';
-                // }
                 return $row->category;
-                //return $category;
             })
             ->addColumn('muscles_used', function ($row) {
                 return $row->muscles_used;
