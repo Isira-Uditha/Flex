@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
-                                <a href="{{route('user_view',['action' => 'Add', 'id' => ''])}}" type="button" class="btn btn-success">Add Member</a>
+                                <a href="{{route('user_view',['u_type' => 'Member' ,'action' => 'Add', 'id' => ''])}}" type="button" class="btn btn-success">Add Member</a>
                             </div>
                         </div>
                     </div>
@@ -98,11 +98,14 @@
                 <table class="table" id="zero_config">
                     <thead>
                         <tr>
-                            <th scope="col">Package ID</th>
-                            <th scope="col">Package Name</th>
-                            <th scope="col">Package Description</th>
-                            <th scope="col">Package Duration</th>
-                            <th scope="col">Package Price</th>
+                            <th scope="col">User ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Date of Birth</th>
+                            <th scope="col">Weight</th>
+                            <th scope="col">Height</th>
+                            <th scope="col">Address</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -120,6 +123,67 @@
 <script>
 
 $(document).ready(function () {
+    category_table = $('#zero_config').DataTable({
+            buttons: [],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            dom: 'Bflrtip',
+            processing: false,
+            serverSide: true,
+            order: false,
+            ajax: {
+                url: "{{url()->current()}}",
+                "type": "GET",
+                "data": function (d) {
+                    var frm = $('#form_id').serializeArray();
+                    $.each(frm, function (indexInArray, valueOfElement) {
+                        var name = valueOfElement.name;
+                        d[name] = valueOfElement.value;
+                    });
+                }
+            },
+            "fnDrawCallback": function (oSettings) {},
+            columns: [{
+                    data: 'uid',
+                    name: 'uid'
+                },
+                {
+                    data: 'first_name',
+                    name: 'first_name'
+                },
+                {
+                    data: 'last_name',
+                    name: 'last_name'
+                },
+                {
+                    data: 'gender',
+                    name: 'gender'
+                },
+                {
+                    data: 'dob',
+                    name: 'dob'
+                },
+                {
+                    data: 'weight',
+                    name: 'weight'
+                },
+                {
+                    data: 'height',
+                    name: 'height'
+                },
+                {
+                    data: 'address',
+                    name: 'address'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+            ]
+        });
+
         $('#submit').click(function (e) {
             e.preventDefault();
             category_table.ajax.reload();

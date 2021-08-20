@@ -5,10 +5,11 @@
 @endpush
 @php
     $action = $data['action'];
+    $u_type = $data['u_type'];
     (isset($data['id'])) ? $id = $data['id'] : $id = '';
 @endphp
-@section('title','Member')
-@section('sub_title', $action.' Member')
+@section('title',$u_type)
+@section('sub_title', $action.' ' .$u_type)
 
 @section('content')
 <div class="row">
@@ -18,7 +19,7 @@
                 <h6 class="card-title mb-1"></h6>
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{route('user_create', ['action' => $action, 'id' => $id])}}" method="POST" class="login-form">
+                        <form action="{{route('user_create', ['u_type' => $u_type ,'action' => $action, 'id' => $id])}}" method="POST" class="login-form">
                             @csrf
                             <div class="row mt-3">
                                 <div class="col-md-6">
@@ -45,6 +46,34 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group @error('address') has-danger @enderror">
+                                        <label>Address</label>
+                                            <textarea class="form-control text-left" name="address" id="package_description" placeholder="Enter Address" rows="3">
+                                                @if(!empty(old('address'))) {{old('address')}} @elseif(isset($data['result'])) {{$data['result']->address}} @else  @endif
+                                            </textarea>
+                                        @error('address')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group @error('gender') has-danger @enderror">
+                                        <label>Gender</label>
+                                        <div class="col-lg-3">
+											<label class="rdiobox"><input name="gender" type="radio" value="Male"> <span>Male</span></label>
+											<label class="rdiobox"><input name="gender" type="radio" value="Female"> <span>Female</span></label>
+										</div>
+                                        @error('dob')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('dob') has-danger @enderror">
                                         <label>Date of Birth</label>
@@ -64,19 +93,6 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group @error('address') has-danger @enderror">
-                                        <label>Address</label>
-                                            <textarea class="form-control text-left" name="address" id="package_description" placeholder="Enter Address" rows="3">
-                                                @if(!empty(old('address'))) {{old('address')}} @elseif(isset($data['result'])) {{$data['result']->address}} @else  @endif
-                                            </textarea>
-                                        @error('address')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group @error('email') has-danger @enderror">
                                         <label>Email</label>
                                         <input class="form-control" placeholder="Enter Email" type="text" id="email"
@@ -86,12 +102,6 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group @error('role') has-danger @enderror">
-                                        <label>Role</label>
-                                        <input class="form-control" name="role" id="role" type="text" value="Member" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -118,26 +128,66 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group @error('package_id') has-danger @enderror">
-                                        <label>Package</label>
-                                        <select class="form-control select2" name="package_id">
-                                            <option label="Choose one" value="">
-                                                Choose one
-                                            </option>
-                                            @foreach ($data['packages'] as $package)
-                                                <option value="{{$package->package_id}}" @if(!empty(old('workout_plan_id')) && old('workout_plan_id') ==  $package->package_id) selected @elseif(isset($data['result']) && $package['result']->package_id ==  $package->package_id) selected @endif>
-                                                    {{$package->package_name}}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('package_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+
+
+                                @if ($u_type === 'Member')
+                                    <div class="col-md-6">
+                                        <div class="form-group @error('role') has-danger @enderror">
+                                            <label>Role</label>
+                                            <input class="form-control" name="role" id="role" type="text" value="Member" readonly>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group @error('package_id') has-danger @enderror">
+                                            <label>Package</label>
+                                            <select class="form-control select2" name="package_id">
+                                                <option label="Choose one" value="">
+                                                    Choose one
+                                                </option>
+                                                @foreach ($data['packages'] as $package)
+                                                    <option value="{{$package->package_id}}" @if(!empty(old('workout_plan_id')) && old('workout_plan_id') ==  $package->package_id) selected @elseif(isset($data['result']) && $package['result']->package_id ==  $package->package_id) selected @endif>
+                                                        {{$package->package_name}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('package_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @else
+                                    @php
+                                        $roles = [
+                                            'Personal Fitness Trainer' => 'Personal Fitness Trainer',
+                                            'Accountant' => 'Accountant',
+                                            'Manager' => 'Manager',
+                                            'Cleanning Staff' => 'Cleanning Staff',
+                                        ]
+                                    @endphp
+                                    <div class="col-md-6">
+                                        <div class="form-group @error('role') has-danger @enderror">
+                                            <label>Employee Role</label>
+                                            <select class="form-control select2" name="role">
+                                                <option label="Choose one" value="">
+                                                    Choose one
+                                                </option>
+                                                @foreach ($roles as $key => $value )
+                                                    <option value="{{$value}}" @if(!empty(old('role') && old('role') == $value)) selected @elseif(isset($data['result']) && $data['result']->role == $value) selected @endif>
+                                                        {{$value}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('role')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="col-md-12 text-right">
                                     <div class="form-group col-md-12">
                                         <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0" data-placement="top"

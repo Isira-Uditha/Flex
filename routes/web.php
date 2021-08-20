@@ -34,13 +34,9 @@ Route::post('/package/create/{action}/{id?}', [PackageController::class, 'create
 Route::get('/package/view/{action}/{id?}', [PackageController::class, 'view'])->name('package_view');
 
 //User Routes
-Route::get('/user/index',[UserController::class, 'index'])->name('user_index');
-Route::get('/user/view/{action}/{id?}', [UserController::class, 'view'])->name('user_view');
-Route::post('/user/create/{action}/{id?}', [UserController::class, 'create'])->name('user_create');
-
-//Employee Routes
-Route::get('/employee/index',[EmployeeController::class, 'index'])->name('employee_index');
-Route::get('/employee/view/{action}/{id?}', [UserController::class, 'view'])->name('employee_view');
+Route::get('/user/index/{u_type}',[UserController::class, 'index'])->name('user_index');
+Route::get('/user/view/{u_type}/{action}/{id?}', [UserController::class, 'view'])->name('user_view');
+Route::post('/user/create/{u_type}/{action}/{id?}', [UserController::class, 'create'])->name('user_create');
 
 
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');

@@ -54,12 +54,12 @@
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="#">Members</a></li>
                         <ul class="slide-menu">
-                            <li><a class="slide-item" href="{{route('user_index')}}">Current Members</a></li>
+                            <li><a class="slide-item" href="{{route('user_index',['u_type' => 'Member'])}}">Current Members</a></li>
                             <li><a class="slide-item" href="#">Summary</a></li>
                         </ul>
                     <li><a class="slide-item" href="#">Employees</a></li>
                         <ul class="slide-menu">
-                            <li><a class="slide-item" href="{{route('employee_index')}}">Current Employees</a></li>
+                            <li><a class="slide-item" href="{{route('user_index',['u_type' => 'Employee'])}}">Current Employees</a></li>
                             <li><a class="slide-item" href="#">Summary</a></li>
                         </ul>
                 </ul>

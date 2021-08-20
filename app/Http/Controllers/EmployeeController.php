@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -13,9 +14,29 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.index');
+        // return view('employee.index');
     }
 
+    public function view(Request $request)
+    {
+        // $action = $request->action;
+        // $id = $request->id;
+
+        // switch($action) {
+        //     case 'Add':
+        //         $data['action'] = 'Add';
+        //         $data['u_type'] = 'Employee';
+        //         return view('employee.create', compact('data'));
+        //         break;
+        //     case 'Edit':
+        //         $data['id'] = $id;
+        //         $data['result'] = User::where('uid',$id)->first();
+        //         $data['action'] = 'Edit';
+        //         return view('employee.create', compact('data'));
+        //         break;
+        //     default;
+        // }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -23,7 +44,67 @@ class EmployeeController extends Controller
      */
     public function create(Request $request)
     {
+        $action = $request->action;
+        $id = $request->id;
+        $data = $request->all();
 
+        if($action == 'Add' || $action == 'Edit') {
+            $rules  = [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'dob' => 'required',
+                'address' => 'required',
+                'email' => 'required',
+                'height' => 'required',
+                'weight' => 'required',
+                'package_id' => 'required',
+            ];
+        } else {
+            $rules = [];
+        }
+
+        $validatedDate = Validator::make(
+            $request->all(),
+            $rules,
+            [
+                'first_name.required' => 'This field is required',
+                'last_name.required' => 'This field is required',
+                'dob.required' => 'This field is required',
+                'address.required' => 'This field is required',
+                'email.required' => 'This field is required',
+                'height.required' => 'This field is required',
+                'weight.required' => 'This field is required',
+                'package_id.required' => 'This field is required',
+            ]
+        );
+
+        if($validatedDate->fails()) {
+            return redirect()->back()->withInput()->withErrors($validatedDate->errors())
+                ->with('error_message','Please check the missing information');
+        } else {
+            switch($action){
+                case 'Add':
+                    $res = $this->store($data);
+                    if($res) {
+                        return redirect(route('employee_index'))->with('success_message', 'Record created succefully ');
+                    } else {
+                        return redirect()->back()->withInput()->withErrors($validatedDate->errors())
+                            ->with('error_message','Please check the missing information');
+                    }
+                    break;
+                case 'Edit':
+                    // $res = $this->update($data, $id);
+                    // if($res) {
+                    //     return redirect()->back()->with('success_message', 'Record updated succefully ');
+                    // } else {
+                    //     return redirect()->back()->with('success_message', 'Something went wrong, package details not updated');
+                    // }
+                    break;
+                case 'Delete':
+                    break;
+                default:
+            }
+        }
     }
 
     /**
@@ -32,9 +113,22 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($data)
     {
-        //
+        $user = new User();
+
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->address = $data['address'];
+        $user->bod = $data['dob'];
+        $user->role = $data['role'];
+        $user->package_id = $data['package_id'];
+        $user->height = $data['height'];
+        $user->weight = $data['weight'];
+        $user->email = $data['email'];
+        $user->password = 'flex12345';
+
+        return $user->save();
     }
 
     /**

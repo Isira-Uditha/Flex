@@ -16,6 +16,7 @@ class PackageService
         ->when(isset($data['package_price']) && $data['package_price'] != '', function($q) use($data) {
             return $q->where('package.package_price', $data['package_price']);
         })
+        ->orderBy('package_id','DESC')
         ->get();
         return $result;
 
