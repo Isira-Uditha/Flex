@@ -16,12 +16,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $user_service = new UserService();
-
 
         $type = $request->u_type;
         switch($type){
@@ -55,7 +55,7 @@ class UserController extends Controller
                     })
                     ->addColumn('action', function ($row) {
                         $delete = '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
-                        $edit = ' <a href="' . route('package_view', ['action' => 'Edit','id' => $row->package_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                        $edit = ' <a href="' . route('user_view', ['u_type' => 'Member', 'action' => 'Edit','id' => $row->uid]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                         return $edit.' '.$delete;
                     })
                     ->rawColumns(['action'])
@@ -97,7 +97,7 @@ class UserController extends Controller
                     })
                     ->addColumn('action', function ($row) {
                         $delete = '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
-                        $edit = ' <a href="' . route('package_view', ['action' => 'Edit','id' => $row->package_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                        $edit = ' <a href="' . route('user_view', ['u_type' => 'Employee', 'action' => 'Edit','id' => $row->uid]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                         return $edit.' '.$delete;
                     })
                     ->rawColumns(['action'])
@@ -117,9 +117,7 @@ class UserController extends Controller
         $action = $request->action;
         $id = $request->id;
 
-        // dd($u_type);
-
-        if($u_type === 'Employee'){
+        if($u_type === 'Employee') {
             switch($action) {
                 case 'Add':
                     $data['action'] = 'Add';
@@ -129,6 +127,7 @@ class UserController extends Controller
                     break;
                 case 'Edit':
                     $data['id'] = $id;
+                    $data['u_type'] = $u_type;
                     $data['result'] = User::where('uid',$id)->first();
                     $data['action'] = 'Edit';
                     return view('user.create', compact('data'));
@@ -145,6 +144,8 @@ class UserController extends Controller
                     break;
                 case 'Edit':
                     $data['id'] = $id;
+                    $data['u_type'] = $u_type;
+                    $data['packages'] = $package_service->getAllPackages($request->all());
                     $data['result'] = User::where('uid',$id)->first();
                     $data['action'] = 'Edit';
                     return view('user.create', compact('data'));
@@ -156,6 +157,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -239,12 +241,12 @@ class UserController extends Controller
                     }
                     break;
                 case 'Edit':
-                    // $res = $this->update($data, $id);
-                    // if($res) {
-                    //     return redirect()->back()->with('success_message', 'Record updated succefully ');
-                    // } else {
-                    //     return redirect()->back()->with('success_message', 'Something went wrong, package details not updated');
-                    // }
+                    $res = $this->update($data, $id);
+                    if($res) {
+                        return redirect()->back()->with('success_message', 'Record updated succefully ');
+                    } else {
+                        return redirect()->back()->with('success_message', 'Something went wrong, user details not updated');
+                    }
                     break;
                 case 'Delete':
                     break;
@@ -256,7 +258,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $data
      * @return \Illuminate\Http\Response
      */
     public function store($data)
@@ -307,13 +309,31 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $data
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($data, $id)
     {
-        //
+        $user = User::where('uid', $id)->first();
+
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->address = $data['address'];
+        $user->bod = $data['dob'];
+        $user->gender = $data['gender'];
+        $user->role = $data['role'];
+
+        if($data['role'] === 'Member'){
+            $user->package_id = $data['package_id'];
+            $user->password = $data['password'];
+        }
+
+        $user->height = $data['height'];
+        $user->weight = $data['weight'];
+        $user->email = $data['email'];
+
+        return $user->save();
     }
 
     /**

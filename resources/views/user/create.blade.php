@@ -64,8 +64,14 @@
                                     <div class="form-group @error('gender') has-danger @enderror">
                                         <label>Gender</label>
                                         <div class="col-lg-3">
-											<label class="rdiobox"><input name="gender" type="radio" value="Male"> <span>Male</span></label>
-											<label class="rdiobox"><input name="gender" type="radio" value="Female"> <span>Female</span></label>
+											<label class="rdiobox"><input name="gender" type="radio" value="Male"
+                                                @if(!empty(old('gender')) && (old('gender') == 'Male')) checked @elseif(isset($data['result']) && $data['result']->gender == 'Male') checked @else value="" @endif>
+                                                <span>Male</span>
+                                            </label>
+											<label class="rdiobox"><input name="gender" type="radio" value="Female"
+                                                @if(!empty(old('gender')) && (old('gender') == 'Female')) checked @elseif(isset($data['result']) && $data['result']->gender == 'Female') checked @else value="" @endif>
+                                                <span>Female</span>
+                                            </label>
 										</div>
                                         @error('dob')
                                         <span class="invalid-feedback" role="alert">
@@ -83,7 +89,7 @@
                                                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker" @if(!empty(old('dob'))) value="{{old('dob')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->dob))}}" @else value="{{date('m/d/Y')}}" @endif  name="dob" type="text" id="dob">
+                                            <input class="form-control fc-datepicker" @if(!empty(old('dob'))) value="{{old('dob')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->bod))}}" @else value="{{date('m/d/Y')}}" @endif  name="dob" type="text" id="dob">
                                         </div>
                                         @error('dob')
                                         <span class="invalid-feedback" role="alert">
@@ -145,7 +151,7 @@
                                                     Choose one
                                                 </option>
                                                 @foreach ($data['packages'] as $package)
-                                                    <option value="{{$package->package_id}}" @if(!empty(old('workout_plan_id')) && old('workout_plan_id') ==  $package->package_id) selected @elseif(isset($data['result']) && $package['result']->package_id ==  $package->package_id) selected @endif>
+                                                    <option value="{{$package->package_id}}" @if(!empty(old('package_id')) && old('package_id') ==  $package->package_id) selected @elseif(isset($data['result']) && $data['result']->package_id ==  $package->package_id) selected @endif>
                                                         {{$package->package_name}}
                                                     </option>
                                                 @endforeach
@@ -157,6 +163,21 @@
                                             @enderror
                                         </div>
                                     </div>
+
+                                    @if($action == 'Edit')
+                                        <div class="col-md-6">
+                                            <div class="form-group @error('password') has-danger @enderror">
+                                                <label>Password</label>
+                                                <input class="form-control" placeholder="Enter Password" type="text" id="password"
+                                                    name="password" @if(!empty(old('password'))) value="{{old('password')}}" @elseif(isset($data['result'])) value="{{$data['result']->password}}" @else value="" @endif>
+                                                @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    @endif
                                 @else
                                     @php
                                         $roles = [
