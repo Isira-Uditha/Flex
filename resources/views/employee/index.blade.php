@@ -76,7 +76,7 @@
                     <div class="row card-footer">
                         <div class="col-md-6 text-left">
                             <div class="form-group col-md-12">
-                                <button type="button" id="submit" class="btn btn-primary mt-3 mb-0">Search</button>
+                                <button type="button" id="submit" class="btn btn-primary mt-0 mb-0">Search</button>
                             </div>
                         </div>
                         <div class="col-md-6 text-right">

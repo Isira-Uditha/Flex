@@ -50,7 +50,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group @error('address') has-danger @enderror">
                                         <label>Address</label>
-                                            <textarea class="form-control text-left" name="address" id="package_description" placeholder="Enter Address" rows="3">
+                                            <textarea class="form-control text-left" name="address" id="address" placeholder="Enter Address" rows="3">
                                                 @if(!empty(old('address'))) {{old('address')}} @elseif(isset($data['result'])) {{$data['result']->address}} @else  @endif
                                             </textarea>
                                         @error('address')
@@ -89,7 +89,7 @@
                                                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker" @if(!empty(old('dob'))) value="{{old('dob')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->bod))}}" @else value="{{date('m/d/Y')}}" @endif  name="dob" type="text" id="dob">
+                                            <input class="form-control fc-datepicker" @if(!empty(old('dob'))) value="{{old('dob')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->bod))}}" @else value=" " @endif  name="dob" type="text" id="dob">
                                         </div>
                                         @error('dob')
                                         <span class="invalid-feedback" role="alert">
@@ -231,7 +231,7 @@
 <script>
      $('#clear').click(function (e) {
         e.preventDefault();
-        $('#first_name, #last_name, #address, #email, #height, #weight').val("");
+        $('#first_name, #last_name, #address, #email, #height, #weight, #dob').val("");
         $('.select2').val('');
         $('.select2').trigger('change');
         $('.select2').css('width','100%');
