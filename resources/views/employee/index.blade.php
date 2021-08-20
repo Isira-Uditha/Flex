@@ -9,31 +9,35 @@
 
 @section('content')
 @php
-    $duration = [
-        '1 Month' => '1 Month',
-        '3 Months' => '3 Months',
-        '6 Months'=> '6 Months',
-        '1 Year' => '1 Year',
-        '2 Years' => '2 Years',
-        '5 Years' => '5 Years',
+    $gender = [
+        'Male' => 'Male',
+        'Female' => 'Female'
+    ];
+
+    $roles = [
+        'Personal Fitness Trainer' => 'Personal Fitness Trainer',
+        'Accountant' => 'Accountant',
+        'Manager' => 'Manager',
+        'Cleanning Staff' => 'Cleanning Staff',
     ]
+
 @endphp
 
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card">
             <div class="card-body">
-                <h6 class="card-title mb-1">Search Members</h6>
+                <h6 class="card-title mb-1">Search Employees</h6>
                 <form  method="POST" class="login-form" id="form_id">
                     @csrf
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-                            <div class="form-group @error('package_name') has-danger @enderror">
-                                <label>Search by Package Name</label>
-                                <input class="form-control" placeholder="Enter Package name" type="text"
-                                    name="package_name">
-                                @error('package_name')
+                            <div class="form-group @error('first_name') has-danger @enderror">
+                                <label>Search by First Name</label>
+                                <input class="form-control" placeholder="Enter First Name" type="text"
+                                    name="first_name">
+                                @error('first_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -41,19 +45,32 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group @error('package_duration') has-danger @enderror">
-                                <label>Search by Duration</label>
-                                <select class="form-control select2" name="package_duration">
+                            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+                            <div class="form-group @error('last_name') has-danger @enderror">
+                                <label>Search by Last Name</label>
+                                <input class="form-control" placeholder="Enter Last Name" type="text"
+                                    name="last_name">
+                                @error('last_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @error('gender') has-danger @enderror">
+                                <label>Search by Gender</label>
+                                <select class="form-control select2" name="gender">
                                     <option label="Choose one" value="">
                                         Choose one
                                     </option>
-                                    @foreach ($duration as $key => $value )
-                                        <option value="{{$value}}" @if(!empty(old('package_duration') && old('package_duration') == $value)) selected @endif>
+                                    @foreach ($gender as $key => $value )
+                                        <option value="{{$value}}" @if(!empty(old('gender') && old('gender') == $value)) selected @endif>
                                             {{$value}}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('package_duration')
+                                @error('gender')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -61,11 +78,31 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group @error('package_price') has-danger @enderror">
-                                <label>Search by Price</label>
-                                <input class="form-control" placeholder="Enter Price" type="text"
-                                    name="package_price">
-                                @error('package_price')
+                            <div class="form-group @error('uid') has-danger @enderror">
+                                <label>Search by ID</label>
+                                <input class="form-control" placeholder="Enter User ID" type="text"
+                                    name="uid">
+                                @error('uid')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @error('role') has-danger @enderror">
+                                <label>Search by Role</label>
+                                <select class="form-control select2" name="role">
+                                    <option label="Choose one" value="">
+                                        Choose one
+                                    </option>
+                                    @foreach ($roles as $key => $value )
+                                        <option value="{{$value}}" @if(!empty(old('role') && old('role') == $value)) selected @endif>
+                                            {{$value}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('role')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

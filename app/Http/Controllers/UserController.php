@@ -8,6 +8,7 @@ use App\Services\UserService;
 use App\Services\PackageService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -191,7 +192,7 @@ class UserController extends Controller
                     'dob' => 'required',
                     'gender' => 'required',
                     'address' => 'required|max:255',
-                    'email' => 'required',
+                    'email' => 'required|email:rfc',
                     'height' => 'required|between:0,999.99',
                     'weight' => 'required|between:0,999.99',
                     'role' => 'required',
@@ -279,7 +280,7 @@ class UserController extends Controller
         $user->height = $data['height'];
         $user->weight = $data['weight'];
         $user->email = $data['email'];
-        $user->password = 'flex12345';
+        $user->password = Hash::make('flex12345');
 
         return $user->save();
     }

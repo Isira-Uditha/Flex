@@ -89,7 +89,7 @@
                                                     <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker" @if(!empty(old('dob'))) value="{{old('dob')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->bod))}}" @else value=" " @endif  name="dob" type="text" id="dob">
+                                            <input class="form-control fc-datepicker" @if(!empty(old('dob'))) value="{{old('dob')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->bod))}}" @else value="{{date('m/d/Y')}}" @endif  name="dob" type="text" id="dob">
                                         </div>
                                         @error('dob')
                                         <span class="invalid-feedback" role="alert">
@@ -113,7 +113,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group @error('height') has-danger @enderror">
                                         <label>Height</label>
-                                        <input class="form-control" placeholder="Enter Height" type="text" id="height"
+                                        <input class="form-control" placeholder="Enter Height" type="number" id="height"
                                             name="height" @if(!empty(old('height'))) value="{{old('height')}}" @elseif(isset($data['result'])) value="{{$data['result']->height}}" @else value="" @endif>
                                         @error('height')
                                         <span class="invalid-feedback" role="alert">
@@ -125,7 +125,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group @error('weight') has-danger @enderror">
                                         <label>Weight</label>
-                                        <input class="form-control" placeholder="Enter Weight" type="text" id="weight"
+                                        <input class="form-control" placeholder="Enter Weight" type="number" id="weight"
                                             name="weight" @if(!empty(old('weight'))) value="{{old('weight')}}" @elseif(isset($data['result'])) value="{{$data['result']->weight}}" @else value="" @endif>
                                         @error('weight')
                                         <span class="invalid-feedback" role="alert">

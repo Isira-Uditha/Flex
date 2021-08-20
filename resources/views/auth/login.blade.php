@@ -33,8 +33,8 @@
                                     <div class="form-group @error('email') has-danger @enderror">
                                         <label>Username</label>
                                         <input class="form-control" placeholder="Enter your username" type="text"
-                                            name="username">
-                                        @error('username')
+                                            name="email">
+                                        @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

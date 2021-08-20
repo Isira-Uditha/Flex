@@ -16,7 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $table = 'user';
+    protected $table = 'users';
     protected $primaryKey = 'uid';
     public $incrementing = true;
     public $timestamps = true;

@@ -8,14 +8,17 @@ class UserService
     public function getAllMembers($data)
     {
         $result = User::where('role','Member')
-        ->when(isset($data['package_name']) && $data['package_name'] != '', function($q) use($data) {
-            return $q->where('package.package_name', $data['package_name']);
+        ->when(isset($data['first_name']) && $data['first_name'] != '', function($q) use($data) {
+            return $q->where('users.first_name', $data['first_name']);
         })
-        ->when(isset($data['package_duration']) && $data['package_duration'] != '', function($q) use($data) {
-            return $q->where('package.package_duration', $data['package_duration']);
+        ->when(isset($data['last_name']) && $data['last_name'] != '', function($q) use($data) {
+            return $q->where('users.last_name', $data['last_name']);
         })
-        ->when(isset($data['package_price']) && $data['package_price'] != '', function($q) use($data) {
-            return $q->where('package.package_price', $data['package_price']);
+        ->when(isset($data['uid']) && $data['uid'] != '', function($q) use($data) {
+            return $q->where('users.uid', $data['uid']);
+        })
+        ->when(isset($data['gender']) && $data['gender'] != '', function($q) use($data) {
+            return $q->where('users.gender', $data['gender']);
         })
         ->orderBy('uid', 'DESC')
         ->get();
@@ -25,14 +28,20 @@ class UserService
     public function getAllEmployees($data)
     {
         $result = User::where('role', '<>', 'Member')
-        ->when(isset($data['package_name']) && $data['package_name'] != '', function($q) use($data) {
-            return $q->where('package.package_name', $data['package_name']);
+        ->when(isset($data['first_name']) && $data['first_name'] != '', function($q) use($data) {
+            return $q->where('users.first_name', $data['first_name']);
         })
-        ->when(isset($data['package_duration']) && $data['package_duration'] != '', function($q) use($data) {
-            return $q->where('package.package_duration', $data['package_duration']);
+        ->when(isset($data['last_name']) && $data['last_name'] != '', function($q) use($data) {
+            return $q->where('users.last_name', $data['last_name']);
         })
-        ->when(isset($data['package_price']) && $data['package_price'] != '', function($q) use($data) {
-            return $q->where('package.package_price', $data['package_price']);
+        ->when(isset($data['uid']) && $data['uid'] != '', function($q) use($data) {
+            return $q->where('users.uid', $data['uid']);
+        })
+        ->when(isset($data['gender']) && $data['gender'] != '', function($q) use($data) {
+            return $q->where('users.gender', $data['gender']);
+        })
+        ->when(isset($data['role']) && $data['role'] != '', function($q) use($data) {
+            return $q->where('users.role', $data['role']);
         })
         ->orderBy('uid', 'DESC')
         ->get();
