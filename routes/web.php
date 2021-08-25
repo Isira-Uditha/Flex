@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,6 @@ Route::get('/appointment/checkAppointmentStatus',[AppointmentController::class, 
 
 Route::post('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
 
+Route::get('/payment/index',[PaymentController::class, 'index'])->name('payment_index');
+
+Route::get('/payment/view/{action}/{id?}',[PaymentController::class, 'view'])->name('payment_view');
