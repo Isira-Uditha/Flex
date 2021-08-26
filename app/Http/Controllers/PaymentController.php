@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Packages;
+use App\Models\User;
 use App\Services\PaymentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,11 +51,14 @@ class PaymentController extends Controller
         $action = $request->action;
         $id = $request->id;
         // $uid = Auth::();
+        $payment_service = new PaymentService();
 
         switch($action){
             case 'Add':
-
                 $data['action'] = 'Add';
+                $data['packages'] = $payment_service->getAllPackages();
+                $data['package_id'] = $payment_service->getSelectedPackages(1)->package_id;
+                $data['user'] = User::where('uid',1)->first();
                 return view('payment.create',compact('data'));
 
                 break;
@@ -127,5 +132,16 @@ class PaymentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getPackagePrice(Request $request){
+        $package_id = $request->package_id;
+
+        $res = Packages::select('package_price')
+        ->where('package_id',$package_id)
+        ->first();
+
+        return response()->json(['data' => $res], 200);
+
     }
 }

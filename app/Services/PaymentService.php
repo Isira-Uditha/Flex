@@ -2,7 +2,9 @@
 namespace App\Services;
 
 use App\Models\Appointment;
+use App\Models\Packages;
 use App\Models\Payment;
+use App\Models\User;
 use App\Models\WorkoutPlan;
 use Illuminate\Support\Carbon;
 use DB;
@@ -26,6 +28,19 @@ class PaymentService
         // ->where('uid','')
         ->orderBy('payment_id','DESC')
         ->get();
+
+        return $res;
+    }
+
+    public function getAllPackages(){
+        $res = Packages::get();
+        return $res;
+    }
+
+    public function getSelectedPackages($uid){
+        $res = User::select('package_id')
+        ->where('uid',1)
+        ->first();
 
         return $res;
     }
