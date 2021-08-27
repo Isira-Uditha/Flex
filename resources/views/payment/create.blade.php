@@ -8,9 +8,7 @@
 @section('sub_title','Make Payments')
 
 @section('content')
-{{-- @php
-    dd($data['package_id']);
-@endphp --}}
+
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card">
@@ -18,7 +16,7 @@
                 <div>
                     <h6 class="card-title mb-3">Make Payemts</h6>
 
-                    <form  method="POST" class="login-form" id="form_id">
+                    <form action="{{route('payment_create',['action' => 'Add', 'id' => ''])}}"  method="POST" class="login-form" id="form_id">
                         @csrf
 
                         <div class="panel panel-primary tabs-style-3">
@@ -180,7 +178,7 @@
                                             <div class="col-md-4">
 
                                                 <div class="form-group @error('card_name') has-danger @enderror mb-4">
-                                                    <label>HardHolder Name</label>
+                                                    <label>CardHolder Name</label>
                                                     <span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="" data-original-title="Required">&nbsp; *</span>
                                                     <input class="form-control" placeholder="Enter the name on card" type="text"
                                                         name="card_name" id="card_name">
@@ -228,12 +226,12 @@
 
                                             <div class="col-md-4">
 
-                                                <div class="form-group @error('card_name') has-danger @enderror mb-4">
+                                                <div class="form-group @error('card_number') has-danger @enderror mb-4">
                                                     <label>Card Number</label>
                                                     <span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="" data-original-title="Required">&nbsp; *</span>
                                                     <input class="form-control" placeholder="Enter your card number" type="number"
-                                                        name="card_name" id="card_name">
-                                                    @error('card_name')
+                                                        name="card_number" id="card_number">
+                                                    @error('card_number')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
@@ -245,7 +243,7 @@
                                                     </label>
                                                     <input class="form-control" placeholder="Enter cvv" type="number"
                                                         name="cvv" id="cvv">
-                                                    @error('name')
+                                                    @error('cvv')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
@@ -261,7 +259,8 @@
                                             </div>
                                             <div class="col-md-6 text-right">
                                                 <div class="form-group col-md-12">
-                                                    <input type="submit" class="btn btn-success mt-3 text-right" value=" Submit" id="next_3">
+                                                    <input type="button" class="btn btn-success mt-3 text-right" value=" Submit" id="submit">
+                                                    <input type="submit" id="submit1" hidden>
                                                 </div>
                                             </div>
                                         </div>
@@ -322,6 +321,22 @@ $(document).ready(function () {
             $('#li12,#li13').removeClass("active");
             $("#back_2").attr("href", "#tab11");
             $("#back_2").removeClass("active");
+    });
+
+    $('#submit').click(function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to proceed?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Proceed!',
+            cancelButtonText: 'No, Cancel it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#submit1').trigger('click');
+                }
+            })
     });
 
 });

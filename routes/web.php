@@ -41,3 +41,5 @@ Route::get('/payment/index',[PaymentController::class, 'index'])->name('payment_
 Route::get('/payment/view/{action}/{id?}',[PaymentController::class, 'view'])->name('payment_view');
 
 Route::get('/payment/getPackagePrice',[PaymentController::class, 'getPackagePrice'])->name('getPackagePrice');
+
+Route::post('/payment/create/{action}/{id?}',[PaymentController::class, 'create'])->name('payment_create');

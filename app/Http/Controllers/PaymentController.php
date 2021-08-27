@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Packages;
+use App\Models\Payment;
 use App\Models\User;
 use App\Services\PaymentService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -73,9 +75,56 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $action = $request->action;
+        $id = $request->id;
+        // $uid = Auth::();
+        $payment_service = new PaymentService();
+        $data = $request->all();
+
+        if($action == 'Add'){
+            $rules = [
+                'package_id' => 'required',
+                'card_name' => 'required',
+                'card_number' => 'required',
+                'expiremonth' => 'required',
+                'expireyear' => 'required',
+                'cvv' => 'required',
+            ];
+        }
+
+        $validatedData = Validator::make(
+            $request->all(),
+            $rules,
+            [
+                'package_id.required' => 'This field is required',
+                'card_name.required' => 'This field is required',
+                'card_number.required' => 'This field is required',
+                'expiremonth.required' => 'This field is required',
+                'expireyear.required' => 'This field is required',
+                'cvv.required' => 'This field is required',
+            ]
+        );
+
+        if ($validatedData->fails()) {
+            return redirect()->back()->withInput()->withErrors($validatedData->errors())
+                ->with('error_message', 'please check as we’re missing some information.');
+        }else{
+            switch($action){
+                case 'Add':
+                    if($this->store($data)){
+                        return redirect(route('payment_index'))->with('success_message', 'Your payment was successful');
+                    }else{
+                        return redirect()->back()->with('error_message', 'Request Unsucessfull');
+                    }
+                    return view('payment.create',compact('data'));
+
+                    break;
+                default;
+            }
+
+        }
     }
 
     /**
@@ -84,9 +133,21 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($data)
     {
-        //
+        $payment = new Payment();
+        $payment->payment_date = Carbon::createFromFormat('m/d/Y',$data['date'])->format('Y-m-d');
+        $payment->package_id = $data['package_id'];
+        $payment->uid = $data['uid'];
+
+        if($payment->save()){
+            $user = User::where('uid',$data['uid'])->first();
+            $user->package_id = $data['package_id'];
+            return $user->save();
+        }
+
+        return false;
+
     }
 
     /**
