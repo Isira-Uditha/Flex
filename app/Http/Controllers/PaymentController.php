@@ -9,6 +9,7 @@ use App\Services\PaymentService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -114,6 +115,7 @@ class PaymentController extends Controller
             switch($action){
                 case 'Add':
                     if($this->store($data)){
+                        $this->sendEmail($data);
                         return redirect(route('payment_index'))->with('success_message', 'Your payment was successful');
                     }else{
                         return redirect()->back()->with('error_message', 'Request Unsucessfull');
@@ -204,5 +206,15 @@ class PaymentController extends Controller
 
         return response()->json(['data' => $res], 200);
 
+    }
+
+    public function sendEmail($data){
+        $email['to'] = $data['email'];
+        $email['subject'] = 'Payment summary due date - '.$data['date'];
+        $data['user'] = User::where('uid',1)->first();
+        Mail::send('payment.payment_email',compact('data'), function($message) use ($email) {
+            $message->to($email['to'])
+                    ->subject($email['subject']);
+        });
     }
 }
