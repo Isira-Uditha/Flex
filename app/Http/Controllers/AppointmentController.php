@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\WorkoutPlan;
 use App\Services\AppointmentService;
@@ -318,6 +319,21 @@ class AppointmentController extends Controller
         $user->weight = $data['current_weight'];
 
         return $user->save();
+    }
+
+    public function checkPaymentStatus(Request $request){
+        $user = User::where('uid', 1)->first();
+        $res = Payment::where('uid',$user->uid)
+        ->whereYear('payment_date',Carbon::now()->year)
+        ->whereMonth('payment_date',Carbon::now()->month)
+        ->get();
+
+        if($res->count() > 0){
+            return response()->json(['status' => 1],200);
+        }else{
+            return response()->json(['status' => 0],200);
+        }
+
     }
 
 }

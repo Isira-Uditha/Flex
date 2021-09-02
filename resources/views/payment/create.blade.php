@@ -229,8 +229,14 @@
                                                 <div class="form-group @error('card_number') has-danger @enderror mb-4">
                                                     <label>Card Number</label>
                                                     <span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="" data-original-title="Required">&nbsp; *</span>
+                                                    <div class="input-group">
                                                     <input class="form-control" placeholder="Enter your card number" type="number"
                                                         name="card_number" id="card_number">
+                                                    <span class="input-group-append">
+                                                        <button class="btn btn-info" type="button"><i class="fab fa-cc-visa"></i> &nbsp; <i class="fab fa-cc-amex"></i> &nbsp;
+                                                        <i class="fab fa-cc-mastercard"></i></button>
+                                                    </span>
+                                                    </div>
                                                     @error('card_number')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

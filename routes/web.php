@@ -36,6 +36,8 @@ Route::get('/appointment/checkAppointmentStatus',[AppointmentController::class, 
 
 Route::post('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
 
+Route::get('/appointment/checkPaymentStatus',[AppointmentController::class, 'checkPaymentStatus'])->name('checkPaymentStatus');
+
 Route::get('/payment/index',[PaymentController::class, 'index'])->name('payment_index');
 
 Route::get('/payment/view/{action}/{id?}',[PaymentController::class, 'view'])->name('payment_view');
