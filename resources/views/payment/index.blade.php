@@ -145,6 +145,22 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="modaldemo1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Payment Summary</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 
@@ -204,6 +220,19 @@ $(document).ready(function () {
             category_table.ajax.reload();
             $('.select2').css('width','100%');
          })
+
+        $(document).on('click','.viewPayment',function (e) {
+            var id = $(this).data('id');
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: "{{url('/payment/view/View')}}/" + id,
+                success: function (response) {
+                    $('.modal-body').html(response);
+                }
+            });
+
+        });
 });
 
 </script>

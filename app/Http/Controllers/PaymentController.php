@@ -38,9 +38,9 @@ class PaymentController extends Controller
                 return $row->package_price;
             })
             ->addColumn('action', function ($row) {
-                $edit = ' <a href="' . route('appointment_view',['action' => 'Print','id' => $row->payment_id]) . '" data-toggle="tooltip-primary" title="Print"><i class="fe fe-file text-success fa-lg" data-placement="top"></i></a>';
-                $view = ' <a href="' . route('appointment_view',['action' => 'View','id' => $row->payment_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
-                return $view.' '.$edit;
+                $print = ' <a href="' . route('payment_view',['action' => 'Print','id' => $row->payment_id]) . '" data-toggle="tooltip-primary" title="Print"><i class="fe fe-file text-success fa-lg" data-placement="top"></i></a>';
+                $view = ' <a data-target="#modaldemo1" data-toggle="modal" data-id='.$row->payment_id.' class="viewPayment" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                return $view.' '.$print;
             })
             ->rawColumns(['action'])
 
@@ -66,6 +66,10 @@ class PaymentController extends Controller
 
                 break;
             case 'View':
+                $data['user'] = User::where('uid',1)->first();
+                $data['payment'] = Payment::where('payment_id',$id)->first();
+                $data['package'] = Packages::where('package_id',$data['payment']->package_id)->first();
+                return view('payment.view_payment',compact('data'));
                 break;
             default;
         }
