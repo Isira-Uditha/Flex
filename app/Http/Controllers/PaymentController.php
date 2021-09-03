@@ -6,9 +6,11 @@ use App\Models\Packages;
 use App\Models\Payment;
 use App\Models\User;
 use App\Services\PaymentService;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
@@ -70,6 +72,15 @@ class PaymentController extends Controller
                 $data['payment'] = Payment::where('payment_id',$id)->first();
                 $data['package'] = Packages::where('package_id',$data['payment']->package_id)->first();
                 return view('payment.view_payment',compact('data'));
+                break;
+            case 'Print':
+                $data['user'] = User::where('uid',1)->first();
+                $data['payment'] = Payment::where('payment_id',$id)->first();
+                $data['package'] = Packages::where('package_id',$data['payment']->package_id)->first();
+
+                $pdf = App::make('dompdf.wrapper');
+                $pdf->loadView('payment.report',['id' => $id, 'data'=> $data]);
+                return $pdf->stream();
                 break;
             default;
         }
@@ -221,4 +232,5 @@ class PaymentController extends Controller
                     ->subject($email['subject']);
         });
     }
+
 }

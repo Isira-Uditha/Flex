@@ -17,7 +17,7 @@
                 <td class="text-left">{{$data['user']->email}}&nbsp;</td>
             </tr>
             <tr>
-                <td class="text-right tx-bold">&nbsp;Current Date</td>
+                <td class="text-right tx-bold">&nbsp;Date</td>
                 <td>&nbsp;:</td>
                 <td class="text-left">{{$data['payment']->payment_date}}&nbsp;</td>
             </tr>

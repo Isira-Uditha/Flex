@@ -20,7 +20,7 @@ table, th, td {
                 <td style="text-align: right">{{$data['user']->email}}&nbsp;</td>
             </tr>
             <tr>
-                <td>&nbsp;Current Date</td>
+                <td>&nbsp;Date</td>
                 <td style="text-align: right">{{$data['date']}}&nbsp;</td>
             </tr>
             <tr>
