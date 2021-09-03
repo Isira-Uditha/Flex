@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\WorkoutPlan;
 use App\Services\AppointmentService;
@@ -57,15 +58,16 @@ class AppointmentController extends Controller
                 return $bmi_type;
             })
             ->addColumn('current_height', function ($row) {
-                return $row->current_height;
+                return $row->current_height.' m';
             })
             ->addColumn('current_weight', function ($row) {
-                return $row->current_weight;
+                return $row->current_weight.' Kg';
             })
             ->addColumn('action', function ($row) {
                 $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
                 $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
-                return $edit.' '.$delete;
+                $view = ' <a href="' . route('appointment_view',['action' => 'View','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                return $view.' '.$edit.' '.$delete;
             })
             ->rawColumns(['action','bmi_type'])
 
@@ -97,6 +99,15 @@ class AppointmentController extends Controller
                 $data['userID'] = User::select('uid')->where('uid', 1)->first();
                 $data['result'] = Appointment::where('appointment_id',$id)->first();
                 $data['action'] = 'Edit';
+                $data['id'] = $id;
+                return view('appointment.create',compact('data'));
+                break;
+            case 'View':
+                $data['workouts'] = $app_service->getAllWorkouts();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
+                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+                $data['result'] = Appointment::where('appointment_id',$id)->first();
+                $data['action'] = 'View';
                 $data['id'] = $id;
                 return view('appointment.create',compact('data'));
                 break;
@@ -173,13 +184,15 @@ class AppointmentController extends Controller
                         ->with('error_message', 'please check as we’re missing some information.');
                     }
                     break;
-                    case 'Delete':
-                        $res = $this->destroy($id);
-                        if($res){
-                            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
-                        }else{
-                            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
-                        }
+                case 'Delete':
+                    $res = $this->destroy($id);
+                    if($res){
+                        return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+                    }else{
+                        return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+                    }
+                case 'View':
+                    return redirect(route('appointment_index'));
                 default:
             }
         }
@@ -306,6 +319,21 @@ class AppointmentController extends Controller
         $user->weight = $data['current_weight'];
 
         return $user->save();
+    }
+
+    public function checkPaymentStatus(Request $request){
+        $user = User::where('uid', 1)->first();
+        $res = Payment::where('uid',$user->uid)
+        ->whereYear('payment_date',Carbon::now()->year)
+        ->whereMonth('payment_date',Carbon::now()->month)
+        ->get();
+
+        if($res->count() > 0){
+            return response()->json(['status' => 1],200);
+        }else{
+            return response()->json(['status' => 0],200);
+        }
+
     }
 
 }

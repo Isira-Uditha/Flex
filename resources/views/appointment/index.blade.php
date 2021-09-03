@@ -51,7 +51,7 @@
                             <div class="form-group @error('time_slot') has-danger @enderror">
                                 <label>Time Slot</label>
                                 <select class="form-control select2" name="time_slot">
-                                    <option value="" label="Choose one">
+                                    <option value=" " label="Choose one">
                                         Choose one
                                     </option>
                                     <option value="7-9">
@@ -99,7 +99,7 @@
                             <div class="form-group @error('workout_plan_id') has-danger @enderror">
                                 <label>Workouts</label>
                                 <select class="form-control select2" name="workout_plan_id">
-                                    <option label="Choose one" value="">
+                                    <option label="Choose one" value=" ">
                                         Choose one
                                     </option>
                                     @foreach ($data['workouts'] as $result)
@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
-                                <a href="{{route('appointment_view',['action' => 'Add','id' => ''])}}" type="button" id="search" class="btn btn-success">Add Appointment</a>
+                                <a type="button" id="addAppointID" class="btn btn-success text-white">Add Appointment</a>
                             </div>
                         </div>
                     </div>
@@ -251,6 +251,34 @@ $(document).ready(function () {
             category_table.ajax.reload();
             $('.select2').css('width','100%');
          })
+
+         $('#addAppointID').click(function (e) {
+             e.preventDefault();
+             $.ajax({
+                 type: "GET",
+                 url: "{{route('checkPaymentStatus')}}",
+                 success: function (response) {
+                    if(response.status == 1){
+                        window.location.href = "{{route('appointment_view',['action' => 'Add','id' => ''])}}";
+                    }else if(response.status == 0){
+                        Swal.fire({
+                            title: 'Time to Renew!',
+                            text: "Please be kind enough to make the payment for this month.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Pay Now'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "{{route('payment_view',['action' => 'Add', 'id' => ''])}}";
+                                }
+                        })
+                    }
+                 }
+             });
+
+         });
 
         $(document).on('click','.delete',function (e) {
             e.preventDefault();
