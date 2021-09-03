@@ -56,6 +56,7 @@ class WorkoutPlan extends Model
         ->when(isset($data['workout_plan_bmi_category']) && $data['workout_plan_bmi_category'] != '', function($q) use($data) {
             return $q->where('workout_plan.workout_bmi_category', $data['workout_plan_bmi_category']);
         })
+        ->orderBy('workout_plan_id','desc')
         ->get();
 
         return $res;
