@@ -49,6 +49,23 @@
             background-color: transparent;
         }
 
+        header {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            background-color: transparent;
+        }
+
+        .content {
+            position: fixed;
+            top: 13%;
+            height: 68%;
+            left: 0px;
+            right: 0px;
+            background-color: transparent;
+        }
+
         /* #footer2 {
             position: fixed;
             left: 0px;
@@ -73,22 +90,24 @@
     </style>
 </head>
     <body>
-        <table style="width:100%; margin-top: 0%;">
-            <tr style="width:100%" >
-                <td style="width:100%; padding-left:20px"><img src="{{ $img }}" style="width:200px"/></td>
-                <td style="width:70%"  align="right"  valign="bottom"><h1><span style="font-style:italic; color:#b6b4b4; font-size:16px">Invoice On The Due Date : {{$invoice_date}}</span></h1></td>
-            </tr>
-        </table>
-        <hr />
+        <header style=" border: 1px solid white">
+            <table style="width:100%; margin-top: 0%;">
+                <tr style="width:100%" >
+                    <td style="width:100%; padding-left:20px"><img src="{{ $img }}" style="width:200px"/></td>
+                    <td style="width:70%"  align="right"  valign="bottom"><h1><span style="font-style:italic; color:#b6b4b4; font-size:16px">Invoice On The Due Date : {{$invoice_date}}</span></h1></td>
+                </tr>
+            </table>
+            <hr />
 
-        <table style="width:100%"><!-- 3 -->
-            <tr style="width:600px">
-                <td style="background-color:#A6A6A6;width:100%; color:#FFF; padding-left:15px; padding-bottom:7px; padding-top:7px; font-weight:bold">Payment Summary - Invoice No {{$data['payment']->payment_id}}</td>
-            </tr>
-        </table>
+            <table style="width:100%"><!-- 3 -->
+                <tr style="width:600px">
+                    <td style="background-color:#A6A6A6;width:100%; color:#FFF; padding-left:15px; padding-bottom:7px; padding-top:7px; font-weight:bold">Payment Summary - Invoice No {{$data['payment']->payment_id}}</td>
+                </tr>
+            </table>
+        </header>
 
-        <div  class="center" style="margin-top:3%;">
-            <table   class="center"  style="width: 70%;">
+        <div  class="center content" style="margin-top:3%;  border: 1px solid white">
+            <table   class="center"  style="width: 70%; margin-top:20px;">
                 <tbody class="cl3">
                     <tr>
                         <td style="font-size:15px;">&nbsp;Invoice No</td>
@@ -122,7 +141,7 @@
             </table>
         </div><br/>
 
-        <footer id="footer2">
+        <footer id="footer2" style=" border: 1px solid white">
             <hr />
                 <table style="width:100%; vertical-align: bottom; alignment-adjust:central " ><!-- 2 -->
                     <tr style="width:100%;" >
