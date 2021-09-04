@@ -17,24 +17,21 @@
 </head>
 <body>
     <p>Dear Sir/Madam,</p>
-    <p>Your email request form for details provided by you, is as attached. To start processing this you have
-    to send printed request signed and stamped.</p>
-    <p>You can use one of the following methods to send it to LGII</p>
-    <p>By Email: helpdesk@noc.gov.lk</p>
-    <p>By Fax: +94 112680993</p>
-    <p>By Post: The Manager(Helpdesk)<br>
-    Network Operations Center, <br>
-    Lanka Government Information Infrastructure(LGII),<br>
-    3G-17, BMICH, Bauddhaloka Mawatha,<br>
-    Colombo 07, Sri Lanka.</p>
-    <p> Please ignore this if you have already sent the form. <br>
-    Thank You</p>
-    <p> Manager(Helpdesk)<br>
-    Network Operations Center,<br>
-    Lanka Government Information Infrastructure(LGII),<br>
-    3G-17, BMICH, Bauddhaloka Mawatha, Colombo 07, Sri Lanka.<br>
-    Tel: 0112497900<br>
-    Fax: 0112680993<br>
-    Email: helpdesk@noc.gov.lk</p>
+    <p>Thank you for registering with the Flex Gym Network. To make bookings for your workouts, you can use our Flex Gym Application with following credentials.</p>
+    <strong><p>Email : {{$data['email']}}</p>
+    <p>Password : flex12345</p></strong>
+    <p>You can use one of the following methods to report any login difficulties to Flex Gym Network</p>
+    <p>By Email: flexteam359@gmail.com</p>
+    <p>By Fax: +94 117580785</p>
+    <p>By Post: The Manager<br>
+    Flex Gym Network, <br>
+    Main Branch, <br>
+    5D-5842<br>
+    Colombo 10, Sri Lanka.</p>
+    <p>Best regards.<br/>The Flex Fitness Team</p>
+    <p>This email is tracked automatically via Flex Fitness's Mail Servers.</p>
+    <p>Flex Fitness Ltd<br>Unit C1 and C2 Brearley Place,<br>Baird Road,<br>Quedgeley<br>Gloucester, GL2 2GB</p>
+    <p>Tel (Sales): 03300167681<br>Fax : 03300167689<br>Support Line : 03300167680</p>
+    <p>Web : http://www.flexfitness.com</p>
 </body>
 </html>

@@ -34,7 +34,7 @@ class PackageController extends Controller
                 return $row->package_price;
             })
             ->addColumn('action', function ($row) {
-                $delete = '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->package_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
                 $edit = ' <a href="' . route('package_view', ['action' => 'Edit','id' => $row->package_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                 return $edit.' '.$delete;
             })
@@ -75,7 +75,7 @@ class PackageController extends Controller
             $rules  = [
                 'package_name' => 'required',
                 'package_description' => 'required',
-                'package_price' => 'required',
+                'package_price' => 'required|numeric',
                 'package_duration' => 'required',
             ];
         } else {
@@ -110,12 +110,18 @@ class PackageController extends Controller
                 case 'Edit':
                     $res = $this->update($data, $id);
                     if($res) {
-                        return redirect()->back()->with('success_message', 'Record updated succefully ');
+                        return redirect()->back()->with('success_message', 'Record updated successfully ');
                     } else {
                         return redirect()->back()->with('success_message', 'Something went wrong, package details not updated');
                     }
                     break;
                 case 'Delete':
+                    $res = $this->destroy($id);
+                    if($res){
+                        return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+                    }else{
+                        return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+                    }
                     break;
                 default:
             }
@@ -176,6 +182,7 @@ class PackageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = Package::where('package_id', $id)->delete();
+        return $result;
     }
 }

@@ -16,6 +16,7 @@ class Package extends Model
         'package_name',
         'package_description',
         'package_price',
+        'discount',
         'package_duration',
         'created_at',
         'updated_at',

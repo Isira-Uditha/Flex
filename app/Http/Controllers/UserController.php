@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -55,7 +56,7 @@ class UserController extends Controller
                         return $row->address;
                     })
                     ->addColumn('action', function ($row) {
-                        $delete = '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
+                        $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->uid.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
                         $edit = ' <a href="' . route('user_view', ['u_type' => 'Member', 'action' => 'Edit','id' => $row->uid]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                         return $edit.' '.$delete;
                     })
@@ -97,7 +98,7 @@ class UserController extends Controller
                         return $row->role;
                     })
                     ->addColumn('action', function ($row) {
-                        $delete = '<a href="' . url('sample/' . $row->id) . '" class="' . "delete-giveaway" . '"><i class="fas fa-trash-alt text-danger font-16 fa-lg"></i></a>';
+                        $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->uid.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
                         $edit = ' <a href="' . route('user_view', ['u_type' => 'Employee', 'action' => 'Edit','id' => $row->uid]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                         return $edit.' '.$delete;
                     })
@@ -176,9 +177,9 @@ class UserController extends Controller
                     'dob' => 'required',
                     'gender' => 'required',
                     'address' => 'required|max:255',
-                    'email' => 'required',
-                    'height' => 'required|between:0,999.99',
-                    'weight' => 'required|between:0,999.99',
+                    'email' => 'required|email',
+                    'height' => 'required|numeric|between:0,999.99',
+                    'weight' => 'required|numeric|between:0,999.99',
                     'package_id' => 'required',
                 ];
             } else {
@@ -227,14 +228,13 @@ class UserController extends Controller
                         if($u_type === 'Member') {
                             $usermail['email'] = $data['email'];
                             $usermail['title'] = 'Welcome to Flex Fitness Gym Network';
-                            // Mail::send('email.welcomeMail', $usermail, function($message)use($usermail) {
-                            //     // dd($usermail);
-                            //     $message->to($usermail['email'])
-                            //             ->subject($usermail['title']);
-                            // });
-                            return redirect(route('user_index',['u_type' => 'Member']))->with('success_message', 'Record created succefully ');
+                            Mail::send('email.welcomeMail', compact('data'), function($message)use($usermail) {
+                                $message->to($usermail['email'])
+                                        ->subject($usermail['title']);
+                            });
+                            return redirect(route('user_index',['u_type' => 'Member']))->with('success_message', 'Record created successfully, please check the email for the login credentials');
                         } else {
-                            return redirect(route('user_index',['u_type' => 'Employee']))->with('success_message', 'Record created succefully ');
+                            return redirect(route('user_index',['u_type' => 'Employee']))->with('success_message', 'Record created successfully ');
                         }
                     } else {
                         return redirect()->back()->withInput()->withErrors($validatedDate->errors())
@@ -244,12 +244,18 @@ class UserController extends Controller
                 case 'Edit':
                     $res = $this->update($data, $id);
                     if($res) {
-                        return redirect()->back()->with('success_message', 'Record updated succefully ');
+                        return redirect()->back()->with('success_message', 'Record updated successfully ');
                     } else {
                         return redirect()->back()->with('success_message', 'Something went wrong, user details not updated');
                     }
                     break;
                 case 'Delete':
+                    $res = $this->destroy($id);
+                    if($res){
+                        return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+                    }else{
+                        return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+                    }
                     break;
                 default:
             }
@@ -269,7 +275,7 @@ class UserController extends Controller
         $user->first_name = $data['first_name'];
         $user->last_name = $data['last_name'];
         $user->address = $data['address'];
-        $user->bod = $data['dob'];
+        $user->bod = Carbon::createFromFormat('m/d/Y',$data['dob'])->format('Y-m-d');
         $user->gender = $data['gender'];
         $user->role = $data['role'];
 
@@ -321,7 +327,7 @@ class UserController extends Controller
         $user->first_name = $data['first_name'];
         $user->last_name = $data['last_name'];
         $user->address = $data['address'];
-        $user->bod = $data['dob'];
+        $user->bod = Carbon::createFromFormat('m/d/Y',$data['dob'])->format('Y-m-d');
         $user->gender = $data['gender'];
         $user->role = $data['role'];
 
@@ -345,6 +351,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = User::where('uid', $id)->delete();
+        return $result;
     }
 }

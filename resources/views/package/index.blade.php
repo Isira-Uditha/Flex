@@ -174,6 +174,42 @@ $(document).ready(function () {
             category_table.ajax.reload();
             $('.select2').css('width','100%');
          })
+
+        $(document).on('click','.delete',function (e) {
+            e.preventDefault();
+            var appid = $(this).closest("a").data('appid');
+            var res = deletePackage(appid);
+        });
+
+        function deletePackage(appid){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{route('package_create',['action' => 'Delete','id' =>"appid"])}}",
+                        data: {'id':appid,'_token':'{{csrf_token()}}'},
+                        success: function (response) {
+                            if(response.success){
+                                $('*[data-appid="' + appid + '"]').closest("tr").remove();
+                                Swal.fire(
+                                'Deleted!',
+                                'Record has been deleted successfully.',
+                                'success'
+                                );
+                            }
+                        }
+                    });
+                }
+            });
+        }
 });
 
 </script>

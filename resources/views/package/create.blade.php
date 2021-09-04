@@ -31,7 +31,7 @@
                             <form action="{{route('package_create', ['action' => $action, 'id' => $id])}}" method="POST" class="login-form">
                                 @csrf
                                 <div class="form-group @error('package_name') has-danger @enderror">
-                                    <label>Package Name</label>
+                                    <label>Package Name</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                     <input class="form-control" placeholder="Enter Package Name" type="text" id="package_name"
                                         name="package_name" @if(!empty(old('package_name'))) value="{{old('package_name')}}" @elseif(isset($data['result'])) value="{{$data['result']->package_name}}" @else value="" @endif>
                                     @error('package_name')
@@ -41,7 +41,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group @error('package_description') has-danger @enderror">
-                                    <label>Package Description</label>
+                                    <label>Package Description</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                         <textarea class="form-control text-left" name="package_description" id="package_description" placeholder="Enter Packge Description" rows="3">
                                             @if(!empty(old('package_description'))) {{old('package_description')}} @elseif(isset($data['result'])) {{$data['result']->package_description}} @else  @endif
                                         </textarea>
@@ -52,7 +52,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group @error('package_duration') has-danger @enderror">
-                                    <label>Duration</label>
+                                    <label>Duration</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                     <select class="form-control select2" name="package_duration">
                                         <option label="Choose one" value="">
                                             Choose one
@@ -70,8 +70,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group @error('package_price') has-danger @enderror">
-                                    <label>Package Price</label>
-                                    <input class="form-control" placeholder="Enter Package Price" id="package_price" type="number" name="package_price"
+                                    <label>Package Price</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
+                                    <input class="form-control" placeholder="Enter Package Price" id="package_price" type="text" name="package_price"
                                         @if(!empty(old('package_price'))) value="{{old('package_price')}}" @elseif(isset($data['result'])) value="{{$data['result']->package_price}}" @else value="" @endif>
                                     @error('package_price')
                                     <span class="invalid-feedback" role="alert">
@@ -79,6 +79,18 @@
                                     </span>
                                     @enderror
                                 </div>
+                                @if($action == 'Edit')
+                                <div class="form-group @error('discount') has-danger @enderror">
+                                    <label>Discount Price</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
+                                    <input class="form-control" placeholder="Enter Discount Price" id="discount" type="text" name="discount"
+                                        @if(!empty(old('discount'))) value="{{old('discount')}}" @elseif(isset($data['result'])) value="{{$data['result']->discount}}" @else value="" @endif>
+                                    @error('discount')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                @endif
                                 <div class="col-md-12 text-right">
                                     <div class="form-group col-md-12">
                                         <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0" data-placement="top"

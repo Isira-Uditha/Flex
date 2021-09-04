@@ -13,7 +13,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card custom-card">
             <div class="card-body">
                 <h6 class="card-title mb-1"></h6>
@@ -24,7 +24,7 @@
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="form-group @error('first_name') has-danger @enderror">
-                                        <label>First Name</label>
+                                        <label>First Name</label> @if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                         <input class="form-control" placeholder="Enter First Name" type="text" id="first_name"
                                             name="first_name" @if(!empty(old('first_name'))) value="{{old('first_name')}}" @elseif(isset($data['result'])) value="{{$data['result']->first_name}}" @else value="" @endif>
                                         @error('first_name')
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('last_name') has-danger @enderror">
-                                        <label>Last Name</label>
+                                        <label>Last Name</label> @if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                         <input class="form-control" placeholder="Enter Last Name" type="text" id="last_name"
                                             name="last_name" @if(!empty(old('last_name'))) value="{{old('last_name')}}" @elseif(isset($data['result'])) value="{{$data['result']->last_name}}" @else value="" @endif>
                                         @error('last_name')
@@ -49,9 +49,9 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group @error('address') has-danger @enderror">
-                                        <label>Address</label>
+                                        <label>Address</label> @if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                             <textarea class="form-control text-left" name="address" id="address" placeholder="Enter Address" rows="3">
-                                                @if(!empty(old('address'))) {{old('address')}} @elseif(isset($data['result'])) {{$data['result']->address}} @else  @endif
+                                                @if(!empty(old('address'))) {{old('address')}} @elseif(isset($data['result'])) {{$data['result']->address}} @else @endif
                                             </textarea>
                                         @error('address')
                                         <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('gender') has-danger @enderror">
-                                        <label>Gender</label>
+                                        <label>Gender</label> @if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                         <div class="col-lg-3">
 											<label class="rdiobox"><input name="gender" type="radio" value="Male"
                                                 @if(!empty(old('gender')) && (old('gender') == 'Male')) checked @elseif(isset($data['result']) && $data['result']->gender == 'Male') checked @else value="" @endif>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('dob') has-danger @enderror">
-                                        <label>Date of Birth</label>
+                                        <label>Date of Birth</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('email') has-danger @enderror">
-                                        <label>Email</label>
+                                        <label>Email</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                         <input class="form-control" placeholder="Enter Email" type="text" id="email"
                                             name="email" @if(!empty(old('email'))) value="{{old('email')}}" @elseif(isset($data['result'])) value="{{$data['result']->email}}" @else value="" @endif>
                                         @error('email')
@@ -112,8 +112,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('height') has-danger @enderror">
-                                        <label>Height</label>
-                                        <input class="form-control" placeholder="Enter Height" type="number" id="height"
+                                        <label>Height</label> @if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
+                                        <input class="form-control" placeholder="Enter Height in cm" type="text" id="height"
                                             name="height" @if(!empty(old('height'))) value="{{old('height')}}" @elseif(isset($data['result'])) value="{{$data['result']->height}}" @else value="" @endif>
                                         @error('height')
                                         <span class="invalid-feedback" role="alert">
@@ -124,8 +124,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group @error('weight') has-danger @enderror">
-                                        <label>Weight</label>
-                                        <input class="form-control" placeholder="Enter Weight" type="number" id="weight"
+                                        <label>Weight</label> @if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
+                                        <input class="form-control" placeholder="Enter Weight in kg" type="text" id="weight"
                                             name="weight" @if(!empty(old('weight'))) value="{{old('weight')}}" @elseif(isset($data['result'])) value="{{$data['result']->weight}}" @else value="" @endif>
                                         @error('weight')
                                         <span class="invalid-feedback" role="alert">
@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group @error('package_id') has-danger @enderror">
-                                            <label>Package</label>
+                                            <label>Package</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                             <select class="form-control select2" name="package_id">
                                                 <option label="Choose one" value="">
                                                     Choose one
@@ -189,7 +189,7 @@
                                     @endphp
                                     <div class="col-md-6">
                                         <div class="form-group @error('role') has-danger @enderror">
-                                            <label>Employee Role</label>
+                                            <label>Employee Role</label>@if($action == 'Add')<span class="text-danger" data-placement="top" data-toggle="tooltip-primary" title="Required">&nbsp; *</span>@endif
                                             <select class="form-control select2" name="role">
                                                 <option label="Choose one" value="">
                                                     Choose one
