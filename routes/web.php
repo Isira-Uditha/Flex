@@ -59,6 +59,10 @@ Route::get('/diet_plan/index',[DietPlanController::class, 'index'])->name('diet_
 
 Route::get('/diet_plan/create/check',[DietPlanController::class, 'checkValid'])->name('check_valid_create_diet');
 
+Route::post('/diet_plan/delete/{id}',[DietPlanController::class, 'destroy'])->name('diet_plan_delete');
+
+Route::get('/diet_plan/view/{id?}',[DietPlanController::class, 'view'])->name('diet_plan_view');
+
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
 Route::get('/appointment/view/{action}/{id?}',[AppointmentController::class, 'view'])->name('appointment_view');

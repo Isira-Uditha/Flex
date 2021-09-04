@@ -226,6 +226,49 @@ $(document).ready(function () {
             $('.select2').css('width','100%');
          })
 
+
+         $(document).on('click','.delete',function (e) {
+            e.preventDefault();
+            var dietid = $(this).closest("a").data('dietid');
+            console.log("Diet Id : "+dietid)
+            var res = deleteDietPlan(dietid);
+        });
+
+        function deleteDietPlan(dietid){
+
+            let url = "{{ route('diet_plan_delete', ':id') }}";
+            url = url.replace(':id', dietid);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {'_token':'{{csrf_token()}}','id':dietid},
+                        success: function (response) {
+                            if(response.success){
+                                $('*[data-dietid="' + dietid + '"]').closest("tr").remove();
+                                Swal.fire(
+                                'Deleted!',
+                                'Record has been deleted successfully.',
+                                'success'
+                                );
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
+
 });
 
 $('#btn_add_diet').click(function () {
@@ -255,6 +298,9 @@ $('#btn_add_diet').click(function () {
           }
       });
 });
+
+
+
 
 </script>
 @endpush

@@ -50,9 +50,11 @@ class DietPlanController extends Controller
                 return $row->diet_desc;
             })
             ->addColumn('action', function ($row) {
-                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
-                $edit = ' <a href="#" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
-                return $edit.' '.$delete;
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-dietid = "'.$row->diet_plan_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a>';
+                $edit = ' <a href="' . route('diet_plan_view',['id' => $row->diet_plan_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                $view = ' <a href="' . route('diet_plan_view',['id' => $row->diet_plan_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                return $view.' '.$edit.' '.$delete;
+
             })
             ->rawColumns(['action'])
 
@@ -226,7 +228,14 @@ class DietPlanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dietPlan=DietPlan::find($id);
+        $res =   $dietPlan->delete();
+
+        if($res){
+            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        }else{
+            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+        }
     }
 
      /**
@@ -248,8 +257,16 @@ class DietPlanController extends Controller
 
         }
         return response()->json(['data' => $availablity],200);
+    }
 
+    public function view(Request $request){
 
+        $id = $request->id;
+        $dietservice = new DietPlan();
 
+        $data['result'] = DietPlan::where('diet_plan_id',$id)->first();
+        $data['id'] = $id;
+
+         return view('dietplans.view_diet_plan',compact('data'));
     }
 }
