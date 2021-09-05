@@ -134,6 +134,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('appointment_view',['action' => 'Print', 'id' => ''])}}" type="button" class="btn btn-secondary text-white">Print Report</a>
                                 <a type="button" id="addAppointID" class="btn btn-success text-white">Add Appointment</a>
                             </div>
                         </div>
