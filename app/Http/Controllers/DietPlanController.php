@@ -51,7 +51,7 @@ class DietPlanController extends Controller
             })
             ->addColumn('action', function ($row) {
                 $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-dietid = "'.$row->diet_plan_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a>';
-                $edit = ' <a href="' . route('diet_plan_view',['id' => $row->diet_plan_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                $edit = ' <a href="' . route('diet_plan_edit_view',['id' => $row->diet_plan_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                 $view = ' <a href="' . route('diet_plan_view',['id' => $row->diet_plan_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
                 return $view.' '.$edit.' '.$delete;
 
@@ -205,7 +205,13 @@ class DietPlanController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $dietservice = new DietPlan();
+
+        $data['result'] = DietPlan::where('diet_plan_id',$id)->first();
+        $data['id'] = $id;
+
+         return view('dietplans.edit_diet_plan',compact('data'));
     }
 
     /**
@@ -218,6 +224,109 @@ class DietPlanController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $dietPlanOldName = $request->diet_plan_name_old;
+        $dietPlanNewName = $request->diet_plan_name;
+
+        if($dietPlanOldName == $dietPlanNewName){
+            $rules = [
+
+                'diet_plan_dinner' => 'required',
+                'diet_plan_lunch' => 'required',
+                'diet_plan_breakfast' => 'required',
+                'diet_plan_bmi_category' => 'required',
+            ];
+        }else{
+        $rules = [
+            'diet_plan_name' => 'required|min:5|unique:diet_plan',
+            'diet_plan_dinner' => 'required',
+            'diet_plan_lunch' => 'required',
+            'diet_plan_breakfast' => 'required',
+            'diet_plan_bmi_category' => 'required',
+        ];
+    }
+
+        $validatedData = Validator::make(
+            $request->all(),
+            $rules,
+            [
+                'diet_plan_name.required' => 'This field is required',
+                'diet_plan_lunch.required' => 'Enter meals for lunch is required',
+                'diet_plan_breakfast.required' => 'Enter meals for breakfast is required',
+                'diet_plan_dinner.required' => 'Enter meals for dinner is required',
+                'diet_plan_bmi_category.required' => 'Select a BMI Category is required',
+            ]
+        );
+
+
+        if ($validatedData->fails()) {
+            return redirect()->back()->withInput()->withErrors($validatedData->errors())
+                ->with('error_message', 'please check as we’re missing some information.');
+        }else{
+
+
+            $diet_plan = DietPlan::where('diet_plan_id',$id)->first();
+
+            $statusNo = "no";
+
+            $diet_plan->diet_plan_name=$request->diet_plan_name;
+            $diet_plan->bmi_category=$request->diet_plan_bmi_category;
+            $diet_plan->breakfast=$request->diet_plan_breakfast;
+            $diet_plan->lunch=$request->diet_plan_lunch;
+            $diet_plan->dinner=$request->diet_plan_dinner;
+            $diet_plan->diet_desc=$request->diet_plan_description;
+
+            if($request->diet_day_monday == null){
+                $diet_plan->diet_monday = $statusNo;
+            }else{
+                $diet_plan->diet_monday=$request->diet_day_monday;
+            }
+
+            if($request->diet_day_tuesday == null){
+                $diet_plan->diet_tuesday = $statusNo;
+            }else{
+                $diet_plan->diet_tuesday=$request->diet_day_tuesday;
+            }
+
+            if($request->diet_day_wednesday == null){
+                $diet_plan->diet_wednesday = $statusNo;
+            }else{
+                $diet_plan->diet_wednesday=$request->diet_day_wednesday;
+            }
+
+            if($request->diet_day_thursday == null){
+                $diet_plan->diet_thursday = $statusNo;
+            }else{
+                $diet_plan->diet_thursday=$request->diet_day_thursday;
+            }
+
+            if($request->diet_day_friday == null){
+                $diet_plan->diet_friday = $statusNo;
+            }else{
+                $diet_plan->diet_friday=$request->diet_day_friday;
+            }
+
+            if($request->diet_day_saturday == null){
+                $diet_plan->diet_saturday = $statusNo;
+            }else{
+                $diet_plan->diet_saturday=$request->diet_day_saturday;
+            }
+
+            if($request->diet_day_sunday == null){
+                $diet_plan->diet_sunday = $statusNo;
+            }else{
+                $diet_plan->diet_sunday=$request->diet_day_sunday;
+            }
+
+            $res_plan = $diet_plan->save();
+
+        if($res_plan){
+            return redirect(route('diet_plan_index'))->with('success_message', 'Diet Plan updated succefully ');
+        }else{
+            return redirect()->back()->withInput()->withErrors($validatedData->errors())
+            ->with('error_message', 'please check as we’re missing some information.');
+        }
+    }
+
     }
 
     /**
@@ -269,4 +378,6 @@ class DietPlanController extends Controller
 
          return view('dietplans.view_diet_plan',compact('data'));
     }
+
+
 }

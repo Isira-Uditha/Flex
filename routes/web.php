@@ -63,6 +63,10 @@ Route::post('/diet_plan/delete/{id}',[DietPlanController::class, 'destroy'])->na
 
 Route::get('/diet_plan/view/{id?}',[DietPlanController::class, 'view'])->name('diet_plan_view');
 
+Route::get('/diet_plan/edit/{id?}',[DietPlanController::class, 'edit'])->name('diet_plan_edit_view');
+
+Route::post('/diet_plan/update/{id?}',[DietPlanController::class, 'update'])->name('diet_plan_update');
+
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
 Route::get('/appointment/view/{action}/{id?}',[AppointmentController::class, 'view'])->name('appointment_view');
