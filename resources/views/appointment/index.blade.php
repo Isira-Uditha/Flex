@@ -153,7 +153,7 @@
                 <table class="table" id="zero_config">
                     <thead>
                         <tr>
-                            <th scope="col">Appointment ID</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Appointment No</th>
                             <th scope="col">Date</th>
                             <th scope="col">Time Slot</th>
