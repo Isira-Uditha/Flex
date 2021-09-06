@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\DasboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
@@ -45,3 +46,7 @@ Route::get('/payment/view/{action}/{id?}',[PaymentController::class, 'view'])->n
 Route::get('/payment/getPackagePrice',[PaymentController::class, 'getPackagePrice'])->name('getPackagePrice');
 
 Route::post('/payment/create/{action}/{id?}',[PaymentController::class, 'create'])->name('payment_create');
+
+Route::get('/dashboard',[DasboardController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard/getBMIValues',[DasboardController::class, 'getBMIValues'])->name('getBMIValues');
