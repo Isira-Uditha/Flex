@@ -51,6 +51,8 @@ Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class
 
 Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store'])->name('create_workout_plan');
 
+Route::post('/workout/workout_plan/delete/{id}',[WorkoutPlanController::class, 'destroy'])->name('workout_plan_delete');
+
 Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name('create_diet_plan');
 
 Route::get('/workout/workout_plan/index',[WorkoutPlanController::class, 'index'])->name('workout_plan_index');
@@ -66,6 +68,7 @@ Route::get('/diet_plan/view/{id?}',[DietPlanController::class, 'view'])->name('d
 Route::get('/diet_plan/edit/{id?}',[DietPlanController::class, 'edit'])->name('diet_plan_edit_view');
 
 Route::post('/diet_plan/update/{id?}',[DietPlanController::class, 'update'])->name('diet_plan_update');
+
 
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 

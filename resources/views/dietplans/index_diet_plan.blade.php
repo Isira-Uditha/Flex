@@ -230,7 +230,6 @@ $(document).ready(function () {
          $(document).on('click','.delete',function (e) {
             e.preventDefault();
             var dietid = $(this).closest("a").data('dietid');
-            console.log("Diet Id : "+dietid)
             var res = deleteDietPlan(dietid);
         });
 

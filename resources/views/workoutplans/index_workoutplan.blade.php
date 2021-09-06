@@ -235,6 +235,48 @@ $(document).ready(function () {
             $('.select2').css('width','100%');
          })
 
+         $(document).on('click','.delete',function (e) {
+            e.preventDefault();
+            var workoutid = $(this).closest("a").data('workoutid');
+            console.log("Workout Id : "+ workoutid)
+            var res = deleteWorkoutPlan(workoutid);
+        });
+
+        function deleteWorkoutPlan(workoutid){
+
+                let url = "{{ route('workout_plan_delete', ':id') }}";
+                url = url.replace(':id', workoutid);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {'_token':'{{csrf_token()}}','id':workoutid},
+                            success: function (response) {
+                                if(response.success){
+                                    $('*[data-workoutid="' + workoutid + '"]').closest("tr").remove();
+                                    Swal.fire(
+                                    'Deleted!',
+                                    'Record has been deleted successfully.',
+                                    'success'
+                                    );
+                                }
+                            }
+                        });
+                    }
+                });
+
+        }
+
 });
 
 </script>

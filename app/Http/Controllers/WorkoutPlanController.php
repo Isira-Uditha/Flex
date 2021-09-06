@@ -7,6 +7,7 @@ use App\Models\WorkoutPlan;
 use App\Models\WorkoutPlanExercise;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class WorkoutPlanController extends Controller
 {
@@ -42,9 +43,10 @@ class WorkoutPlanController extends Controller
                 return $row->workout_desc;
             })
             ->addColumn('action', function ($row) {
-                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
-                $edit = ' <a href="#" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
-                return $edit.' '.$delete;
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-workoutid = "'.$row->workout_plan_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a>';
+                $edit = ' <a href="' . route('diet_plan_edit_view',['id' => $row->workout_plan_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                $view = ' <a href="' . route('diet_plan_view',['id' => $row->workout_plan_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                return $view.' '.$edit.' '.$delete;
             })
             ->rawColumns(['action'])
 
@@ -218,5 +220,15 @@ class WorkoutPlanController extends Controller
     public function destroy($id)
     {
         //
+        DB::table('workout_plan_exercise')->where('workout_plan_id', '=', $id)->delete();
+
+        $workoutPlan=WorkoutPlan::find($id);
+        $res =   $workoutPlan->delete();
+
+        if($res){
+            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        }else{
+            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+        }
     }
 }
