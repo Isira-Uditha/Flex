@@ -2,6 +2,8 @@
 
 namespace App\Services;
 use App\Models\Package;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PackageService
 {
@@ -20,6 +22,19 @@ class PackageService
         ->get();
         return $result;
 
+    }
+
+    public function packageOrderByUser()
+    {
+        $result = User::select('p.package_name','users.package_id', 'p.package_duration', DB::raw("count(uid) as count"))
+        ->join('package as p','p.package_id','users.package_id')
+        ->groupBy('package_id')
+        ->orderBy('package_id', 'ASC')
+        ->get();
+
+        // dd($result->toArray());
+
+        return $result;
     }
 }
 

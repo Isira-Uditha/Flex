@@ -61,6 +61,13 @@ class PackageController extends Controller
                 $data['action'] = 'Edit';
                 return view('package.create', compact('data'));
                 break;
+            case 'Summary':
+                $package_service = new PackageService();
+                $package_data = $package_service->packageOrderByUser();
+                $data['action'] = 'Summary';
+                $data['result'] = $package_data;
+                return view('package.summary', compact('data'));
+                break;
             default;
         }
     }
