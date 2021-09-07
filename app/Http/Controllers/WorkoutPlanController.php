@@ -45,7 +45,7 @@ class WorkoutPlanController extends Controller
             ->addColumn('action', function ($row) {
                 $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-workoutid = "'.$row->workout_plan_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a>';
                 $edit = ' <a href="' . route('diet_plan_edit_view',['id' => $row->workout_plan_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
-                $view = ' <a href="' . route('diet_plan_view',['id' => $row->workout_plan_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                $view = ' <a href="' . route('workout_plan_view',['id' => $row->workout_plan_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
                 return $view.' '.$edit.' '.$delete;
             })
             ->rawColumns(['action'])
@@ -186,6 +186,19 @@ class WorkoutPlanController extends Controller
     public function show($id)
     {
         //
+        $workoutPlan = new WorkoutPlan();
+        $data['result'] = WorkoutPlan::where('workout_plan_id',$id)->first();
+        $planExercises=    DB::table('workout_plan_exercise')->where('workout_plan_id', $id)->get();
+
+        $data['id'] = $id;
+        $data['exercises'] =array();
+
+        foreach( $planExercises as $e){
+            $exe=    DB::table('workout_exericse')->where('exercise_id',$e->exercise_id)->get();
+            $data['exercises'][]=$exe;
+        }
+
+         return view('workoutplans.view_workout_plan',compact('data'));
     }
 
     /**

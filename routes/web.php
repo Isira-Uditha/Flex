@@ -53,6 +53,8 @@ Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store
 
 Route::post('/workout/workout_plan/delete/{id}',[WorkoutPlanController::class, 'destroy'])->name('workout_plan_delete');
 
+Route::get('/workout/workout_plan/view/{id?}',[WorkoutPlanController::class, 'show'])->name('workout_plan_view');
+
 Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name('create_diet_plan');
 
 Route::get('/workout/workout_plan/index',[WorkoutPlanController::class, 'index'])->name('workout_plan_index');

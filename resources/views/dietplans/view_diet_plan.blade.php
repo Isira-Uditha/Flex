@@ -122,7 +122,7 @@
                                             <div class="form-group @error('diet_plan_description') has-danger @enderror">
                                                 <label>Description</label>
                                                     <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3" readonly>
-                                                        {{$data['result']->diet_plan_description}}
+                                                        {{$data['result']->diet_desc}}
                                                     </textarea>
                                                 @error('diet_plan_description')
                                                 <span class="invalid-feedback" role="alert">
