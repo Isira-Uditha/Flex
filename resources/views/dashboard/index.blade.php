@@ -2,6 +2,7 @@
 
 @push('styles')
 <style>
+
     .justify {
       text-align: justify;
       text-justify: inter-word;
@@ -16,6 +17,18 @@
         transform: scale(1);
         transition: transform .7s;
     }
+
+    img {
+        display: inline-block;
+        border-radius: 60px;
+        box-shadow: 0px 0px 2px rgb(187, 81, 152);
+        padding: 0.5em 0.6em;
+    }
+
+    .scard {
+        background: rgba(255, 255, 255, 0.4) !important;
+    }
+
 </style>
 @endpush
 
@@ -170,8 +183,51 @@
     </div>
 </div>
 
+<div class="row d-flex justify-content-center mt-4">
+    <div class="col-sm-3">
+        <div class="card h-100 border-primary hover scard">
+            <div class="card-body text-center">
+                <img src="{{asset('/images/gym/gym.png')}}" class="ht-90 mb-4" alt="gym.png"/>
+                <h5 class="card-title text-primary">Workout Plans</h5>
+                <hr class="bg-primary" />
+                <p class="card-text text-muted text-justify">Fitness tests are often used by trainers to analyze their clients' strengths and weaknesses. These fitness evaluations can be done both before and after an exercise program. Individualized workouts will be provided to each participant by us .We guarantee you that every workout plan used and provided here will be of the highest standard.</p>
+            </div>
+            <div class="card-footer text-center scard">
+                <a href="#" class="btn btn-primary">Learn more</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card h-100 border-success hover scard">
+            <div class="card-body text-center ">
+                <div class=""><img src="{{asset('/images/gym/dumbbell.png')}}" class="ht-90 mb-4" alt="dumbbell.png"/></div>
+                <h5 class="card-title text-success">Equipment</h5>
+                <hr class="bg-success" />
+                <p class="card-text text-muted text-justify">New Equipment Digest is a print and digital publication that provides readers at tens of thousands of facilities with the most up-to-date industrial product information, industry trends, and manufacturing news. So we maintain and provide best and standard equipment for each workout exercises with high confidentiality.</p>
+            </div>
+            <div class="card-footer text-center scard">
+                <a href="#" class="btn btn-success">Learn more</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card h-100 border-warning hover scard">
+            <div class="card-body text-center">
+                <img src="{{asset('/images/gym/nutrition.png')}}" class="ht-90 mb-4" alt="nutrition.png"/>
+                <h5 class="card-title text-warning">Diet Plans</h5>
+                <hr class="bg-warning" />
+                <p class="card-text text-muted text-justify">To get the most out of all of your hard work in the gym, you'll need to match your nutrition. Do you consume enough protein at the appropriate times? What about the correct pre- and post-workout vitamins and meals? Our Flex Gymnasium offers you accurate and medical standards dite plans for every BMI category.</p>
+            </div>
+            <div class="card-footer text-center scard">
+                <a href="#" class="btn btn-warning">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row mt-5 hover">
-    <div class="col-lg-12">
+    <div class="col-md-2"></div>
+    <div class="col-lg-8">
         <div class="custom-card">
             <div class=" custom-card-header">
                 <h6 class="card-title mb-0"></h6>
@@ -232,6 +288,7 @@
             </div>
         </div>
     </div>
+    <div class="col-md-2"></div>
 </div>
 
 @endsection
