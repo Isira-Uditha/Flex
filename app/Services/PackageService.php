@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Package;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PackageService
@@ -24,15 +25,22 @@ class PackageService
 
     }
 
-    public function packageOrderByUser()
+    public function packageOrderByUser($data)
     {
-        $result = User::select('p.package_name','users.package_id', 'p.package_duration', DB::raw("count(uid) as count"))
+        $result = User::select('p.package_name','users.package_id', 'p.package_duration', 'p.package_price', DB::raw("count(uid) as count"))
         ->join('package as p','p.package_id','users.package_id')
+
+        ->when(!isset($data['sts_date']), function($q) use($data) {
+            return $q->when(isset($data['from']) && $data['from'] != '', function($q) use($data) {
+                return $q->where(DB::raw("date(users.updated_at)"),'>=', Carbon::createFromFormat('m/d/Y',$data['from'])->format('Y-m-d'));
+            })
+            ->when(isset($data['to']) && $data['to'] != '', function($q) use($data) {
+                return $q->where(DB::raw("date(users.updated_at)"),'<=',  Carbon::createFromFormat('m/d/Y',$data['to'])->format('Y-m-d'));
+            });
+        })
         ->groupBy('package_id')
         ->orderBy('package_id', 'ASC')
         ->get();
-
-        // dd($result->toArray());
 
         return $result;
     }

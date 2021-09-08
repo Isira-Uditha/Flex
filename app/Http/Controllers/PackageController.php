@@ -7,6 +7,7 @@ use App\Services\PackageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\App;
 
 class PackageController extends Controller
 {
@@ -49,6 +50,7 @@ class PackageController extends Controller
     {
         $action = $request->action;
         $id = $request->id;
+        $dates = $request->all();
 
         switch($action) {
             case 'Add':
@@ -63,10 +65,28 @@ class PackageController extends Controller
                 break;
             case 'Summary':
                 $package_service = new PackageService();
-                $package_data = $package_service->packageOrderByUser();
-                $data['action'] = 'Summary';
-                $data['result'] = $package_data;
-                return view('package.summary', compact('data'));
+                $package_data = $package_service->packageOrderByUser($dates);
+
+                if($request->ajax()) {
+                    return datatables()->of($package_data)
+                    ->addColumn('package_id', function($row) {
+                        return $row->package_id;
+                    })
+                    ->addColumn('package_name', function($row) {
+                        return Str::title($row->package_name);
+                    })
+                    ->addColumn('package_duration', function($row) {
+                        return $row->package_duration;
+                    })
+                    ->addColumn('package_price', function($row) {
+                        return $row->package_price;
+                    })
+                    ->addColumn('member_count', function($row) {
+                        return $row->count;
+                    })
+                    ->make(true);
+                }
+                return view('package.summary');
                 break;
             default;
         }
@@ -77,6 +97,7 @@ class PackageController extends Controller
         $action = $request->action;
         $id = $request->id;
         $data = $request->all();
+        $package_service = new PackageService();
 
         if($action == 'Add' || $action == 'Edit') {
             $rules  = [
@@ -129,6 +150,23 @@ class PackageController extends Controller
                     }else{
                         return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
                     }
+                    break;
+                case 'Print':
+                    $data = $package_service->packageOrderByUser($request->all());
+
+                    if(!isset($request->sts_date)){
+                        $date['from'] = $request->from;
+                        $date['to'] = $request->to;
+                    } else{
+                        $date['from'] = '';
+                        $date['to'] = '';
+                    }
+
+                    $name = 'Packages Report to '. date('Y-m-d') .'.pdf';
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('package.report',['data'=> $data, 'date'=> $date]);
+                    // $pdf->loadHTML('123');
+                    return $pdf->stream($name);
                     break;
                 default:
             }
