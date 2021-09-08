@@ -74,7 +74,6 @@
                         <div class="col-md-6 text-left">
                             <div class="form-group col-md-12">
                                 <button type="submit" id="search" class="btn btn-primary">Search</button>
-                                {{-- <input type="submit" id="submit" class="btn btn-primary mt-3 mb-0" value="Search"> --}}
                             </div>
                         </div>
                         <div class="col-md-6 text-right">

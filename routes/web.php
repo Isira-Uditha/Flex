@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
