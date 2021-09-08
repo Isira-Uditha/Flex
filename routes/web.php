@@ -33,7 +33,6 @@ Route::get('/test',[test::class, 'index'])->name('test');
 Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
 Route::post('/package/create/{action}/{id?}', [PackageController::class, 'create'])->name('package_create');
 Route::get('/package/view/{action}/{id?}', [PackageController::class, 'view'])->name('package_view');
-Route::get('/package/summary/', [PackageController::class, 'filterByDate'])->name('package_filter');
 
 //User Routes
 Route::get('/user/index/{u_type}',[UserController::class, 'index'])->name('user_index');

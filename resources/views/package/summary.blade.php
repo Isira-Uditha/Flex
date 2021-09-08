@@ -104,14 +104,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($data['result'] as $row)
-                        <tr>
-                            <td>{{$row->package_id}}</td>
-                            <td>{{$row->package_name}}</td>
-                            <td>{{$row->package_duration}}</td>
-                            <td>{{$row->count}}</td>
-                        </tr>
-                        @endforeach --}}
 
                     </tbody>
                 </table>

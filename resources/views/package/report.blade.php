@@ -72,13 +72,13 @@
         .cl3 tr {
             line-height: 180%;
         }
-        #appointment_table th, #appointment_table tr td  {
+        #package_table th, #package_table tr td  {
             border: 1px groove black;
             padding-top: 4px;
             padding-bottom: 4px;
             text-align: center;
         }
-        #appointment_table tr:nth-child(even){background-color: #63a1b94d;}
+        #package_table tr:nth-child(even){background-color: #63a1b94d;}
     </style>
 </head>
     <body>
@@ -99,7 +99,7 @@
         </header>
 
         <div  class="center content" style="margin-top:3%;  border: 1px solid white">
-            <table width="100%" id="packages_table">
+            <table width="100%" id="package_table">
                 <thead>
                     <tr>
                         <th scope="col">Package ID</th>
@@ -112,11 +112,11 @@
                 <tbody>
                     @foreach ($data as $row)
                     <tr>
-                        <td>{{$row->package_id}}</td>
-                        <td>{{$row->package_name}}</td>
-                        <td>{{$row->package_duration}}</td>
-                        <td>{{$row->package_price}}</td>
-                        <td>{{$row->count}}</td>
+                        <td scope="col">{{$row->package_id}}</td>
+                        <td scope="col">{{$row->package_name}}</td>
+                        <td scope="col">{{$row->package_duration}}</td>
+                        <td scope="col">{{$row->package_price}}</td>
+                        <td scope="col">{{$row->count}}</td>
                     </tr>
                     @endforeach
                 </tbody>
