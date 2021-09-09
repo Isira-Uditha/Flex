@@ -24,7 +24,7 @@ class AppointmentService
         ->when(isset($data['workout_plan_id']) && $data['workout_plan_id'] != '', function($q) use($data) {
             return $q->where('wplan.workout_plan_id', $data['workout_plan_id']);
         })
-        ->when(!isset($data['sts_date']) && $data['workout_plan_id'] != 'on', function($q) use($data) {
+        ->when(!isset($data['sts_date']), function($q) use($data) {
             return $q->when(isset($data['from']) && $data['from'] != '', function($q) use($data) {
                 return $q->where('appointment.appointment_date','>=', Carbon::createFromFormat('m/d/Y',$data['from'])->format('Y-m-d'));
             })

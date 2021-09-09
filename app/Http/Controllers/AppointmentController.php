@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\WorkoutPlan;
 use App\Services\AppointmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\AssignOp\Concat;
@@ -57,15 +59,16 @@ class AppointmentController extends Controller
                 return $bmi_type;
             })
             ->addColumn('current_height', function ($row) {
-                return $row->current_height;
+                return $row->current_height.' m';
             })
             ->addColumn('current_weight', function ($row) {
-                return $row->current_weight;
+                return $row->current_weight.' Kg';
             })
             ->addColumn('action', function ($row) {
                 $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->appointment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
                 $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
-                return $edit.' '.$delete;
+                $view = ' <a href="' . route('appointment_view',['action' => 'View','id' => $row->appointment_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                return $view.' '.$edit.' '.$delete;
             })
             ->rawColumns(['action','bmi_type'])
 
@@ -99,6 +102,61 @@ class AppointmentController extends Controller
                 $data['action'] = 'Edit';
                 $data['id'] = $id;
                 return view('appointment.create',compact('data'));
+                break;
+            case 'View':
+                $data['workouts'] = $app_service->getAllWorkouts();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
+                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+                $data['result'] = Appointment::where('appointment_id',$id)->first();
+                $data['action'] = 'View';
+                $data['id'] = $id;
+                return view('appointment.create',compact('data'));
+                break;
+            case 'Print':
+
+                if ($request->ajax()) {
+                    $appointments = $app_service->getAppointments($request->all());
+                    return datatables()->of($appointments)
+                    ->addColumn('appointment_id', function ($row) {
+                        return $row->appointment_id;
+                    })
+                    ->addColumn('appointment_no', function ($row) {
+                        return $row->appointment_no;
+                    })
+                    ->addColumn('appointment_date', function ($row) {
+                        $app_date = Carbon::createFromFormat('Y-m-d',$row->appointment_date)->format('m/d/Y');
+                        return $app_date;
+                    })
+                    ->addColumn('time_slot', function ($row) {
+                        return $row->time_slot;
+                    })
+                    ->addColumn('workout_plan_name', function ($row) {
+                        return $row->workout_plan_name;
+                    })
+                    ->addColumn('bmi', function ($row) {
+                        return $row->bmi;
+                    })
+                    ->addColumn('bmi_type', function ($row) {
+                        $bmi_type = '';
+
+                        if($row->bmi_type == 'Underweight'){
+                            $bmi_type = '<span class="tag tag-red">Underweight</span>';
+                        }else if($row->bmi_type == 'Normal weight'){
+                            $bmi_type = '<span class="tag tag-green">Normal weight</span>';
+                        }else if($row->bmi_type == 'Overweight'){
+                            $bmi_type = '<span class="tag tag-yellow">Overweight</span>';
+                        }else{
+                            $bmi_type = '<span class="tag tag-red tx-12">Obesity</span>';
+                        }
+
+                        return $bmi_type;
+                    })
+                    ->rawColumns(['bmi_type'])
+
+                    ->make(true);
+                }
+
+                return view('appointment.report_search');
                 break;
             default:
         }
@@ -173,13 +231,34 @@ class AppointmentController extends Controller
                         ->with('error_message', 'please check as we’re missing some information.');
                     }
                     break;
-                    case 'Delete':
-                        $res = $this->destroy($id);
-                        if($res){
-                            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
-                        }else{
-                            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
-                        }
+                case 'Delete':
+                    $res = $this->destroy($id);
+                    if($res){
+                        return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+                    }else{
+                        return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+                    }
+                    break;
+                case 'View':
+                    return redirect(route('appointment_index'));
+                    break;
+                case 'Print':
+                    $data = $app_service->getAppointments($request->all());
+                    $user = User::where('uid',1)->first();
+
+                    if(!isset($request->sts_date)){
+                        $date['from'] = $request->from;
+                        $date['to'] = $request->to;
+                    } else{
+                        $date['from'] = '';
+                        $date['to'] = '';
+                    }
+
+                    $name = 'Appointment Report to '. date('Y-m-d') .'.pdf';
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('appointment.report',['id' => $id, 'data'=> $data, 'date'=> $date]);
+                    return $pdf->stream($name);
+                    break;
                 default:
             }
         }
@@ -306,6 +385,21 @@ class AppointmentController extends Controller
         $user->weight = $data['current_weight'];
 
         return $user->save();
+    }
+
+    public function checkPaymentStatus(Request $request){
+        $user = User::where('uid', 1)->first();
+        $res = Payment::where('uid',$user->uid)
+        ->whereYear('payment_date',Carbon::now()->year)
+        ->whereMonth('payment_date',Carbon::now()->month)
+        ->get();
+
+        if($res->count() > 0){
+            return response()->json(['status' => 1],200);
+        }else{
+            return response()->json(['status' => 0],200);
+        }
+
     }
 
 }
