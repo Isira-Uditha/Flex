@@ -4,8 +4,8 @@
 
 @endpush
 
-@section('title','Registering')
-@section('sub_title','Equipment')
+@section('title','Equipment')
+@section('sub_title','View Equipment')
 
 @section('content')
 
@@ -149,7 +149,7 @@
                             <th scope="col">Equipment Name</th>
                             <th scope="col">Registered Date</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Equipment Price</th>
+                            <th scope="col">Equipment Price(Rs.)</th>
                             <th scope="col">Equipment Category</th>
                             <th scope="col">Muscles Used</th>
                             <th scope="col">Description</th>

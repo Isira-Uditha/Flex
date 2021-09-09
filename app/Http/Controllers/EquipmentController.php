@@ -106,7 +106,7 @@ class EquipmentController extends Controller
             'equipment_name' => 'required',
             'registered_date' => 'required',
             'status' => 'required',
-            'image' => 'required',
+            'image' => 'required|mimes:jpg,bmp,png',
             'muscles_used' => 'required',
             'equipment_desc' => 'required',
         ];
