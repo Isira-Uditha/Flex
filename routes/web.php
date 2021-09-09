@@ -10,6 +10,7 @@ use App\Http\Controllers\DasboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EquipmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,14 @@ Route::get('/', function () {
 Route::get('/sample', function () {
     return view('sample');
 });
+
+Route::get('/equipment/create', function () {
+    return view('equipment.create_equipment');
+})->name('equipment_create_view');
+
+Route::post('/equipment/create',[EquipmentController::class, 'store'])->name('createEquipment');
+
+Route::get('/equipment/index',[EquipmentController::class, 'index'])->name('equipment_index');
 
 Route::get('/test',[test::class, 'index'])->name('test');
 
