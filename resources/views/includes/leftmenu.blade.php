@@ -62,6 +62,28 @@
                 </ul>
             </li>
             <li class="slide">
+                <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-package"></i>&nbsp;&nbsp;<span class="side-menu__label">Package</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{route('package_index')}}">Active Packages</a></li>
+                    <li><a class="slide-item" href="{{route('package_view',['action' => 'Summary'])}}">Summary</a></li>
+                </ul>
+            </li>
+            <li class="slide">
+                <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-users"></i>&nbsp;&nbsp;<span class="side-menu__label">Users</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="#">Members</a></li>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="{{route('user_index',['u_type' => 'Member'])}}">Current Members</a></li>
+                            <li><a class="slide-item" href="#">Summary</a></li>
+                        </ul>
+                        <li><a class="slide-item" href="#">Employees</a></li>
+                                <ul class="slide-menu">
+                                    <li><a class="slide-item" href="{{route('user_index',['u_type' => 'Employee'])}}">Current Employees</a></li>
+                                    <li><a class="slide-item" href="#">Summary</a></li>
+                                </ul>
+                </ul>
+            </li>
+            <li class="slide">
                 <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-book-open"></i>&nbsp;&nbsp;<span class="side-menu__label">Equipment</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{route('equipment_index')}}">View Equipment</a></li>
@@ -70,7 +92,7 @@
             <li class="slide">
                 <a class="side-menu__item text-white" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span><i class="bx bx-log-out"></i></span>&nbsp;&nbsp;<span
                         class="side-menu__label">Sign Out</span></a>
-                        <form id="logout-form" action="#" method="POST" class="d-none">
+                        <form id="logout-form" action="{{url('/logout')}}" method="POST" class="d-none">
                             @csrf
                         </form>
             </li>
