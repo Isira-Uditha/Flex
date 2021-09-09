@@ -1,14 +1,26 @@
-This is a web application which will be used to manage daily activities of a gymnasium under the name Flex Gym Management System. This project facilitates to automate daily tasks of employees of gym while providing a great service to its clients. Further, this will provide the facilities to the client to make their day-to-day work easier and more efficient with a healthy life. So, this web application consists of four (4) main core functionalities.
+# Group-ID - 2021S2_REG_WE_26
+## Project Name - Flex Gym Management System
+## Group Details
 
-•	User Management – The proposed project will have the ability of management of the employee details and client details of the gymnasium. In order to interact with the system both employees and clients must be registered with the system. As well as it is responsible for the production of various reports of the users and calculated the gross profit based on the management Requirements. (Leave Management)
+**Member Details :**
+|        Name               | Student ID | UserName
 
-•	Equipment Management – The required software application will have the ability to record the equipment details that are used in the gymnasium. In order to record the details, all the equipment that are owned by the company are classified into various categories. All the details of those categorized items are recorded into the system. This avoids many difficulties in using equipment of the organization. And also, the system facilitates to do changes in future regarding the information of registered equipment. Apart from that the user can easily searches the details of the equipment by categories. The proposed system is responsible for provide various reports of the equipment when required.
+| Bandara W.A.I.U.          | IT19017334 | Isira-Uditha
+| Kuruppuarachchi K.A.D.K.S.| IT19028156 | KasuniSandeepa
+| Alwis T.A.D.T.N.D.        | IT19016108 | tharushikadealwis
+| Maduwantha N.N.D.         | IT19026480 | NishanNiriella
 
-•	Schedule Management – The proposed system will manage the two types of schedules regarding work out exercises. They are,
-o	Work Out Plan Schedules
-o	Diet Plan Schedules
-The application will have ability to create new schedules including the workout exercises with the other necessary details and system facilitates to do future changes to those schedules with the capable of creating new workout exercises as required. And also, management of the gymnasium is capable of filtering and viewing those schedules by the different levels, and BMI values in an efficient way. And also, system captures the current usages of the created schedules among the clients and responsible for the production of various reports.
+## Project Description
+This is a web application which will be used to manage daily activities of a gymnasium under the name Flex Gym Management System. 
+This project facilitates to automate daily tasks of employees of gym while providing a great service to its clients. Further, this will provide 
+the facilities to the client to make their day-to-day work easier and more efficient with a healthy life. 
+So, this web application consists of four (4) main core functionalities.
+  •	User Management 
+  •	Equipment Management 
+  •	Workout and Diet Schedule Management 
+  •	Appointment Management and Monthly Payment
 
-•	Appointment Management and Monthly Payment– This function is one of a main function in this system which is responsible by the Users registered in the system. Since the day-to-day booking activities of this gymnasium are being heavy, it is paramount important to implement a booking management system in order to give a better customer experience. In the event of make a booking by a user, first user has to check the availability of bookings on a preferred date by inserting the date, timeslot and preferred schedule. In case if there are available slots on particular day the system will provide the facility to make a booking. And also, this function is required to calculate the BMI of the user automatically in case of user inserting the weight and height as the inputs, further this system has the ability to suggest a preferred workout schedule and a nutritional plan to the user according to his current BMI. Also, this function is required to provide the facility to the user to make monthly payments to the gymnasiums, whereas it does not allow the user to make a booking if the payments are not properly made. At the end of the month user. Furthermore, this system is capable of making monthly reports of the user including the current usage, and the user progress.
-
-The proposed project will help to minimize corruptions and frauds within the organization. As a growing and profitable organization, this proposed system will provide the necessary management for the future business needs too. Therefore, this system is very important for this organization.
+## Technologies
+  PHP Laraval Framework
+  MySQL Database
+  jQuery , Java Script
