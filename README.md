@@ -1,62 +1,14 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+This is a web application which will be used to manage daily activities of a gymnasium under the name Flex Gym Management System. This project facilitates to automate daily tasks of employees of gym while providing a great service to its clients. Further, this will provide the facilities to the client to make their day-to-day work easier and more efficient with a healthy life. So, this web application consists of four (4) main core functionalities.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+•	User Management – The proposed project will have the ability of management of the employee details and client details of the gymnasium. In order to interact with the system both employees and clients must be registered with the system. As well as it is responsible for the production of various reports of the users and calculated the gross profit based on the management Requirements. (Leave Management)
 
-## About Laravel
+•	Equipment Management – The required software application will have the ability to record the equipment details that are used in the gymnasium. In order to record the details, all the equipment that are owned by the company are classified into various categories. All the details of those categorized items are recorded into the system. This avoids many difficulties in using equipment of the organization. And also, the system facilitates to do changes in future regarding the information of registered equipment. Apart from that the user can easily searches the details of the equipment by categories. The proposed system is responsible for provide various reports of the equipment when required.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+•	Schedule Management – The proposed system will manage the two types of schedules regarding work out exercises. They are,
+o	Work Out Plan Schedules
+o	Diet Plan Schedules
+The application will have ability to create new schedules including the workout exercises with the other necessary details and system facilitates to do future changes to those schedules with the capable of creating new workout exercises as required. And also, management of the gymnasium is capable of filtering and viewing those schedules by the different levels, and BMI values in an efficient way. And also, system captures the current usages of the created schedules among the clients and responsible for the production of various reports.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+•	Appointment Management and Monthly Payment– This function is one of a main function in this system which is responsible by the Users registered in the system. Since the day-to-day booking activities of this gymnasium are being heavy, it is paramount important to implement a booking management system in order to give a better customer experience. In the event of make a booking by a user, first user has to check the availability of bookings on a preferred date by inserting the date, timeslot and preferred schedule. In case if there are available slots on particular day the system will provide the facility to make a booking. And also, this function is required to calculate the BMI of the user automatically in case of user inserting the weight and height as the inputs, further this system has the ability to suggest a preferred workout schedule and a nutritional plan to the user according to his current BMI. Also, this function is required to provide the facility to the user to make monthly payments to the gymnasiums, whereas it does not allow the user to make a booking if the payments are not properly made. At the end of the month user. Furthermore, this system is capable of making monthly reports of the user including the current usage, and the user progress.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The proposed project will help to minimize corruptions and frauds within the organization. As a growing and profitable organization, this proposed system will provide the necessary management for the future business needs too. Therefore, this system is very important for this organization.
