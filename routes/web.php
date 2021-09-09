@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DasboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\EquipmentController;
 
 /*
@@ -18,9 +21,9 @@ use App\Http\Controllers\EquipmentController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-})->name('login');
+//Login
+Route::get('/', function () {return redirect('/login');});
+Auth::routes();
 
 Route::get('/sample', function () {
     return view('sample');
@@ -35,6 +38,17 @@ Route::post('/equipment/create',[EquipmentController::class, 'store'])->name('cr
 Route::get('/equipment/index',[EquipmentController::class, 'index'])->name('equipment_index');
 
 Route::get('/test',[test::class, 'index'])->name('test');
+
+//Package Routes
+Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
+Route::post('/package/create/{action}/{id?}', [PackageController::class, 'create'])->name('package_create');
+Route::get('/package/view/{action}/{id?}', [PackageController::class, 'view'])->name('package_view');
+
+//User Routes
+Route::get('/user/index/{u_type}',[UserController::class, 'index'])->name('user_index');
+Route::get('/user/view/{u_type}/{action}/{id?}', [UserController::class, 'view'])->name('user_view');
+Route::post('/user/create/{u_type}/{action}/{id?}', [UserController::class, 'create'])->name('user_create');
+
 
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');
 
