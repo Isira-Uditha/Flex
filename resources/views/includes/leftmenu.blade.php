@@ -34,12 +34,18 @@
 
         <ul class="side-menu">
             <li class="slide">
-                <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-layers"></i>&nbsp;&nbsp;<span class="side-menu__label">Dashboard</span></a>
+                <a class="side-menu__item text-white" data-toggle="slide" href="{{route('dashboard')}}"><i class="fe fe-layers"></i>&nbsp;&nbsp;<span class="side-menu__label">Dashboard</span></a>
             </li>
             <li class="slide">
                 <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-book-open"></i>&nbsp;&nbsp;<span class="side-menu__label">Booking</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{route('appointment_index')}}">Appointment</a></li>
+                </ul>
+            </li>
+            <li class="slide">
+                <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-credit-card"></i>&nbsp;&nbsp;<span class="side-menu__label">Payment</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{route('payment_index')}}">Monthly Payment</a></li>
                 </ul>
             </li>
             <li class="slide">
@@ -57,12 +63,14 @@
                             <li><a class="slide-item" href="{{route('user_index',['u_type' => 'Member'])}}">Current Members</a></li>
                             <li><a class="slide-item" href="#">Summary</a></li>
                         </ul>
-                    <li><a class="slide-item" href="#">Employees</a></li>
+                </ul>
+            </li>
+            <li class="slide">
+                <li><a class="slide-item" href="#">Employees</a></li>
                         <ul class="slide-menu">
                             <li><a class="slide-item" href="{{route('user_index',['u_type' => 'Employee'])}}">Current Employees</a></li>
                             <li><a class="slide-item" href="#">Summary</a></li>
                         </ul>
-                </ul>
             </li>
             <li class="slide">
                 <a class="side-menu__item text-white" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span><i class="bx bx-log-out"></i></span>&nbsp;&nbsp;<span

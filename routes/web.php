@@ -3,6 +3,8 @@
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DasboardController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\test;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -49,3 +51,16 @@ Route::get('/appointment/checkAppointmentStatus',[AppointmentController::class, 
 
 Route::post('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
 
+Route::get('/appointment/checkPaymentStatus',[AppointmentController::class, 'checkPaymentStatus'])->name('checkPaymentStatus');
+
+Route::get('/payment/index',[PaymentController::class, 'index'])->name('payment_index');
+
+Route::get('/payment/view/{action}/{id?}',[PaymentController::class, 'view'])->name('payment_view');
+
+Route::get('/payment/getPackagePrice',[PaymentController::class, 'getPackagePrice'])->name('getPackagePrice');
+
+Route::post('/payment/create/{action}/{id?}',[PaymentController::class, 'create'])->name('payment_create');
+
+Route::get('/dashboard',[DasboardController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard/getBMIValues',[DasboardController::class, 'getBMIValues'])->name('getBMIValues');
