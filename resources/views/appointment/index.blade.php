@@ -134,6 +134,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('appointment_view',['action' => 'Print', 'id' => ''])}}" type="button" class="btn btn-secondary text-white">Print Report</a>
                                 <a type="button" id="addAppointID" class="btn btn-success text-white">Add Appointment</a>
                             </div>
                         </div>
@@ -152,7 +153,7 @@
                 <table class="table" id="zero_config">
                     <thead>
                         <tr>
-                            <th scope="col">Appointment ID</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Appointment No</th>
                             <th scope="col">Date</th>
                             <th scope="col">Time Slot</th>
