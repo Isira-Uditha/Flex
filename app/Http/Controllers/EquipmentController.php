@@ -64,9 +64,10 @@ class EquipmentController extends Controller
                 return $row->equipment_desc;
             })
             ->addColumn('action', function ($row) {
-                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->equipment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
-                $edit = ' <a href="' . route('appointment_view',['action' => 'Edit','id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
-                return $edit.' '.$delete;
+                $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-eqpid = "'.$row->equipment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
+                $edit = ' <a href="' . route('equipment_view',['id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                $view = ' <a href="' . route('equipment_view',['id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
+                return $view.' '.$edit.' '.$delete;
             })
             ->rawColumns(['action','category','status','image'])
 
@@ -166,6 +167,13 @@ class EquipmentController extends Controller
     public function show($id)
     {
         //
+        $equipment = new Equipment();
+        $data['result'] = Equipment::where('equipment_id',$id)->first();
+        $data['id'] = $id;
+
+
+
+         return view('equipment.view_equipment',compact('data'));
     }
 
     /**
@@ -200,5 +208,13 @@ class EquipmentController extends Controller
     public function destroy($id)
     {
         //
+        $equipment=Equipment::find($id);
+        $res =   $equipment->delete();
+
+        if($res){
+            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        }else{
+            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+        }
     }
 }
