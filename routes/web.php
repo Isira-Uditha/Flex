@@ -70,6 +70,10 @@ Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name
 
 Route::get('/workout/workout_plan/index',[WorkoutPlanController::class, 'index'])->name('workout_plan_index');
 
+Route::get('/workout/workout_plan/edit/{id?}',[WorkoutPlanController::class, 'edit'])->name('workout_plan_edit_view');
+
+Route::post('/workout/workout_plan/update/{id?}',[WorkoutPlanController::class, 'update'])->name('workout_plan_update');
+
 Route::get('/diet_plan/index',[DietPlanController::class, 'index'])->name('diet_plan_index');
 
 Route::get('/diet_plan/create/check',[DietPlanController::class, 'checkValid'])->name('check_valid_create_diet');
