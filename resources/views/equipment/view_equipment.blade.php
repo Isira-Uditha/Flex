@@ -24,9 +24,9 @@
                         <div class="row row-sm">
                             <div class="col-6">
                                 <div class="form-group @error('equipment_code') has-danger @enderror">
-                                    <label class="form-label">Equipment Code: <span class="tx-danger">*</span></label>
+                                    <label class="form-label">Equipment Code: </label>
                                     <input class="form-control" name="equipment_code" id="equipment_code" placeholder="Input Equipment Code"  type="text"
-                                    @if(!empty(old('equipment_code'))) value="{{old('equipment_code')}}" @else value="" @endif>
+                                     value="{{$data['result']->equipment_code}}" readonly>
                                     @error('equipment_code')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
