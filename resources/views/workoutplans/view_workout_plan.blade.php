@@ -135,8 +135,6 @@
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="form-group col-md-12">
-                                    <button  type="submit" id="save" class="btn btn-success">Print</button>
-                                    {{-- <button type="button" id="clear" class="btn btn-secondary text-white" >Clear</button> --}}
                                 </div>
                             </div>
 

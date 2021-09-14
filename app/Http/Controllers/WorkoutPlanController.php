@@ -9,6 +9,7 @@ use App\Models\WorkoutExercise;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 
 class WorkoutPlanController extends Controller
 {
@@ -286,7 +287,6 @@ class WorkoutPlanController extends Controller
                 ->with('error_message', 'please check as we’re missing some information.');
         }else{
 
-           // $workout_plan = new WorkoutPlan();
             $workout_plan = WorkoutPlan::where('workout_plan_id',$id)->first();
 
             $statusNo = "no";
@@ -379,12 +379,116 @@ class WorkoutPlanController extends Controller
         DB::table('workout_plan_exercise')->where('workout_plan_id', '=', $id)->delete();
 
         $workoutPlan=WorkoutPlan::find($id);
-        $res =   $workoutPlan->delete();
+        $res = $workoutPlan->delete();
 
         if($res){
             return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
         }else{
             return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
         }
+    }
+
+    public function getUsage()
+    {
+        //
+        $usage =  DB::select(
+                    "select ca.workout_plan_id as workout_plan_id, ca.workout_plan_name as workout_plan_name, ca.created_at as created_at, ca.workout_bmi_category as workout_bmi_category, l.user_count, co.exercise_count
+                    from workout_plan ca
+                    left join
+                    (
+                    select a.workout_plan_id as workout_plan_id, count(a.uid) as user_count
+                    from appointment a
+                    group by a.workout_plan_id
+                    ) l on l.workout_plan_id = ca.workout_plan_id
+                    left join
+                    (
+                    select w.workout_plan_id as workout_plan_id , count(w.exercise_id) as exercise_count
+                    from workout_plan_exercise w
+                    group by w.workout_plan_id
+                    ) co on co.workout_plan_id = ca.workout_plan_id
+                    order by ca.workout_plan_id;"
+                    );
+
+        return $usage ;
+    }
+
+    public function viewReport(Request $request)
+    {
+        //
+        $res = $this->getUsage();
+
+        if ($request->ajax()) {
+
+            return datatables()->of($res)
+            ->addColumn('workout_id', function ($row) {
+                return $row->workout_plan_id;
+            })
+            ->addColumn('created_date', function ($row) {
+                $date =  Carbon::createFromFormat('Y-m-d H:i:s',$row->created_at)->format('m/d/Y');
+                return $date;
+            })
+            ->addColumn('workout_plan_name', function ($row) {
+                return $row->workout_plan_name;
+            })
+            ->addColumn('user_count', function ($row) {
+                $count = 0;
+                if( $row->user_count == null){
+                    $count = 0;
+                }else{
+                    $count = $row->user_count;
+                }
+                return $count;
+            })
+            ->addColumn('exercise_count', function ($row) {
+                 $count = 0;
+                if( $row->exercise_count == null){
+                    $count = 0;
+                }else{
+                    $count = $row->exercise_count;
+                }
+                return $count;
+            })
+            ->addColumn('bmi_category', function ($row) {
+
+                $bmi_category = '';
+
+                if($row->workout_bmi_category == 'Underweight'){
+                    $bmi_category = '<span class="tag tag-red">Underweight</span>';
+                }else if($row->workout_bmi_category== 'Normal weight'){
+                    $bmi_category = '<span class="tag tag-green">Normal weight</span>';
+                }else if($row->workout_bmi_category == 'Overweight'){
+                    $bmi_category = '<span class="tag tag-yellow">Overweight</span>';
+                }else{
+                    $bmi_category = '<span class="tag tag-red tx-12">Obesity</span>';
+                }
+
+                return $bmi_category;
+
+            })
+            ->rawColumns(['bmi_category'])
+            ->make(true);
+        }
+        return view('workoutplans.view_report_workout_plan');
+    }
+
+    public function printReport()
+    {
+        //
+        $data = $this->getUsage();
+
+        foreach ($data as $row){
+            if($row->user_count == null){
+                $row->user_count = 0;
+            }
+            if($row->exercise_count == null){
+                $row->exercise_count = 0;
+            }
+        }
+
+         $name = 'Workout Plans Usage Report to '. date('Y-m-d') .'.pdf';
+         $pdf = App::make('dompdf.wrapper');
+         $pdf->loadView('workoutplans.report_workout_plan',['data'=> $data]);
+         return $pdf->stream($name);
+
     }
 }

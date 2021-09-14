@@ -383,7 +383,7 @@ class DietPlanController extends Controller
         //
         $usage = DB::table('diet_plan')
                 ->selectRaw('diet_plan.diet_plan_id as diet_plan_id, diet_plan.created_at as created_at,diet_plan.diet_plan_name as diet_plan_name, count(appointment.uid) as user_count, diet_plan.bmi_category as bmi_category ')
-                ->join('appointment', 'diet_plan.diet_plan_id', '=', 'appointment.diet_plan_id')
+                ->leftJoin('appointment', 'diet_plan.diet_plan_id', '=', 'appointment.diet_plan_id')
                 ->groupBy('diet_plan.diet_plan_id')
                 ->get();
 

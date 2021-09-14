@@ -133,6 +133,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('workout_plan_report_view')}}" type="button" class="btn btn-secondary text-white">Print Report</a>
                                 <a href="{{route('create_workoutPlan_view')}}" type="button" id="add" class="btn btn-success">Add Workout Plan</a>
                             </div>
                         </div>
