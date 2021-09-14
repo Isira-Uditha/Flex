@@ -93,9 +93,9 @@
 
                             <div class="col-6">
                                 <div class="form-group @error('equipment_name') has-danger @enderror">
-                                    <label class="form-label">Equipment Name: <span class="tx-danger">*</span></label>
+                                    <label class="form-label">Equipment Name: </label>
                                     <input class="form-control" name="equipment_name" id="equipment_name" placeholder="Input Equipment Name"  type="text"
-                                    @if(!empty(old('equipment_name'))) value="{{old('equipment_name')}}" @else value="" @endif>
+                                    value="{{$data['result']->equipment_name}}" readonly>
                                     @error('equipment_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -104,7 +104,7 @@
                                 </div>
 
                                 <div class="form-group" @error('registered_date') has-danger @enderror>
-                                <label class="form-label">Registered Date: <span class="tx-danger">*</span></label>
+                                <label class="form-label">Registered Date: </label>
                                 <div class="row row-sm ">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -112,7 +112,7 @@
                                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                             </div>
                                         </div><input class="form-control fc-datepicker" name="registered_date" id="registered_date" placeholder="MM/DD/YYYY" type="text"
-                                        @if(!empty(old('registered_date'))) value="{{old('registered_date')}}" @else value="" @endif>
+                                        value="{{$data['result']->registered_date}}" readonly>
                                         @error('registered_date')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -122,25 +122,19 @@
                                 </div>
                                 </div>
 
-                                <div class="form-group" @error('status') has-danger @enderror>
+
+                                <div class="form-group @error('status') has-danger @enderror">
                                     <label class="form-label">Status: </label>
-                                    <select class="form-control select2" data-parsley-class-handler="#slWrapper" name="status" id="status" data-parsley-errors-container="#slErrorContainer" data-placeholder="Choose one">
-                                        <option label="Select Status">
-                                            Select Status
-                                        </option>
-                                        <option value="In Use" label="In Use" @if(!empty(old('status') && old('status') == 'In Use')) selected @endif>
-                                            In Use
-                                        </option>
-                                        <option value="Repair" label="Repair" @if(!empty(old('status') && old('status') == 'Repair')) selected @endif>
-                                            Repair
-                                        </option>
-                                    </select>
+                                    <input class="form-control" name="status" id="status" placeholder="Input Equipment Name"  type="text"
+                                    value="{{$data['result']->status}}" readonly>
                                     @error('status')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -158,8 +152,8 @@
                         </div>
 
                         <div class="form-group @error('muscles_used') has-danger @enderror">
-                            <label>Muscles Used <span class="tx-danger">*</span></label>
-                                <textarea class="form-control" placeholder="Describe Muscles Used" name="muscles_used" id="muscles_used" rows="3">
+                            <label>Muscles Used </label>
+                                <textarea class="form-control" placeholder="Describe Muscles Used" name="muscles_used" id="muscles_used" rows="3" readonly>
                                 @if(!empty(old('muscles_used'))) {{old('muscles_used')}} @elseif(isset($data['result'])) {{$data['result']->muscles_used}} @else  @endif</textarea>
                             @error('muscles_used')
                             <span class="invalid-feedback" role="alert">
@@ -170,7 +164,7 @@
 
                         <div class="form-group @error('equipment_desc') has-danger @enderror">
                             <label>Equipment Description <span class="tx-danger">*</span></label>
-                                <textarea class="form-control" placeholder="Enter Equipment Description" name="equipment_desc" id="equipment_desc" rows="3">
+                                <textarea class="form-control" placeholder="Enter Equipment Description" name="equipment_desc" id="equipment_desc" rows="3" readonly>
                                     @if(!empty(old('equipment_desc'))) {{old('equipment_desc')}} @elseif(isset($data['result'])) {{$data['result']->equipment_desc}} @else  @endif
                                 </textarea>
                             @error('equipment_desc')
