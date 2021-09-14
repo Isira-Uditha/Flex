@@ -80,9 +80,9 @@
                                 </div>
 
                                 <div class="form-group @error('equipment_price') has-danger @enderror">
-                                    <label class="form-label">Price(Rs.): <span class="tx-danger">*</span></label>
+                                    <label class="form-label">Price(Rs.): </label>
                                     <input class="form-control" name="equipment_price" id="equipment_price" placeholder="Input Price"  type="text"
-                                    @if(!empty(old('equipment_price'))) value="{{old('equipment_price')}}" @else value="" @endif>
+                                    value="{{$data['result']->equipment_price}}" readonly>
                                     @error('equipment_price')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
