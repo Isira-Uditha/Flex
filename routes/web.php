@@ -58,6 +58,10 @@ Route::get('/diet_plan/create', function () {
     return view('dietplans.create_diet_plan');
 })->name('create_dietPlan_view');
 
+// Route::get('/diet_plan/report/view', function () {
+//     return view('dietplans.view_report_diet_plan');
+// })->name('diet_plan_report_view');
+
 Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class, 'store'])->name('createExercise');
 
 Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store'])->name('create_workout_plan');
@@ -85,6 +89,11 @@ Route::get('/diet_plan/view/{id?}',[DietPlanController::class, 'view'])->name('d
 Route::get('/diet_plan/edit/{id?}',[DietPlanController::class, 'edit'])->name('diet_plan_edit_view');
 
 Route::post('/diet_plan/update/{id?}',[DietPlanController::class, 'update'])->name('diet_plan_update');
+
+Route::get('/diet_plan/report/view',[DietPlanController::class, 'viewReport'])->name('diet_plan_report_view');
+
+Route::get('/diet_plan/report/print',[DietPlanController::class, 'printReport'])->name('diet_plan_report_print');
+
 
 //Package Routes
 Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
