@@ -30,9 +30,9 @@ Route::get('/equipment/create', function () {
     return view('equipment.create_equipment');
 })->name('equipment_create_view');
 
-Route::get('/equipment/view', function () {
-    return view('equipment.view_equipment');
-})->name('equipment_view');
+// Route::get('/equipment/view', function () {
+//     return view('equipment.view_equipment');
+// })->name('equipment_view');
 
 Route::post('/equipment/create',[EquipmentController::class, 'store'])->name('createEquipment');
 
@@ -41,6 +41,10 @@ Route::get('/equipment/index',[EquipmentController::class, 'index'])->name('equi
 Route::post('/equipment/delete/{id}',[EquipmentController::class, 'destroy'])->name('equipment_delete');
 
 Route::get('/equipment/view/{id?}',[EquipmentController::class, 'show'])->name('equipment_view');
+
+Route::get('/equipment/edit/{id?}',[EquipmentController::class, 'edit'])->name('equipment_edit_view');
+
+Route::post('/equipment/update/{id?}',[EquipmentController::class, 'update'])->name('equipment_update');
 
 Route::get('/test',[test::class, 'index'])->name('test');
 

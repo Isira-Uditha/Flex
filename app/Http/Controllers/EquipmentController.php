@@ -65,7 +65,7 @@ class EquipmentController extends Controller
             })
             ->addColumn('action', function ($row) {
                 $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-eqpid = "'.$row->equipment_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
-                $edit = ' <a href="' . route('equipment_view',['id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
+                $edit = ' <a href="' . route('equipment_edit_view',['id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="Edit"><i class="fas fa-edit text-warning fa-lg" data-placement="top"></i></a>';
                 $view = ' <a href="' . route('equipment_view',['id' => $row->equipment_id]) . '" data-toggle="tooltip-primary" title="View"><i class="fas fa-search text-primary fa-lg" data-placement="top"></i></a>';
                 return $view.' '.$edit.' '.$delete;
             })
@@ -184,7 +184,12 @@ class EquipmentController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $equipment = new Equipment();
+
+        $data['result'] = Equipment::where('equipment_id',$id)->first();
+        $data['id'] = $id;
+         return view('equipment.edit_equipment',compact('data'));
     }
 
     /**
@@ -196,7 +201,59 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'equipment_code' => 'required|min:5',
+            'category' => 'required',
+            'equipment_price' => 'required|numeric',
+            'equipment_name' => 'required',
+            'registered_date' => 'required',
+            'status' => 'required',
+            // 'image' => 'required|mimes:jpg,bmp,png',
+            'muscles_used' => 'required',
+            'equipment_desc' => 'required',
+        ];
+
+        $validatedData = Validator::make(
+            $request->all(),
+            $rules,
+            [
+                'equipment_code.required' => 'Equipment Code is required ',
+                'category.required' => 'Equipment Category field is required',
+                'equipment_price.required' => 'Equipment Price field is required',
+                'equipment_name.required' => 'Equipment Name field is required',
+                'registered_date.required' => 'Equipment Registered Date field is required',
+                'status.required' => 'Equipment Status field is required',
+                // 'image.required' => 'Equipment Image field is required',
+                'muscles_used.required' => 'Mucles used field is required',
+                'equipment_desc.required' => 'Please add an Equipment Description',
+            ]
+        );
+
+        if ($validatedData->fails()) {
+            return redirect()->back()->withInput()->withErrors($validatedData->errors())
+                ->with('error_message', 'please check as we’re missing some information.');
+        }else{
+            $equipment = Equipment::where('equipment_id',$id)->first();
+
+            $equipment->equipment_code=$request->equipment_code;
+            $equipment->category=$request->category;
+            $equipment->equipment_price=$request->equipment_price;
+            $equipment->equipment_name=$request->equipment_name;
+            $equipment->registered_date=$request->registered_date;
+            $equipment->status=$request->status;
+            // $equipment->image=$request->image;
+            $equipment->muscles_used=$request->muscles_used;
+            $equipment->equipment_desc=$request->equipment_desc;
+
+        $eqp = $equipment->save();
+
+            if($eqp){
+                return redirect(route('equipment_index'))->with('success_message', 'Equipment Succcessfully Updated');
+            }else{
+                return redirect()->back()->withInput()->withErrors($validatedData->errors())
+                ->with('error_message', 'please check as we’re missing some information.');
+            }
+        }
     }
 
     /**

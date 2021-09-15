@@ -35,43 +35,9 @@
                                 </div>
 
                                 <div class="form-group @error('category') has-danger @enderror">
-                                    <label class="form-label">Equipment Category: </label>
-                                    <select class="form-control select2" name="category" id="category" data-parsley-class-handler="#slWrapper" data-parsley-errors-container="#slErrorContainer" data-placeholder="Choose one"
-                                    @if(!empty(old('category'))) value="{{old('category')}}" @else value="" @endif>
-                                        <option value="Select a Category" label="Select a Category">
-                                            Select a Category
-                                        </option>
-                                        <option value="Fitness & Body Building" label="Fitness & Body Building" @if(!empty(old('category') && old('category') == 'Fitness & Body Building')) selected @endif>
-                                            Fitness & Body Building
-                                        </option>
-                                        <option value="Team Sport" label="Team Sport" @if(!empty(old('category') && old('category') == 'Team Sport')) selected @endif>
-                                            Team Sport
-                                        </option>
-                                        <option value="Sport Safety" label="Sport Safety" @if(!empty(old('category') && old('category') == 'Sport Safety')) selected @endif>
-                                            Sport Safety
-                                        </option>
-                                        <option value="Gym Equipment" label="Gym Equipment" @if(!empty(old('category') && old('category') == 'Gym Equipment')) selected @endif>
-                                            Gym Equipment
-                                        </option>
-                                        <option value="Outdoor Sports" label="Outdoor Sports" @if(!empty(old('category') && old('category') == 'Outdoor Sports')) selected @endif>
-                                            Outdoor Sports
-                                        </option>
-                                        <option value="Indoor Sports" label="Indoor Sports" @if(!empty(old('category') && old('category') == 'Indoor Sports')) selected @endif>
-                                            Indoor Sports
-                                        </option>
-                                        <option value="Sports Gloves" label="Sports Gloves" @if(!empty(old('category') && old('category') == 'Sports Gloves')) selected @endif>
-                                            Sports Gloves
-                                        </option>
-                                        <option value="Swimming & Diving" label="Swimming & Diving" @if(!empty(old('category') && old('category') == 'Swimming & Diving')) selected @endif>
-                                            Swimming & Diving
-                                        </option>
-                                        <option value="Supplements" label="Supplements" @if(!empty(old('category') && old('category') == 'Supplements')) selected @endif>
-                                            Supplements
-                                        </option>
-                                        <option value="Other Sports Equipment" label="Other Sports Equipment" @if(!empty(old('category') && old('category') == 'Other Sports Equipment')) selected @endif>
-                                            Other Sports Equipment
-                                        </option>
-                                    </select>
+                                    <label class="form-label">category: </label>
+                                    <input class="form-control" name="category" id="category" placeholder="Input Equipment Name"  type="text"
+                                    value="{{$data['result']->category}}" readonly>
                                     @error('category')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -139,7 +105,7 @@
                         </div>
 
                         <div class="form-group @error('image') has-danger @enderror">
-                            <label for="image">Equipment Image <span class="tx-danger">*</span></label>
+                            <label for="image">Equipment Image </label>
                             {{-- <input type="file" class="form-control" name="image" id="image"> --}}
                             <div class="col-md-8">
                                 <input type="file" name="image" id="image" data-allowed-file-extensions="jpg png"  class="dropify form-control" data-height="200" />
@@ -163,7 +129,7 @@
                         </div>
 
                         <div class="form-group @error('equipment_desc') has-danger @enderror">
-                            <label>Equipment Description <span class="tx-danger">*</span></label>
+                            <label>Equipment Description </label>
                                 <textarea class="form-control" placeholder="Enter Equipment Description" name="equipment_desc" id="equipment_desc" rows="3" readonly>
                                     @if(!empty(old('equipment_desc'))) {{old('equipment_desc')}} @elseif(isset($data['result'])) {{$data['result']->equipment_desc}} @else  @endif
                                 </textarea>
