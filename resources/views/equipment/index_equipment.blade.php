@@ -125,6 +125,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('equipment_report_view')}}" class="btn btn-secondary text-white">Print Report</a>
                                 <a href="{{route('equipment_create_view')}}" type="button" id="add" class="btn btn-success">Add Equipment</a>
                             </div>
                         </div>

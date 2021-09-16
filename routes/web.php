@@ -46,6 +46,10 @@ Route::get('/equipment/edit/{id?}',[EquipmentController::class, 'edit'])->name('
 
 Route::post('/equipment/update/{id?}',[EquipmentController::class, 'update'])->name('equipment_update');
 
+Route::get('/equipment/report/view',[EquipmentController::class, 'viewReport'])->name('equipment_report_view');
+
+Route::get('/equipment/report/print',[EquipmentController::class, 'printReport'])->name('equipment_report_print');
+
 Route::get('/test',[test::class, 'index'])->name('test');
 
 Route::get('/appointment/index',[AppointmentController::class, 'index'])->name('appointment_index');

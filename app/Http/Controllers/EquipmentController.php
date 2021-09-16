@@ -7,6 +7,8 @@ use App\Models\Equipment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 
 class EquipmentController extends Controller
 {
@@ -274,4 +276,52 @@ class EquipmentController extends Controller
             return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
         }
     }
+
+    public function getUsage()
+    {
+        //
+        $usage = DB::table('equipment')
+                ->selectRaw('equipment.category as category, count(equipment.equipment_id) as equipment_count ')
+                ->groupBy('equipment.category')
+                ->get();
+
+        return  $usage;
+
+    }
+
+    public function viewReport(Request $request){
+        $res = $this->getUsage();
+
+        if ($request->ajax()) {
+            return datatables()->of( $res)
+            ->addColumn('category', function ($row) {
+                return $row->category;
+            })
+            ->addColumn('equipment_count', function ($row) {
+                return $row->equipment_count;
+            })
+
+            // ->rawColumns(['category'])
+
+            ->make(true);
+        }
+        return view('equipment.view_report_equipment');
+
+    }
+
+    public function printReport()
+    {
+        //
+        $data = $this->getUsage();
+         $name = 'Equipment Category Report to '. date('Y-m-d') .'.pdf';
+         $pdf = App::make('dompdf.wrapper');
+         $pdf->loadView('equipment.report_equipment',['data'=> $data]);
+         return $pdf->stream($name);
+
+    }
+
+
+
+
+
 }
