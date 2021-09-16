@@ -58,9 +58,7 @@ Route::get('/diet_plan/create', function () {
     return view('dietplans.create_diet_plan');
 })->name('create_dietPlan_view');
 
-// Route::get('/diet_plan/report/view', function () {
-//     return view('dietplans.view_report_diet_plan');
-// })->name('diet_plan_report_view');
+
 
 Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class, 'store'])->name('createExercise');
 
