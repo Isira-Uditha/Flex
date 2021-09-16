@@ -86,7 +86,7 @@
             <table style="width:100%; margin-top: 0%;">
                 <tr style="width:100%" >
                     <td style="width:100%; padding-left:20px"><img src="{{ $img }}" style="width:200px"/></td>
-                    <td style="width:70%"  align="right"  valign="bottom"><h1><span style="font-style:italic; color:#b6b4b4; font-size:16px">Diet Plans Usage Report : {{date('Y-m-d')}}</span></h1></td>
+                    <td style="width:70%"  align="right"  valign="bottom"><h1><span style="font-style:italic; color:#b6b4b4; font-size:16px">Equipment Count For Categories Report : {{date('Y-m-d')}}</span></h1></td>
                 </tr>
             </table>
             <hr />
