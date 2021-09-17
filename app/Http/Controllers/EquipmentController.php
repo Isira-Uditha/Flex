@@ -240,11 +240,19 @@ class EquipmentController extends Controller
             $equipment->equipment_name=$request->equipment_name;
             $equipment->registered_date=$request->registered_date;
             $equipment->status=$request->status;
-            // $equipment->image=$request->image;
             $equipment->muscles_used=$request->muscles_used;
             $equipment->equipment_desc=$request->equipment_desc;
+            if ($request->hasfile('image')){
+                if(!Storage::disk('accountsdocs')->exists('EQUIPMENT/'.$request->file('image')->getClientOriginalName())){
+                    // Storage::disk('accountsdocs')->delete($request->fImage);
+                    $file_path = Storage::disk('accountsdocs')->putFileAs('EQUIPMENT', $request->file('image'), $request->image->getClientOriginalName());
+                }else{
+                    $file_path = 'EQUIPMENT/'.$request->file('image')->getClientOriginalName();
+                }
+            }
+            $equipment->image = $file_path;
 
-        $eqp = $equipment->save();
+            $eqp = $equipment->save();
 
             if($eqp){
                 return redirect(route('equipment_index'))->with('success_message', 'Equipment Succcessfully Updated');

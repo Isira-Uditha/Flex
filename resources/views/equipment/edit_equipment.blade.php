@@ -9,9 +9,6 @@
     (isset($data['id'])) ? $id = $data['id'] : $id = '';
 @endphp
 
-
-
-
 @section('title','Equipment')
 @section('sub_title','Edit Equipment')
 
@@ -87,32 +84,6 @@
                                     </span>
                                     @enderror
                                 </div>
-
-
-                                {{-- <div class="form-group @error('category') has-danger @enderror">
-                                    <label class="form-label">category: </label>
-                                    <input class="form-control" name="category" id="category" type="text"
-                                    value="{{$data['result']->category}}" readonly>
-                                    @error('category')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div> --}}
-
-                                {{-- <div class="form-group @error('equipment_code') has-danger @enderror">
-                                    <label class="form-label">Equipment Code: </label>
-                                    <input class="form-control" name="equipment_code" id="equipment_code" placeholder="Input Equipment Code"  type="text"
-                                     value="{{$data['result']->equipment_code}}" hidden>
-                                     <input class="form-control" name="equipment_code" id="equipment_code" placeholder="Input Equipment Code"  type="text"
-                                     @if(!empty(old('equipment_code'))) value="{{old('equipment_code')}}" @else value="{{$data['result']->equipment_code}}" @endif>
-                                    @error('equipment_code')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div> --}}
-
                                 <div class="form-group @error('equipment_price') has-danger @enderror">
                                     <label class="form-label">Price(Rs.): </label>
                                     <input class="form-control" name="equipment_price" id="equipment_price" placeholder="Input Price"  type="text"
@@ -164,18 +135,6 @@
                                 </div>
                                 </div>
 
-
-                                {{-- <div class="form-group @error('status') has-danger @enderror">
-                                    <label class="form-label">Status: </label>
-                                    <input class="form-control" name="status" id="status" placeholder="Input Equipment Name"  type="text"
-                                    value="{{$data['result']->status}}" readonly>
-                                    @error('status')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div> --}}
-
                                 <div class="form-group" @error('status') has-danger @enderror>
                                     <label class="form-label">Status: </label>
                                     <select class="form-control select2" data-parsley-class-handler="#slWrapper" name="status" id="status" data-parsley-errors-container="#slErrorContainer" data-placeholder="Choose one">
@@ -200,23 +159,36 @@
                             </div>
                         </div>
 
-                        <div class="form-group @error('image') has-danger @enderror">
-                            <label for="image">Equipment Image </label>
-                            {{-- <input type="file" class="form-control" name="image" id="image"> --}}
+                        <div class="row">
                             <div class="col-md-8">
-                                <input type="file" name="image" id="image" data-allowed-file-extensions="jpg png"  class="dropify form-control" data-height="200" />
+                                <div class="form-group @error('image') has-danger @enderror">
+                                    <label for="image" class="mb-3">Equipment Image <span class="tx-danger">*</span></label><br/>
+                                    @php
+                                        $img = Storage::disk('accountsdocs')->get($data['result']->image);
+                                        $type =  pathinfo(Storage::disk('accountsdocs')->path($data['result']->image), PATHINFO_EXTENSION);
+                                        $path = 'data:image/' . $type . ';base64,' . base64_encode($img);
+                                        $imageName = explode("/",$data['result']->image)
+                                    @endphp
+                                    <div id="fImage">
+                                        <img src="{{$path}}"  class="bd mb-2" name="fImage" height="100px">
+                                        <h6 class="text-primary">{{Str::ucfirst($imageName[1])}}</h6>
+                                    </div>
+                                    <div class="mt-3">
+                                        <input type="file" name="image" id="image" data-allowed-file-extensions="jpg png" value="{{$data['result']->image}}"  class="dropify form-control" data-height="200" />
+                                    </div>
+                                    @error('image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
-                            @error('image')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
                         </div>
+
 
                         <div class="form-group @error('muscles_used') has-danger @enderror">
                             <label>Muscles Used </label>
-                                <textarea class="form-control" placeholder="Describe Muscles Used" name="muscles_used" id="muscles_used" rows="3" >
-                                @if(!empty(old('muscles_used'))) {{old('muscles_used')}} @else {{$data['result']->muscles_used}} @endif</textarea>
+                                <textarea class="form-control col-md-8"  name="muscles_used" id="muscles_used" rows="5" >@if(!empty(old('muscles_used'))) {{old('muscles_used')}} @else {{$data['result']->muscles_used}} @endif</textarea>
                             @error('muscles_used')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -226,9 +198,7 @@
 
                         <div class="form-group @error('equipment_desc') has-danger @enderror">
                             <label>Equipment Description </label>
-                                <textarea class="form-control" placeholder="Enter Equipment Description" name="equipment_desc" id="equipment_desc" rows="3">
-                                    @if(!empty(old('equipment_desc'))) {{old('equipment_desc')}} @else {{$data['result']->equipment_desc}} @endif
-                                </textarea>
+                                <textarea class="form-control col-md-8" placeholder="Enter Equipment Description" name="equipment_desc" id="equipment_desc" rows="5">@if(!empty(old('equipment_desc'))) {{old('equipment_desc')}} @else {{$data['result']->equipment_desc}} @endif</textarea>
                             @error('equipment_desc')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -280,6 +250,11 @@ $(document).ready(function () {
 $('#clear').click(function (e) {
     e.preventDefault();
     clear();
+});
+
+$('#image').change(function (e) {
+    e.preventDefault();
+    $('#fImage').remove();
 });
 
 });
