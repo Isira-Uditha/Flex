@@ -169,11 +169,8 @@ class EquipmentController extends Controller
     public function show($id)
     {
         //
-        $equipment = new Equipment();
         $data['result'] = Equipment::where('equipment_id',$id)->first();
         $data['id'] = $id;
-
-
 
          return view('equipment.view_equipment',compact('data'));
     }

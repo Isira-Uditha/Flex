@@ -17,7 +17,7 @@
 
                 <div class="card-body">
 
-                    <h6 class="card-title mb-1">Equipment Category Report</h6>
+                    <h6 class="card-title mb-1">Equipment Category Count Report</h6>
                         <div class="form-group col-md-12">
                             <a href="{{route('equipment_report_print')}}" type="button" class="btn btn-secondary text-white" style="float: right">Print Report</a>
                         </div>
