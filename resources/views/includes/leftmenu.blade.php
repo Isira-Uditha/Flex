@@ -73,6 +73,7 @@
                 <li class="slide">
                     <a class="side-menu__item text-white" data-toggle="slide" href="#"><i class="fe fe-package"></i>&nbsp;&nbsp;<span class="side-menu__label">Package</span><i class="angle fe fe-chevron-down"></i></a>
                     <ul class="slide-menu">
+                        <li><a class="slide-item" href="{{route('package_view',['action' => 'All'])}}">View Packages</a></li>
                         <li><a class="slide-item" href="{{route('package_index')}}">Active Packages</a></li>
                         <li><a class="slide-item" href="{{route('package_view',['action' => 'Summary'])}}">Summary</a></li>
                     </ul>

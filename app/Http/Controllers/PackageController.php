@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class PackageController extends Controller
 {
@@ -33,6 +34,9 @@ class PackageController extends Controller
             })
             ->addColumn('package_price', function($row) {
                 return $row->package_price;
+            })
+            ->addColumn('discount', function($row) {
+                return $row->discount;
             })
             ->addColumn('action', function ($row) {
                 $delete = '<a data-placement="top" data-toggle="tooltip-primary" title="Delete" data-appid = "'.$row->package_id.'" ><i class="fas fa-trash-alt text-danger  fa-lg delete"></i></a> ';
@@ -62,6 +66,13 @@ class PackageController extends Controller
                 $data['result'] = Package::where('package_id',$id)->first();
                 $data['action'] = 'Edit';
                 return view('package.create', compact('data'));
+                break;
+            case 'All':
+                $package_service = new PackageService();
+                $package_data = $package_service->getAllPackages($request->all());
+                $data['action'] = 'All';
+                $data['packages'] = $package_data;
+                return view('package.view_all', compact('data'));
                 break;
             case 'Summary':
                 $package_service = new PackageService();
@@ -105,6 +116,7 @@ class PackageController extends Controller
                 'package_description' => 'required',
                 'package_price' => 'required|numeric',
                 'package_duration' => 'required',
+                'image' => ['mimes:jpg,bmp,png','required'],
             ];
         } else {
             $rules = [];
@@ -118,6 +130,7 @@ class PackageController extends Controller
                 'package_description.required' => 'This field is required',
                 'package_duration.required' => 'This field is required',
                 'package_price.required' => 'This field is required',
+                'image.required' => 'Image is required',
             ]
         );
 
@@ -127,7 +140,7 @@ class PackageController extends Controller
         } else {
             switch($action){
                 case 'Add':
-                    $res = $this->store($data);
+                    $res = $this->store($request);
                     if($res) {
                         return redirect(route('package_index'))->with('success_message', 'Record created succefully ');
                     } else {
@@ -175,12 +188,14 @@ class PackageController extends Controller
 
     public function store($data)
     {
+        $file_path = Storage::disk('accountsdocs')->putFileAs('PACKAGE', $data->file('image'), $data->image->getClientOriginalName());
         $package = new Package();
 
         $package->package_name = $data['package_name'];
         $package->package_description = $data['package_description'];
         $package->package_price = $data['package_price'];
         $package->package_duration = $data['package_duration'];
+        $package->image_path = $file_path;
 
         return $package->save();
     }
@@ -215,6 +230,7 @@ class PackageController extends Controller
         $package->package_description = $data['package_description'];
         $package->package_duration = $data['package_duration'];
         $package->package_price = $data['package_price'];
+        $package->discount = $data['discount'];
 
         return $package->save();
     }
