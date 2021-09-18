@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use App\Models\Appointment;
 
 
 class DietPlanController extends Controller
@@ -336,14 +337,24 @@ class DietPlanController extends Controller
      */
     public function destroy($id)
     {
-        $dietPlan=DietPlan::find($id);
-        $res =   $dietPlan->delete();
 
-        if($res){
-            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        $app = DB::table('appointment')->where('diet_plan_id',$id)->get();
+        $state = 0;
+
+        if($app->first()){
+            $state  = 2;
         }else{
-            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+            $dietPlan=DietPlan::find($id);
+            $res =   $dietPlan->delete();
+             if($res){
+                $state = 1;
+            }else{
+                $state = 0;
+            }
         }
+
+        return response()->json(['success' => $state, 'success_message' => 'Record deleted succefully'], 200);
+
     }
 
      /**

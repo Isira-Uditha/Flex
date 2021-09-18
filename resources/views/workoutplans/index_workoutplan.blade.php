@@ -263,15 +263,21 @@ $(document).ready(function () {
                             url: url,
                             data: {'_token':'{{csrf_token()}}','id':workoutid},
                             success: function (response) {
-                                if(response.success){
+                                if(response.success == 1){
                                     $('*[data-workoutid="' + workoutid + '"]').closest("tr").remove();
                                     Swal.fire(
                                     'Deleted!',
                                     'Record has been deleted successfully.',
                                     'success'
                                     );
-                                }
+                                } else if(response.success == 2){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'This workout plan is currenty in use',
+                                })
                             }
+                        }
                         });
                     }
                 });

@@ -375,17 +375,23 @@ class WorkoutPlanController extends Controller
      */
     public function destroy($id)
     {
-        //
-        DB::table('workout_plan_exercise')->where('workout_plan_id', '=', $id)->delete();
+        $app = DB::table('appointment')->where('workout_plan_id',$id)->get();
+        $state = 0;
 
-        $workoutPlan=WorkoutPlan::find($id);
-        $res = $workoutPlan->delete();
-
-        if($res){
-            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        if($app->first()){
+            $state  = 2;
         }else{
-            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+            DB::table('workout_plan_exercise')->where('workout_plan_id', '=', $id)->delete();
+            $workoutPlan=WorkoutPlan::find($id);
+            $res = $workoutPlan->delete();
+             if($res){
+                $state = 1;
+            }else{
+                $state = 0;
+            }
         }
+
+        return response()->json(['success' => $state, 'success_message' => 'Record deleted succefully'], 200);
     }
 
     public function getUsage()

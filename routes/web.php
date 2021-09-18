@@ -45,7 +45,7 @@ Route::get('/equipment/index',[EquipmentController::class, 'index'])->name('equi
 Route::get('/test',[test::class, 'index'])->name('test');
 
 Route::get('/workout/workout_exercise', function () {
-    $equipments=Equipment::all();
+    $equipments = Equipment::where('status',"In Use")->get();
     return view('workoutplans.create_exercise')->with('equipments', $equipments);
 })->name('createExercise_view');
 
