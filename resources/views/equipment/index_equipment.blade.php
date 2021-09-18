@@ -275,13 +275,20 @@ $(document).ready(function () {
                         url: url,
                         data: {'id':eqpid,'_token':'{{csrf_token()}}'},
                         success: function (response) {
-                            if(response.success){
+                            if(response.success == 1){
                                 $('*[data-eqpid="' + eqpid + '"]').closest("tr").remove();
                                 Swal.fire(
                                 'Deleted!',
                                 'Record has been deleted successfully.',
                                 'success'
                                 );
+                            }else if(response.success == 2){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'This equipment is currenty in use',
+
+                })
                             }
                         }
                     });

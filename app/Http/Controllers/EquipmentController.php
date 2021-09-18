@@ -151,7 +151,7 @@ class EquipmentController extends Controller
             $eqp = $equipment->save();
 
             if($eqp){
-                return redirect(route('createEquipment'))->with('success_message', 'Equipment Succcessfully Registered');
+                return redirect(route('equipment_index'))->with('success_message', 'Equipment Succcessfully Registered');
             }else{
                 return redirect()->back()->withInput()->withErrors($validatedData->errors())
                 ->with('error_message', 'please check as we’re missing some information.');
@@ -207,7 +207,7 @@ class EquipmentController extends Controller
             'equipment_name' => 'required',
             'registered_date' => 'required',
             'status' => 'required',
-            // 'image' => 'required|mimes:jpg,bmp,png',
+            'image' => 'required|mimes:jpg,bmp,png',
             'muscles_used' => 'required',
             'equipment_desc' => 'required',
         ];
@@ -222,7 +222,7 @@ class EquipmentController extends Controller
                 'equipment_name.required' => 'Equipment Name field is required',
                 'registered_date.required' => 'Equipment Registered Date field is required',
                 'status.required' => 'Equipment Status field is required',
-                // 'image.required' => 'Equipment Image field is required',
+                'image.required' => 'Equipment Image field is required',
                 'muscles_used.required' => 'Mucles used field is required',
                 'equipment_desc.required' => 'Please add an Equipment Description',
             ]
@@ -272,14 +272,32 @@ class EquipmentController extends Controller
     public function destroy($id)
     {
         //
-        $equipment=Equipment::find($id);
-        $res =   $equipment->delete();
+        // $equipment=Equipment::find($id);
+        // $res =   $equipment->delete();
 
-        if($res){
-            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        // if($res){
+        //     return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        // }else{
+        //     return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+        // }
+
+        $app = DB::table('workout_exericse')->where('equip_id',$id)->get();
+        $state = 0;
+
+        if($app->first()){
+            $state  = 2;
         }else{
-            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+            $equipment=Equipment::find($id);
+            $res =   $equipment->delete();
+
+             if($res){
+                $state = 1;
+            }else{
+                $state = 0;
+            }
         }
+
+        return response()->json(['success' => $state, 'success_message' => 'Record deleted succefully'], 200);
     }
 
     public function getUsage()
