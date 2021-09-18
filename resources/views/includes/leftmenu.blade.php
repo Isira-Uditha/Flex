@@ -5,6 +5,9 @@
     }
 </style>
 @endpush
+@php
+    $gender = Auth::user()->gender;
+@endphp
 <!-- main-sidebar -->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar sidebar-scroll">
@@ -22,8 +25,13 @@
         <div class="app-sidebar__user clearfix">
             <div class="dropdown user-pro-body">
                 <div class="">
-                    <img alt="user-img" class="avatar avatar-xl brround" src="{{asset('assets/img/faces/6.jpg')}}"><span
+                    @if ($gender == 'Female')
+                        <img alt="user-img" class="avatar avatar-xl brround" src="{{asset('assets/img/faces/woman.png')}}"><span
+                            class="avatar-status profile-status bg-green"></span>
+                    @else
+                        <img alt="user-img" class="avatar avatar-xl brround" src="{{asset('assets/img/faces/man.png')}}"><span
                         class="avatar-status profile-status bg-green"></span>
+                    @endif
                 </div>
                 <div class="user-info">
                     <h4 class="font-weight-semibold mt-3 mb-0">{{ Auth::user()-> first_name }}</h4>
