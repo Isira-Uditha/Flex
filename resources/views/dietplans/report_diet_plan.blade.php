@@ -110,7 +110,7 @@
 
             <table style="width:100%"><!-- 3 -->
                 <tr style="width:600px">
-                    {{-- <td style="background-color:#A6A6A6;width:100%; color:#FFF; padding-left:15px; padding-bottom:7px; padding-top:7px; font-weight:bold">@if($date['from'] != '') Appointments &nbsp;  From {{' : '.$date['from']}} &nbsp; To {{ ' : '.$date['to']}} @else All Appointments @endif</td> --}}
+
                 </tr>
             </table>
         </header>
@@ -133,7 +133,6 @@
                             <td scope="col" >{{$res->created_at}}</td>
                             <td scope="col">{{$res->diet_plan_name}}</td>
                             <td scope="col">{{$res->user_count}}</td>
-                            {{-- <td scope="col">{{$res->bmi_category}}</td> --}}
                             @if($res->bmi_category == 'Normal weight')
                                 <td scope="col" style="text-align: center; color: green">{{$res->bmi_category}}</td>
                             @elseif ($res->bmi_category == 'Obesity')

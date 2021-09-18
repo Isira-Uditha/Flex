@@ -52,10 +52,7 @@
 
                             <div class="form-group @error('exercise_description') has-danger @enderror">
                                 <label>Description</label>
-                                <textarea class="form-control" placeholder="Enter a brief Description" rows="5"
-                                    name="exercise_description">
-                                    @if(!empty(old('exercise_description'))) {{old('exercise_description')}} @elseif(isset($data['result'])) {{$data['result']->exercise_description}} @else  @endif
-                                    </textarea>
+                                <textarea class="form-control" placeholder="Enter a brief Description" rows="5" name="exercise_description">@if(!empty(old('exercise_description'))) {{old('exercise_description')}} @elseif(isset($data['result'])) {{$data['result']->exercise_description}}@else @endif</textarea>
                                 @error('exercise_description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

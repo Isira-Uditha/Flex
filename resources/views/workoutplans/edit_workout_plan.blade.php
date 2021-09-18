@@ -27,9 +27,9 @@
                                     <label>Plan Name</label>
                                     <input class="form-control" placeholder="Enter a Name" type="text"
                                     name="workout_plan_name_pld"  value="{{$data['result']->workout_plan_name}}"  hidden>
-                                    <input class="form-control" placeholder="Enter a Name" type="text"
-                                        name="workout_plan_name"  value="{{$data['result']->workout_plan_name}}">
-                                    @error('workout_plan_name')
+                                        <input class="form-control" name="workout_plan_name" id="workout_plan_name" placeholder="Enter a Name"  type="text"
+                                        @if(!empty(old('workout_plan_name'))) value="{{old('equiworkout_plan_namepment_name')}}" @else value="{{$data['result']->workout_plan_name}}" @endif>
+                                        @error('workout_plan_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -150,10 +150,7 @@
                                 </div>
                                 <div class="form-group @error('workout_plan_description') has-danger @enderror">
                                     <label>Description</label>
-                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3">
-                                             {{$data['result']->workout_desc}}
-                                    </textarea>
-
+                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3">@if(!empty(old('workout_plan_description'))) {{old('workout_plan_description')}} @else {{$data['result']->workout_desc}} @endif</textarea>
                                     @error('workout_plan_description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
