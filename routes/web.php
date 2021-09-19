@@ -59,7 +59,6 @@ Route::get('/diet_plan/create', function () {
 })->name('create_dietPlan_view');
 
 
-
 Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class, 'store'])->name('createExercise');
 
 Route::post('/workout/workout_plan/create',[WorkoutPlanController::class, 'store'])->name('create_workout_plan');
@@ -96,8 +95,16 @@ Route::get('/diet_plan/report/view',[DietPlanController::class, 'viewReport'])->
 
 Route::get('/diet_plan/report/print',[DietPlanController::class, 'printReport'])->name('diet_plan_report_print');
 
+Route::get('/main', function () {
+    if(Auth::user()->role == 'Member'){
+        return redirect('/dashboard');
+    } else {
+        return redirect('/package/index');
+    }
+});
 
 //Package Routes
+// Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
 Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
 Route::post('/package/create/{action}/{id?}', [PackageController::class, 'create'])->name('package_create');
 Route::get('/package/view/{action}/{id?}', [PackageController::class, 'view'])->name('package_view');
@@ -114,6 +121,8 @@ Route::get('/appointment/view/{action}/{id?}',[AppointmentController::class, 'vi
 Route::get('/appointment/getSugestedSchedules',[AppointmentController::class, 'getSugestedSchedules'])->name('getSugestedSchedules');
 
 Route::get('/appointment/checkAppointmentStatus',[AppointmentController::class, 'checkAppointmentStatus'])->name('checkAppointmentStatus');
+
+Route::get('/appointment/checkupdateAppointmentStatus',[AppointmentController::class, 'checkupdateAppointmentStatus'])->name('checkupdateAppointmentStatus');
 
 Route::post('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
 

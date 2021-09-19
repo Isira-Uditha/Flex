@@ -18,6 +18,7 @@ class Package extends Model
         'package_price',
         'discount',
         'package_duration',
+        'image_path',
         'created_at',
         'updated_at',
     ];

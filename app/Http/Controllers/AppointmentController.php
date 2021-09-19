@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\AssignOp\Concat;
+use Auth;
 
 class AppointmentController extends Controller
 {
@@ -88,16 +89,16 @@ class AppointmentController extends Controller
             case 'Add':
 
                 $data['workouts'] = $app_service->getAllWorkouts();
-                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
-                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', Auth::user()->uid)->first();
+                $data['userID'] = User::select('uid')->where('uid', Auth::user()->uid)->first();
                 $data['action'] = 'Add';
                 return view('appointment.create',compact('data'));
                  break;
             case 'Edit':
 
                 $data['workouts'] = $app_service->getAllWorkouts();
-                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
-                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', Auth::user()->uid)->first();
+                $data['userID'] = User::select('uid')->where('uid', Auth::user()->uid)->first();
                 $data['result'] = Appointment::where('appointment_id',$id)->first();
                 $data['action'] = 'Edit';
                 $data['id'] = $id;
@@ -105,8 +106,8 @@ class AppointmentController extends Controller
                 break;
             case 'View':
                 $data['workouts'] = $app_service->getAllWorkouts();
-                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', 1)->first();
-                $data['userID'] = User::select('uid')->where('uid', 1)->first();
+                $data['userName'] = User::select(DB::raw("CONCAT(first_name,' ',last_name) As userName"))->where('uid', Auth::user()->uid)->first();
+                $data['userID'] = User::select('uid')->where('uid', Auth::user()->uid)->first();
                 $data['result'] = Appointment::where('appointment_id',$id)->first();
                 $data['action'] = 'View';
                 $data['id'] = $id;
@@ -244,7 +245,7 @@ class AppointmentController extends Controller
                     break;
                 case 'Print':
                     $data = $app_service->getAppointments($request->all());
-                    $user = User::where('uid',1)->first();
+                    $user = User::where('uid',Auth::user()->uid)->first();
 
                     if(!isset($request->sts_date)){
                         $date['from'] = $request->from;
@@ -378,8 +379,25 @@ class AppointmentController extends Controller
         return response()->json(['data' => $res,'availablity' => $availablity,'number' => $number],200);
     }
 
+    public function checkupdateAppointmentStatus(Request $request){
+        $res = Appointment::where('appointment_date',Carbon::createFromFormat('m/d/Y',$request->appointment_date)->format('Y-m-d'))
+        ->where('time_slot',$request->time_slot)
+        ->get();
+
+        $count = $res->count();
+        if($count < 8){
+            $availablity = true;
+            $number = $count;
+        }else{
+            $availablity = false;
+            $number = '';
+        }
+        return response()->json(['data' => $res,'availablity' => $availablity,'number' => $number],200);
+    }
+
+
     public function updateUserDetails($data){
-        $user = User::where('uid', 1)->first();
+        $user = User::where('uid', Auth::user()->uid)->first();
 
         $user->height = $data['current_height'];
         $user->weight = $data['current_weight'];
@@ -388,7 +406,7 @@ class AppointmentController extends Controller
     }
 
     public function checkPaymentStatus(Request $request){
-        $user = User::where('uid', 1)->first();
+        $user = User::where('uid', Auth::user()->uid)->first();
         $res = Payment::where('uid',$user->uid)
         ->whereYear('payment_date',Carbon::now()->year)
         ->whereMonth('payment_date',Carbon::now()->month)
