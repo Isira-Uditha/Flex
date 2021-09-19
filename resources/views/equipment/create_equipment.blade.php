@@ -13,10 +13,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card h-100">
-            {{-- <div class="card-body"> --}}
-                {{-- <div> --}}
-                    {{-- <h6 class="card-title mb-1">Register Equipment</h6> --}}
-
                     <form action="{{route('createEquipment')}}" method="POST" class="login-form" enctype="multipart/form-data" id="create_equipment">
                         @csrf
                         <div class="card-body">
@@ -206,8 +202,6 @@
                         </div>
 
                     </form>
-                {{-- </div>
-            </div> --}}
         </div>
     </div>
 </div>

@@ -30,10 +30,6 @@ Route::get('/equipment/create', function () {
     return view('equipment.create_equipment');
 })->name('equipment_create_view');
 
-// Route::get('/equipment/view', function () {
-//     return view('equipment.view_equipment');
-// })->name('equipment_view');
-
 Route::post('/equipment/create',[EquipmentController::class, 'store'])->name('createEquipment');
 
 Route::get('/equipment/index',[EquipmentController::class, 'index'])->name('equipment_index');

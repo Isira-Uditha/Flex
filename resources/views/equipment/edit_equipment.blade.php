@@ -17,10 +17,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card h-100">
-            {{-- <div class="card-body"> --}}
-                {{-- <div> --}}
-                    {{-- <h6 class="card-title mb-1">Register Equipment</h6> --}}
-
                     <form action="{{route('equipment_update',['id' => $id])}}" method="POST" class="login-form" enctype="multipart/form-data" id="edit_equipment">
                         @csrf
                         <div class="card-body">
@@ -207,7 +203,6 @@
                         </div>
 
                         <div class="form-group">
-                            {{-- <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Register</button> --}}
                             <label>&nbsp;</label>
                         </div>
                         </div>
@@ -217,7 +212,6 @@
 
                                 <div class="col-md-6 text-left">
                                     <div class="form-group col-md-12">
-                                        {{-- <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i> --}}
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right">
@@ -226,14 +220,9 @@
                                         <button type="reset" id="clear" class="btn btn-secondary text-white">Clear</button>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </form>
-                {{-- </div>
-            </div> --}}
         </div>
     </div>
 </div>

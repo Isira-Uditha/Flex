@@ -99,9 +99,6 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-        // $sss = Storage::disk('accountsdocs')->download($file_path);
-
-        // dd($request-> all());
         $rules = [
             'equipment_code' => 'required|min:5',
             'category' => 'required',
@@ -207,7 +204,7 @@ class EquipmentController extends Controller
             'equipment_name' => 'required',
             'registered_date' => 'required',
             'status' => 'required',
-            'image' => 'required|mimes:jpg,bmp,png',
+            'image' => 'mimes:jpg,bmp,png',
             'muscles_used' => 'required',
             'equipment_desc' => 'required',
         ];
@@ -222,7 +219,7 @@ class EquipmentController extends Controller
                 'equipment_name.required' => 'Equipment Name field is required',
                 'registered_date.required' => 'Equipment Registered Date field is required',
                 'status.required' => 'Equipment Status field is required',
-                'image.required' => 'Equipment Image field is required',
+                'image.required' => 'File should be in jpg, bmp or png format',
                 'muscles_used.required' => 'Mucles used field is required',
                 'equipment_desc.required' => 'Please add an Equipment Description',
             ]
@@ -244,13 +241,13 @@ class EquipmentController extends Controller
             $equipment->equipment_desc=$request->equipment_desc;
             if ($request->hasfile('image')){
                 if(!Storage::disk('accountsdocs')->exists('EQUIPMENT/'.$request->file('image')->getClientOriginalName())){
-                    // Storage::disk('accountsdocs')->delete($request->fImage);
                     $file_path = Storage::disk('accountsdocs')->putFileAs('EQUIPMENT', $request->file('image'), $request->image->getClientOriginalName());
                 }else{
                     $file_path = 'EQUIPMENT/'.$request->file('image')->getClientOriginalName();
                 }
+                $equipment->image = $file_path;
             }
-            $equipment->image = $file_path;
+            // $equipment->image = $file_path;
 
             $eqp = $equipment->save();
 
@@ -271,16 +268,6 @@ class EquipmentController extends Controller
      */
     public function destroy($id)
     {
-        //
-        // $equipment=Equipment::find($id);
-        // $res =   $equipment->delete();
-
-        // if($res){
-        //     return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
-        // }else{
-        //     return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
-        // }
-
         $app = DB::table('workout_exericse')->where('equip_id',$id)->get();
         $state = 0;
 
@@ -323,9 +310,6 @@ class EquipmentController extends Controller
             ->addColumn('equipment_count', function ($row) {
                 return $row->equipment_count;
             })
-
-            // ->rawColumns(['category'])
-
             ->make(true);
         }
         return view('equipment.view_report_equipment');
