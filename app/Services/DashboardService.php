@@ -5,13 +5,14 @@ use App\Models\Appointment;
 use App\Models\Payment;
 use App\Models\User;
 use Carbon\Carbon;
+use Auth;
 
 class DashboardService
 {
     public function getAppointmentCount(){
 
         $res = Appointment::select('appointment_id')
-        ->where('uid',1)
+        ->where('uid',Auth::user()->uid)
         ->whereMonth('appointment_date',Carbon::now()->month -1)
         ->whereYear('appointment_date',Carbon::now()->year)
         ->orderBy('appointment_id','DESC')
@@ -21,7 +22,7 @@ class DashboardService
     }
 
     public function getCurrentBMI(){
-        $res = User::where('uid',1)->first();
+        $res = User::where('uid',Auth::user()->uid)->first();
 
         $height = $res->height;
         $weight = $res->weight;
@@ -51,7 +52,7 @@ class DashboardService
     }
 
     public function checkPaymentStatus(){
-        $user = User::where('uid', 1)->first();
+        $user = User::where('uid', Auth::user()->uid)->first();
         $res = Payment::where('uid',$user->uid)
         ->whereYear('payment_date',Carbon::now()->year)
         ->whereMonth('payment_date',Carbon::now()->month)

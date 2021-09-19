@@ -2,12 +2,13 @@
 namespace App\Services;
 
 use App\Models\Appointment;
-use App\Models\Packages;
+use App\Models\Package;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\WorkoutPlan;
 use Illuminate\Support\Carbon;
 use DB;
+use Auth;
 
 class PaymentService
 {
@@ -25,7 +26,7 @@ class PaymentService
         ->when(isset($data['payment_month']) && $data['payment_month'] != '', function($q) use($data) {
             return $q->whereMonth('payment.payment_date', $data['payment_month']);
         })
-        // ->where('uid','')
+        ->where('payment.uid',Auth::user()->uid)
         ->orderBy('payment_id','DESC')
         ->get();
 
@@ -33,13 +34,13 @@ class PaymentService
     }
 
     public function getAllPackages(){
-        $res = Packages::get();
+        $res = Package::get();
         return $res;
     }
 
     public function getSelectedPackages($uid){
         $res = User::select('package_id')
-        ->where('uid',1)
+        ->where('uid',$uid)
         ->first();
 
         return $res;
