@@ -275,6 +275,11 @@ $(document).ready(function () {
                                 icon: 'warning',
                                 title: 'Delete Fail',
                                 text: 'This workout plan is currenty in use',
+                                }) }else if(response.success == 0){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'Something Went Wrong',
                                 })
                             }
                         }
