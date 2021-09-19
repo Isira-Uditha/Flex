@@ -100,9 +100,10 @@
                         <tr>
                             <th scope="col">Package ID</th>
                             <th scope="col">Package Name</th>
-                            <th scope="col">Package Description</th>
+                            <th scope="col" width="30%">Package Description</th>
                             <th scope="col">Package Duration</th>
                             <th scope="col">Package Price</th>
+                            <th scope="col">Discount</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -161,6 +162,10 @@ $(document).ready(function () {
                 {
                     data: 'package_price',
                     name: 'package_price'
+                },
+                {
+                    data: 'discount',
+                    name: 'discount'
                 },
                 {
                     data: 'action',

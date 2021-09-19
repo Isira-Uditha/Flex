@@ -229,12 +229,28 @@
 
 @push('scripts')
 <script>
-     $('#clear').click(function (e) {
-        e.preventDefault();
-        $('#first_name, #last_name, #address, #email, #height, #weight, #dob').val("");
-        $('.select2').val('');
-        $('.select2').trigger('change');
+    $(document).ready(function () {
         $('.select2').css('width','100%');
+    });
+
+    $('#clear').click(function (e) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will clear all the details you inserted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, clear it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                e.preventDefault();
+                $('#first_name, #last_name, #address, #email, #height, #weight, #dob').val("");
+                $('.select2').val('');
+                $('.select2').trigger('change');
+                $('.select2').css('width','100%');
+            }
+        });
     });
 </script>
 @endpush
