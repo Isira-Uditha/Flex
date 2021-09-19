@@ -229,7 +229,11 @@
 
 @push('scripts')
 <script>
-     $('#clear').click(function (e) {
+    $(document).ready(function () {
+        $('.select2').css('width','100%');
+    });
+
+    $('#clear').click(function (e) {
         e.preventDefault();
         $('#first_name, #last_name, #address, #email, #height, #weight, #dob').val("");
         $('.select2').val('');

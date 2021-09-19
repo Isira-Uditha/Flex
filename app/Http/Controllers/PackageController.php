@@ -110,13 +110,21 @@ class PackageController extends Controller
         $data = $request->all();
         $package_service = new PackageService();
 
-        if($action == 'Add' || $action == 'Edit') {
+        if($action == 'Add') {
             $rules  = [
                 'package_name' => 'required',
                 'package_description' => 'required',
                 'package_price' => 'required|numeric',
                 'package_duration' => 'required',
                 'image' => ['mimes:jpg,bmp,png','required'],
+            ];
+        } else if($action == 'Edit') {
+            $rules = [
+                'package_name' => 'required',
+                'package_description' => 'required',
+                'package_price' => 'required|numeric',
+                'package_duration' => 'required',
+                'image' => ['mimes:jpg,bmp,png'],
             ];
         } else {
             $rules = [];
@@ -149,7 +157,7 @@ class PackageController extends Controller
                     }
                     break;
                 case 'Edit':
-                    $res = $this->update($data, $id);
+                    $res = $this->update($request, $id);
                     if($res) {
                         return redirect()->back()->with('success_message', 'Record updated successfully ');
                     } else {
@@ -225,6 +233,16 @@ class PackageController extends Controller
     public function update($data, $id)
     {
         $package = Package::where('package_id', $id)->first();
+
+        if ($data->hasfile('image')){
+            if(!Storage::disk('accountsdocs')->exists('EQUIPMENT/'.$data->file('image')->getClientOriginalName())){
+                // Storage::disk('accountsdocs')->delete($request->fImage);
+                $file_path = Storage::disk('accountsdocs')->putFileAs('EQUIPMENT', $data->file('image'), $data->image->getClientOriginalName());
+            }else{
+                $file_path = 'PACKAGE/'.$data->file('image')->getClientOriginalName();
+            }
+            $package->image_path = $file_path;
+        }
 
         $package->package_name = $data['package_name'];
         $package->package_description = $data['package_description'];
