@@ -25,8 +25,6 @@
                             <div class="col-6">
                                 <div class="form-group @error('equipment_code') has-danger @enderror">
                                     <label class="form-label">Equipment Code: </label>
-                                    <input class="form-control" name="equipment_code" id="equipment_code" placeholder="Input Equipment Code"  type="text"
-                                     value="{{$data['result']->equipment_code}}" hidden>
                                      <input class="form-control" name="equipment_code" id="equipment_code" placeholder="Input Equipment Code"  type="text"
                                      @if(!empty(old('equipment_code'))) value="{{old('equipment_code')}}" @else value="{{$data['result']->equipment_code}}" @endif>
                                     @error('equipment_code')
@@ -83,8 +81,6 @@
                                 <div class="form-group @error('equipment_price') has-danger @enderror">
                                     <label class="form-label">Price(Rs.): </label>
                                     <input class="form-control" name="equipment_price" id="equipment_price" placeholder="Input Price"  type="text"
-                                    value="{{$data['result']->equipment_price}}" hidden>
-                                    <input class="form-control" name="equipment_price" id="equipment_price" placeholder="Input Price"  type="text"
                                     @if(!empty(old('equipment_price'))) value="{{old('equipment_price')}}" @else value="{{$data['result']->equipment_price}}" @endif>
                                     @error('equipment_price')
                                     <span class="invalid-feedback" role="alert">
@@ -97,8 +93,6 @@
                             <div class="col-6">
                                 <div class="form-group @error('equipment_name') has-danger @enderror">
                                     <label class="form-label">Equipment Name: </label>
-                                    <input class="form-control" name="equipment_name" id="equipment_name" placeholder="Input Equipment Name"  type="text"
-                                    value="{{$data['result']->equipment_name}}" hidden>
                                     <input class="form-control" name="equipment_name" id="equipment_name" placeholder="Input Equipment Name"  type="text"
                                     @if(!empty(old('equipment_name'))) value="{{old('equipment_name')}}" @else value="{{$data['result']->equipment_name}}" @endif>
                                     @error('equipment_name')
@@ -116,12 +110,10 @@
                                             <div class="input-group-text">
                                                 <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                             </div>
-                                        </div><input class="form-control fc-datepicker" name="registered_date" id="registered_date" placeholder="MM/DD/YYYY" type="text"
-                                        value="{{$data['result']->registered_date}}" hidden>
-                                        <input class="form-control fc-datepicker" name="registered_date" id="registered_date" placeholder="MM/DD/YYYY" type="text"
-                                        @if(!empty(old('registered_date'))) value="{{old('registered_date')}}" @else value="{{$data['result']->registered_date}}" @endif>
-                                        <input class="form-control fc-datepicker" name="registered_date" id="registered_date" placeholder="MM/DD/YYYY" type="text"
-                                        @if(!empty(old('registered_date'))) value="{{old('registered_date')}}" @else value="{{$data['result']->registered_date}}" @endif>
+                                        </div>
+                                        {{-- <input class="form-control fc-datepicker" name="registered_date" id="registered_date" placeholder="MM/DD/YYYY" type="text"
+                                        @if(!empty(old('registered_date'))) value="{{old('registered_date')}}" @else value="{{$data['result']->registered_date}}" @endif> --}}
+                                        <input class="form-control fc-datepicker" @if(!empty(old('registered_date'))) value="{{old('registered_date')}}" @elseif(isset($data['result'])) value="{{date("m/d/Y", strtotime($data['result']->registered_date))}}" @else value="{{date('m/d/Y')}}" @endif  name="registered_date" type="text" id="registered_date">
                                         @error('registered_date')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

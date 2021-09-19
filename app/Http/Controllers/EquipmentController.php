@@ -235,7 +235,7 @@ class EquipmentController extends Controller
             $equipment->category=$request->category;
             $equipment->equipment_price=$request->equipment_price;
             $equipment->equipment_name=$request->equipment_name;
-            $equipment->registered_date=$request->registered_date;
+            $equipment->registered_date= Carbon::createFromFormat('m/d/Y',$request->registered_date)->format('Y-m-d');
             $equipment->status=$request->status;
             $equipment->muscles_used=$request->muscles_used;
             $equipment->equipment_desc=$request->equipment_desc;
