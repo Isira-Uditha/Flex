@@ -142,7 +142,6 @@
 
                         <div class="form-group @error('image') has-danger @enderror">
                             <label for="image">Equipment Image <span class="tx-danger">*</span></label>
-                            {{-- <input type="file" class="form-control" name="image" id="image"> --}}
                             <div class="col-md-8">
                                 <input type="file" name="image" id="image" data-allowed-file-extensions="jpg png"  class="dropify form-control" data-height="200" />
                             </div>
@@ -177,7 +176,6 @@
                         </div>
 
                         <div class="form-group">
-                            {{-- <button type="submit" id="submit" class="btn btn-primary mt-3 mb-0">Register</button> --}}
                             <label>&nbsp;</label>
                         </div>
                         </div>
@@ -187,7 +185,6 @@
 
                                 <div class="col-md-6 text-left">
                                     <div class="form-group col-md-12">
-                                        {{-- <button type="button" id="search" class="btn btn-primary" data-placement="top" data-toggle="tooltip-primary" title="Appointment date and Time slot are required.">Cehck Availability</button>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-question-circle fa-lg" data-placement="top" data-toggle="tooltip-primary" title="Please select an appointment date and time slot to check the availability."></i> --}}
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right">
