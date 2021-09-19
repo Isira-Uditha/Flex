@@ -7,6 +7,10 @@ use App\Models\DietPlan;
 use App\Services\DietPlanService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use App\Models\Appointment;
+
 
 class DietPlanController extends Controller
 {
@@ -168,10 +172,6 @@ class DietPlanController extends Controller
             }
 
             $res_plan = $diet_plan->save();
-
-
-
-
 
 
         if($res_plan){
@@ -337,14 +337,24 @@ class DietPlanController extends Controller
      */
     public function destroy($id)
     {
-        $dietPlan=DietPlan::find($id);
-        $res =   $dietPlan->delete();
 
-        if($res){
-            return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
+        $app = DB::table('appointment')->where('diet_plan_id',$id)->get();
+        $state = 0;
+
+        if($app->first()){
+            $state  = 2;
         }else{
-            return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
+            $dietPlan=DietPlan::find($id);
+            $res =   $dietPlan->delete();
+             if($res){
+                $state = 1;
+            }else{
+                $state = 0;
+            }
         }
+
+        return response()->json(['success' => $state, 'success_message' => 'Record deleted succefully'], 200);
+
     }
 
      /**
@@ -379,5 +389,70 @@ class DietPlanController extends Controller
          return view('dietplans.view_diet_plan',compact('data'));
     }
 
+    public function getUsage()
+    {
+        //
+        $usage = DB::table('diet_plan')
+                ->selectRaw('diet_plan.diet_plan_id as diet_plan_id, diet_plan.created_at as created_at,diet_plan.diet_plan_name as diet_plan_name, count(appointment.uid) as user_count, diet_plan.bmi_category as bmi_category ')
+                ->leftJoin('appointment', 'diet_plan.diet_plan_id', '=', 'appointment.diet_plan_id')
+                ->groupBy('diet_plan.diet_plan_id')
+                ->get();
+
+        return    $usage ;
+
+    }
+
+    public function viewReport(Request $request){
+        $res = $this->getUsage();
+
+        if ($request->ajax()) {
+            return datatables()->of( $res)
+            ->addColumn('diet_id', function ($row) {
+                return $row->diet_plan_id;
+            })
+            ->addColumn('created_date', function ($row) {
+                $date =  Carbon::createFromFormat('Y-m-d H:i:s',$row->created_at)->format('m/d/Y');
+                return $date;
+            })
+            ->addColumn('diet_plan_name', function ($row) {
+                return $row->diet_plan_name;
+            })
+            ->addColumn('user_count', function ($row) {
+                return $row->user_count;
+            })
+
+            ->addColumn('bmi_category', function ($row) {
+                $bmi_category = '';
+
+                if($row->bmi_category == 'Underweight'){
+                    $bmi_category = '<span class="tag tag-red">Underweight</span>';
+                }else if($row->bmi_category== 'Normal weight'){
+                    $bmi_category = '<span class="tag tag-green">Normal weight</span>';
+                }else if($row->bmi_category == 'Overweight'){
+                    $bmi_category = '<span class="tag tag-yellow">Overweight</span>';
+                }else{
+                    $bmi_category = '<span class="tag tag-red tx-12">Obesity</span>';
+                }
+
+                return $bmi_category;
+            })
+            ->rawColumns(['bmi_category'])
+
+            ->make(true);
+        }
+        return view('dietplans.view_report_diet_plan');
+
+    }
+
+    public function printReport()
+    {
+        //
+        $data = $this->getUsage();
+         $name = 'Diet Plans Usage Report to '. date('Y-m-d') .'.pdf';
+         $pdf = App::make('dompdf.wrapper');
+         $pdf->loadView('dietplans.report_diet_plan',['data'=> $data]);
+         return $pdf->stream($name);
+
+    }
 
 }

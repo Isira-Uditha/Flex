@@ -99,7 +99,6 @@
                                     @foreach($exercises as $exercise)
 										<div class="col-lg-3">
                                             <li>{{$exercise[0]->exercise_name}} </li>
-											{{-- <input type="text" value="{{$exercise[0]->exercise_name}}" name="workout_plan_exercises[]"><span>{{$exercise[0]->exercise_name}}</span> --}}
 										</div>
 
                                     @endforeach
@@ -110,10 +109,7 @@
                                 </div>
                                 <div class="form-group @error('workout_plan_description') has-danger @enderror">
                                     <label>Description</label>
-                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3" readonly>
-                                             {{$data['result']->workout_desc}}
-                                    </textarea>
-
+                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="workout_plan_description" id="workout_plan_description" rows="3" readonly>{{$data['result']->workout_desc}}</textarea>
                                     @error('workout_plan_description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -135,8 +131,6 @@
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="form-group col-md-12">
-                                    <button  type="submit" id="save" class="btn btn-success">Print</button>
-                                    {{-- <button type="button" id="clear" class="btn btn-secondary text-white" >Clear</button> --}}
                                 </div>
                             </div>
 

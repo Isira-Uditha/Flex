@@ -133,6 +133,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('workout_plan_report_view')}}" type="button" class="btn btn-secondary text-white">Print Report</a>
                                 <a href="{{route('create_workoutPlan_view')}}" type="button" id="add" class="btn btn-success">Add Workout Plan</a>
                             </div>
                         </div>
@@ -262,15 +263,21 @@ $(document).ready(function () {
                             url: url,
                             data: {'_token':'{{csrf_token()}}','id':workoutid},
                             success: function (response) {
-                                if(response.success){
+                                if(response.success == 1){
                                     $('*[data-workoutid="' + workoutid + '"]').closest("tr").remove();
                                     Swal.fire(
                                     'Deleted!',
                                     'Record has been deleted successfully.',
                                     'success'
                                     );
-                                }
+                                } else if(response.success == 2){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'This workout plan is currenty in use',
+                                })
                             }
+                        }
                         });
                     }
                 });
