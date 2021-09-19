@@ -421,7 +421,7 @@ function checkAppointmentStatus(){
 function checkUpdateAppointmentStatus(){
     $.ajax({
             type: "GET",
-            url: "{{route('checkAppointmentStatus')}}",
+            url: "{{route('checkupdateAppointmentStatus')}}",
             data: $('#form_id').serializeArray(),
             success: function (response) {
                 if(response.availablity == true){

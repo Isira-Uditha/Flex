@@ -379,6 +379,23 @@ class AppointmentController extends Controller
         return response()->json(['data' => $res,'availablity' => $availablity,'number' => $number],200);
     }
 
+    public function checkupdateAppointmentStatus(Request $request){
+        $res = Appointment::where('appointment_date',Carbon::createFromFormat('m/d/Y',$request->appointment_date)->format('Y-m-d'))
+        ->where('time_slot',$request->time_slot)
+        ->get();
+
+        $count = $res->count();
+        if($count < 8){
+            $availablity = true;
+            $number = $count;
+        }else{
+            $availablity = false;
+            $number = '';
+        }
+        return response()->json(['data' => $res,'availablity' => $availablity,'number' => $number],200);
+    }
+
+
     public function updateUserDetails($data){
         $user = User::where('uid', Auth::user()->uid)->first();
 
