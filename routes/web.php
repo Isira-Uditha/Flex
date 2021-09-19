@@ -82,7 +82,16 @@ Route::get('/diet_plan/edit/{id?}',[DietPlanController::class, 'edit'])->name('d
 
 Route::post('/diet_plan/update/{id?}',[DietPlanController::class, 'update'])->name('diet_plan_update');
 
+Route::get('/main', function () {
+    if(Auth::user()->role == 'Member'){
+        return redirect('/dashboard');
+    } else {
+        return redirect('/package/index');
+    }
+});
+
 //Package Routes
+// Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
 Route::get('/package/index',[PackageController::class, 'index'])->name('package_index');
 Route::post('/package/create/{action}/{id?}', [PackageController::class, 'create'])->name('package_create');
 Route::get('/package/view/{action}/{id?}', [PackageController::class, 'view'])->name('package_view');
