@@ -27,7 +27,7 @@
                                 <div id="fImage">
                                     <img src="{{$path}}"  class="bd mb-2" name="fImage">
                                     @if ($package->discount > 0)
-                                    <div class="tags">
+                                    <div class="tags pl-2">
                                         <span class="tag tag-red">* Discount : LKR.{{$package->discount}}.00</span>
                                     </div>
                                     @endif
