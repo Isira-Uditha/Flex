@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Packages;
+use App\Models\Package;
 use App\Models\Payment;
 use App\Models\User;
 use App\Services\PaymentService;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
+use Auth;
 
 class PaymentController extends Controller
 {
@@ -62,21 +63,21 @@ class PaymentController extends Controller
             case 'Add':
                 $data['action'] = 'Add';
                 $data['packages'] = $payment_service->getAllPackages();
-                $data['package_id'] = $payment_service->getSelectedPackages(1)->package_id;
-                $data['user'] = User::where('uid',1)->first();
+                $data['package_id'] = $payment_service->getSelectedPackages(Auth::user()->uid)->package_id;
+                $data['user'] = User::where('uid',Auth::user()->uid)->first();
                 return view('payment.create',compact('data'));
 
                 break;
             case 'View':
-                $data['user'] = User::where('uid',1)->first();
+                $data['user'] = User::where('uid',Auth::user()->uid)->first();
                 $data['payment'] = Payment::where('payment_id',$id)->first();
-                $data['package'] = Packages::where('package_id',$data['payment']->package_id)->first();
+                $data['package'] = Package::where('package_id',$data['payment']->package_id)->first();
                 return view('payment.view_payment',compact('data'));
                 break;
             case 'Print':
-                $data['user'] = User::where('uid',1)->first();
+                $data['user'] = User::where('uid',Auth::user()->uid)->first();
                 $data['payment'] = Payment::where('payment_id',$id)->first();
-                $data['package'] = Packages::where('package_id',$data['payment']->package_id)->first();
+                $data['package'] = Package::where('package_id',$data['payment']->package_id)->first();
 
                 $pdf = App::make('dompdf.wrapper');
                 $pdf->loadView('payment.report',['id' => $id, 'data'=> $data]);
@@ -215,7 +216,7 @@ class PaymentController extends Controller
     public function getPackagePrice(Request $request){
         $package_id = $request->package_id;
 
-        $res = Packages::select('package_price')
+        $res = Package::select('package_price')
         ->where('package_id',$package_id)
         ->first();
 
@@ -226,7 +227,7 @@ class PaymentController extends Controller
     public function sendEmail($data){
         $email['to'] = $data['email'];
         $email['subject'] = 'Payment summary due date - '.$data['date'];
-        $data['user'] = User::where('uid',1)->first();
+        $data['user'] = User::where('uid',Auth::user()->uid)->first();
         Mail::send('payment.payment_email',compact('data'), function($message) use ($email) {
             $message->to($email['to'])
                     ->subject($email['subject']);

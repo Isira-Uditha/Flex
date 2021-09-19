@@ -109,6 +109,8 @@ Route::get('/appointment/getSugestedSchedules',[AppointmentController::class, 'g
 
 Route::get('/appointment/checkAppointmentStatus',[AppointmentController::class, 'checkAppointmentStatus'])->name('checkAppointmentStatus');
 
+Route::get('/appointment/checkupdateAppointmentStatus',[AppointmentController::class, 'checkupdateAppointmentStatus'])->name('checkupdateAppointmentStatus');
+
 Route::post('/appointment/create/{action}/{id?}',[AppointmentController::class, 'create'])->name('appointment_create');
 
 Route::get('/appointment/checkPaymentStatus',[AppointmentController::class, 'checkPaymentStatus'])->name('checkPaymentStatus');
