@@ -163,15 +163,27 @@
     $(document).ready(function () {
         $('.select2').css('width','100%');
     });
-    $('#clear').click(function (e) {
-        e.preventDefault();
-        $('#package_name, #package_description, #package_price').val("");
-        $('.select2').val('');
-        $('.select2').trigger('change');
-        $('.select2').css('width','100%');
-        $(".dropify-clear").trigger('click');
-    });
 
+    $('#clear').click(function (e) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will clear all the details you inserted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, clear it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                e.preventDefault();
+                $('#package_name, #package_description, #package_price').val("");
+                $('.select2').val('');
+                $('.select2').trigger('change');
+                $('.select2').css('width','100%');
+                $(".dropify-clear").trigger('click');
+            }
+        });
+    });
 </script>
 @endpush
 
