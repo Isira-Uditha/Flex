@@ -42,6 +42,18 @@ Route::post('/equipment/create',[EquipmentController::class, 'store'])->name('cr
 
 Route::get('/equipment/index',[EquipmentController::class, 'index'])->name('equipment_index');
 
+Route::post('/equipment/delete/{id}',[EquipmentController::class, 'destroy'])->name('equipment_delete');
+
+Route::get('/equipment/view/{id?}',[EquipmentController::class, 'show'])->name('equipment_view');
+
+Route::get('/equipment/edit/{id?}',[EquipmentController::class, 'edit'])->name('equipment_edit_view');
+
+Route::post('/equipment/update/{id?}',[EquipmentController::class, 'update'])->name('equipment_update');
+
+Route::get('/equipment/report/view',[EquipmentController::class, 'viewReport'])->name('equipment_report_view');
+
+Route::get('/equipment/report/print',[EquipmentController::class, 'printReport'])->name('equipment_report_print');
+
 Route::get('/test',[test::class, 'index'])->name('test');
 
 Route::get('/workout/workout_exercise', function () {
