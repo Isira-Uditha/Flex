@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Appointment;
 use App\Models\WorkoutPlan;
 use Illuminate\Support\Carbon;
+use Auth;
 
 class AppointmentService
 {
@@ -32,6 +33,7 @@ class AppointmentService
                 return $q->where('appointment.appointment_date','<=',  Carbon::createFromFormat('m/d/Y',$data['to'])->format('Y-m-d'));
             });
         })
+        ->where('uid',Auth::user()->uid)
         ->orderBy('appointment_id','DESC')
         ->get();
 

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class WorkoutPlan extends Model
 {
@@ -29,4 +31,36 @@ class WorkoutPlan extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected function getAllWorkoutPlans($data){
+
+        $res =  WorkoutPlan::when(isset($data['workout_plan_id']) && $data['workout_plan_id'] != '', function($q) use($data) {
+            return $q->where('workout_plan.workout_plan_id', $data['workout_plan_id']);
+        })
+        ->when(isset($data['workout_plan_name']) && $data['workout_plan_name'] != '', function($q) use($data) {
+            return $q->where('workout_plan.workout_plan_name', $data['workout_plan_name']);
+        })
+        ->when(isset($data['workout_plan_duration']) && $data['workout_plan_duration'] != '', function($q) use($data) {
+            return $q->where('workout_plan.duration', $data['workout_plan_duration']);
+        })
+        // ->when(isset($data['created_date']) && $data['created_date'] != '', function($q) use($data) {
+        //     return $q->where(DB::raw("DATE(created_at)"), 'LIKE',Carbon::createFromFormat('m/d/Y',$data['created_date'])->format('Y-m-d').'%');
+        //     // return $q->orWhereRaw('created_at::text like ?', ['%'.Carbon::createFromFormat('m/d/Y',$data['created_date'])->format('Y-m-d').'%']);
+        // })
+        ->when(!isset($data['sts_date']) && $data['workout_plan_id'] != 'on', function($q) use($data) {
+            return $q->when(isset($data['created_date']) && $data['created_date'] != '', function($q) use($data) {
+                return $q->where(DB::raw("DATE(created_at)"), 'LIKE',Carbon::createFromFormat('m/d/Y',$data['created_date'])->format('Y-m-d').'%');
+            });
+
+        })
+        ->when(isset($data['workout_plan_bmi_category']) && $data['workout_plan_bmi_category'] != '', function($q) use($data) {
+            return $q->where('workout_plan.workout_bmi_category', $data['workout_plan_bmi_category']);
+        })
+        ->orderBy('workout_plan_id','desc')
+        ->get();
+
+        return $res;
+
+
+    }
 }
