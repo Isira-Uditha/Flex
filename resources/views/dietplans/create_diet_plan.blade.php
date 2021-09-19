@@ -31,9 +31,7 @@
 
                                             <div class="form-group @error('diet_plan_breakfast') has-danger @enderror">
                                                 <label>Breakfast</label>
-                                                    <textarea class="form-control" placeholder="Enter Meals for Breakfast" name="diet_plan_breakfast" id="diet_plan_breakfast" rows="3">
-                                                        @if(!empty(old('diet_plan_breakfast'))) {{old('diet_plan_breakfast')}} @elseif(isset($data['result'])) {{$data['result']->diet_plan_breakfast}} @else  @endif
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter Meals for Breakfast" name="diet_plan_breakfast" id="diet_plan_breakfast" rows="3">@if(!empty(old('diet_plan_breakfast'))) {{old('diet_plan_breakfast')}}@elseif(isset($data['result'])) {{$data['result']->diet_plan_breakfast}}@else @endif</textarea>
                                                 @error('diet_plan_breakfast')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -43,9 +41,7 @@
 
                                             <div class="form-group @error('diet_plan_dinner') has-danger @enderror">
                                                 <label>Dinner</label>
-                                                    <textarea class="form-control" placeholder="Enter Meals for Dinner" name="diet_plan_dinner" id="diet_plan_dinner" rows="3">
-                                                        @if(!empty(old('diet_plan_dinner'))) {{old('diet_plan_dinner')}} @elseif(isset($data['result'])) {{$data['result']->diet_plan_dinner}} @else  @endif
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter Meals for Dinner" name="diet_plan_dinner" id="diet_plan_dinner" rows="3">@if(!empty(old('diet_plan_dinner'))) {{old('diet_plan_dinner')}}@elseif(isset($data['result'])) {{$data['result']->diet_plan_dinner}} @else  @endif</textarea>
                                                 @error('diet_plan_dinner')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -84,9 +80,7 @@
 
                                             <div class="form-group @error('diet_plan_lunch') has-danger @enderror">
                                                 <label>Lunch</label>
-                                                    <textarea class="form-control" placeholder="Enter Meals for Lunch" name="diet_plan_lunch" id="diet_plan_lunch" rows="3">
-                                                        @if(!empty(old('diet_plan_lunch'))) {{old('diet_plan_lunch')}} @elseif(isset($data['result'])) {{$data['result']->diet_plan_lunch}} @else  @endif
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter Meals for Lunch" name="diet_plan_lunch" id="diet_plan_lunch" rows="3">@if(!empty(old('diet_plan_lunch'))) {{old('diet_plan_lunch')}}@elseif(isset($data['result'])) {{$data['result']->diet_plan_lunch}}@else @endif</textarea>
                                                 @error('diet_plan_lunch')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -136,9 +130,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group @error('diet_plan_description') has-danger @enderror">
                                                 <label>Description</label>
-                                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3">
-                                                        @if(!empty(old('diet_plan_description'))) {{old('diet_plan_description')}} @elseif(isset($data['result'])) {{$data['result']->diet_plan_description}} @else  @endif
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3">@if(!empty(old('diet_plan_description'))) {{old('diet_plan_description')}}@elseif(isset($data['result'])) {{$data['result']->diet_plan_description}}@else @endif</textarea>
                                                 @error('diet_plan_description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>

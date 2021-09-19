@@ -235,9 +235,9 @@ class PackageController extends Controller
         $package = Package::where('package_id', $id)->first();
 
         if ($data->hasfile('image')){
-            if(!Storage::disk('accountsdocs')->exists('EQUIPMENT/'.$data->file('image')->getClientOriginalName())){
+            if(!Storage::disk('accountsdocs')->exists('PACKAGE/'.$data->file('image')->getClientOriginalName())){
                 // Storage::disk('accountsdocs')->delete($request->fImage);
-                $file_path = Storage::disk('accountsdocs')->putFileAs('EQUIPMENT', $data->file('image'), $data->image->getClientOriginalName());
+                $file_path = Storage::disk('accountsdocs')->putFileAs('PACKAGE', $data->file('image'), $data->image->getClientOriginalName());
             }else{
                 $file_path = 'PACKAGE/'.$data->file('image')->getClientOriginalName();
             }

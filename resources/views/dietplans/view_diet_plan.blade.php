@@ -31,9 +31,7 @@
 
                                             <div class="form-group @error('diet_plan_breakfast') has-danger @enderror">
                                                 <label>Breakfast</label>
-                                                    <textarea class="form-control" placeholder="Enter Meals for Breakfast" name="diet_plan_breakfast" id="diet_plan_breakfast" rows="3" readonly>
-                                                        {{$data['result']->breakfast}}
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter Meals for Breakfast" name="diet_plan_breakfast" id="diet_plan_breakfast" rows="3" readonly>{{$data['result']->breakfast}}</textarea>
                                                 @error('diet_plan_breakfast')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -43,9 +41,7 @@
 
                                             <div class="form-group @error('diet_plan_dinner') has-danger @enderror">
                                                 <label>Dinner</label>
-                                                    <textarea class="form-control" placeholder="Enter Meals for Dinner" name="diet_plan_dinner" id="diet_plan_dinner" rows="3" readonly>
-                                                    {{$data['result']->dinner}}
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter Meals for Dinner" name="diet_plan_dinner" id="diet_plan_dinner" rows="3" readonly>{{$data['result']->dinner}}</textarea>
                                                 @error('diet_plan_dinner')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -69,9 +65,7 @@
 
                                             <div class="form-group @error('diet_plan_lunch') has-danger @enderror">
                                                 <label>Lunch</label>
-                                                    <textarea class="form-control" placeholder="Enter Meals for Lunch" name="diet_plan_lunch" id="diet_plan_lunch" rows="3" readonly>
-                                                       {{$data['result']->lunch}}
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter Meals for Lunch" name="diet_plan_lunch" id="diet_plan_lunch" rows="3" readonly>{{$data['result']->lunch}}</textarea>
                                                 @error('diet_plan_lunch')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -121,9 +115,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group @error('diet_plan_description') has-danger @enderror">
                                                 <label>Description</label>
-                                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3" readonly>
-                                                        {{$data['result']->diet_desc}}
-                                                    </textarea>
+                                                    <textarea class="form-control" placeholder="Enter a Brief Description" name="diet_plan_description" id="diet_plan_description" rows="3" readonly>{{$data['result']->diet_desc}}</textarea>
                                                 @error('diet_plan_description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -146,8 +138,6 @@
                                             </div>
                                             <div class="col-md-6 text-right">
                                                 <div class="form-group col-md-12">
-                                                    <button  type="submit" id="submit" class="btn btn-success">Print</button>
-                                                    {{-- <button type="button" id="clear" class="btn btn-secondary text-white" >Clear</button> --}}
                                                 </div>
                                             </div>
                                         </div>

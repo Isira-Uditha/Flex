@@ -57,7 +57,7 @@ Route::get('/equipment/report/print',[EquipmentController::class, 'printReport']
 Route::get('/test',[test::class, 'index'])->name('test');
 
 Route::get('/workout/workout_exercise', function () {
-    $equipments=Equipment::all();
+    $equipments = Equipment::where('status',"In Use")->get();
     return view('workoutplans.create_exercise')->with('equipments', $equipments);
 })->name('createExercise_view');
 
@@ -69,6 +69,7 @@ Route::get('/workout/workout_plan/create', function () {
 Route::get('/diet_plan/create', function () {
     return view('dietplans.create_diet_plan');
 })->name('create_dietPlan_view');
+
 
 Route::post('/workout/workout_exercise/create',[WorkoutExerciseController::class, 'store'])->name('createExercise');
 
@@ -82,6 +83,14 @@ Route::post('/diet/diet_plan/create',[DietPlanController::class, 'store'])->name
 
 Route::get('/workout/workout_plan/index',[WorkoutPlanController::class, 'index'])->name('workout_plan_index');
 
+Route::get('/workout/workout_plan/edit/{id?}',[WorkoutPlanController::class, 'edit'])->name('workout_plan_edit_view');
+
+Route::post('/workout/workout_plan/update/{id?}',[WorkoutPlanController::class, 'update'])->name('workout_plan_update');
+
+Route::get('/workout/workout_plan/report/view',[WorkoutPlanController::class, 'viewReport'])->name('workout_plan_report_view');
+
+Route::get('/workout/workout_plan/report/print',[WorkoutPlanController::class, 'printReport'])->name('workout_plan_report_print');
+
 Route::get('/diet_plan/index',[DietPlanController::class, 'index'])->name('diet_plan_index');
 
 Route::get('/diet_plan/create/check',[DietPlanController::class, 'checkValid'])->name('check_valid_create_diet');
@@ -93,6 +102,10 @@ Route::get('/diet_plan/view/{id?}',[DietPlanController::class, 'view'])->name('d
 Route::get('/diet_plan/edit/{id?}',[DietPlanController::class, 'edit'])->name('diet_plan_edit_view');
 
 Route::post('/diet_plan/update/{id?}',[DietPlanController::class, 'update'])->name('diet_plan_update');
+
+Route::get('/diet_plan/report/view',[DietPlanController::class, 'viewReport'])->name('diet_plan_report_view');
+
+Route::get('/diet_plan/report/print',[DietPlanController::class, 'printReport'])->name('diet_plan_report_print');
 
 Route::get('/main', function () {
     if(Auth::user()->role == 'Member'){

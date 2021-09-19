@@ -113,6 +113,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('diet_plan_report_view')}}" type="button" class="btn btn-secondary text-white">Print Report</a>
                                 <input type="button" id="btn_add_diet" class="btn btn-success" value="Add Diet Plan"/>
                             </div>
                         </div>
@@ -132,7 +133,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Diet Plan ID</th>
-                            <th scope="col">Created Dater</th>
+                            <th scope="col">Created Date</th>
                             <th scope="col">Diet Plan Name</th>
                             <th scope="col">BMI Category</th>
                             <th scope="col">Breakfast</th>
@@ -253,13 +254,20 @@ $(document).ready(function () {
                         url: url,
                         data: {'_token':'{{csrf_token()}}','id':dietid},
                         success: function (response) {
-                            if(response.success){
+                            if(response.success == 1){
                                 $('*[data-dietid="' + dietid + '"]').closest("tr").remove();
                                 Swal.fire(
                                 'Deleted!',
                                 'Record has been deleted successfully.',
                                 'success'
                                 );
+                            }else if(response.success == 2){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'This diet plan is currenty in use',
+
+                            })
                             }
                         }
                     });
