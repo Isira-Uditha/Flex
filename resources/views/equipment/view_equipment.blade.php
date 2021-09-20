@@ -13,20 +13,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card custom-card h-100">
-            {{-- <div class="card-body"> --}}
-                {{-- <div> --}}
-                    {{-- <h6 class="card-title mb-1">Register Equipment</h6> --}}
-
                     <form action="{{route('createEquipment')}}" method="POST" class="login-form" enctype="multipart/form-data" id="create_equipment">
                         @csrf
                         <div class="card-body">
-                            {{-- <h6 class="card-title mb-3">Register Equipment</h6> --}}
                             <span>
                             </span>
                             <div class="row row-sm">
-
                                 <div class="col-5">
-
                                     <div class="form-group @error('image') has-danger @enderror">
                                         <div class="col-md-8">
                                         @php
@@ -42,7 +35,6 @@
                                         </span>
                                         @enderror
                                     </div>
-
                                 </div>
                                 <div class="col-7 table-responsive">
 
@@ -91,23 +83,18 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
 
-                        {{-- <div class="card-footer">
+                        <div class="card-footer">
                             <div class="row">
-
                                 <div class="col-md-12 text-right">
                                     <div class="form-group col-md-12">
-                                        <button type="submit" id="submit" class="btn btn-success">Register</button>
-                                        <button type="reset" id="clear" class="btn btn-secondary text-white">Clear</button>
+                                        <a href="{{route('equipment_index')}}" type="button" id="add" class="btn btn-success">OK</a>
                                     </div>
                                 </div>
-
                             </div>
-                        </div> --}}
-
+                        </div>
                     </form>
         </div>
     </div>
