@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Appointment;
 use App\Services\UserService;
 use App\Services\PackageService;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
+use function PHPUnit\Framework\isEmpty;
 
 class UserController extends Controller
 {
@@ -251,11 +253,7 @@ class UserController extends Controller
                     break;
                 case 'Delete':
                     $res = $this->destroy($id);
-                    if($res){
-                        return response()->json(['success' => 1, 'success_message' => 'Record deleted succefully'], 200);
-                    }else{
-                        return response()->json(['success' => 0, 'success_message' => 'Request unsuccefull'], 200);
-                    }
+                    return response()->json(['success' => $res], 200);
                     break;
                 default:
             }
@@ -351,7 +349,17 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $result = User::where('uid', $id)->delete();
+        $data = Appointment::where('uid', $id);
+        if($data->first()){
+            $result = 1;
+        } else {
+            $status = User::where('uid', $id)->delete();
+            if($status){
+                $result = 2;
+            } else {
+                $result = 0;
+            }
+        }
         return $result;
     }
 }

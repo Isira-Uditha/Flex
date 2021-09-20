@@ -221,13 +221,25 @@ $(document).ready(function () {
                         url: "{{route('user_create',['u_type' => 'Member', 'action' => 'Delete','id' =>"appid"])}}",
                         data: {'id':appid,'_token':'{{csrf_token()}}'},
                         success: function (response) {
-                            if(response.success){
+                            if(response.success == 2){
                                 $('*[data-appid="' + appid + '"]').closest("tr").remove();
                                 Swal.fire(
                                 'Deleted!',
                                 'Record has been deleted successfully.',
                                 'success'
                                 );
+                            } else if(response.success == 1){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'This user is currenty having some appointments',
+                                });
+                            } else if(response.success == 0){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'Something went wrong',
+                                });
                             }
                         }
                     });

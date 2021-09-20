@@ -125,6 +125,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="form-group col-md-12">
+                                <a href="{{route('equipment_report_view')}}" class="btn btn-secondary text-white">Print Report</a>
                                 <a href="{{route('equipment_create_view')}}" type="button" id="add" class="btn btn-success">Add Equipment</a>
                             </div>
                         </div>
@@ -153,6 +154,7 @@
                             <th scope="col">Equipment Category</th>
                             <th scope="col">Muscles Used</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -234,6 +236,10 @@ $(document).ready(function () {
                 {
                     data: 'equipment_desc',
                     name: 'equipment_desc'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
                 }
             ]
         });
@@ -243,41 +249,52 @@ $(document).ready(function () {
             $('.select2').css('width','100%');
          })
 
-        // $(document).on('click','.delete',function (e) {
-        //     e.preventDefault();
-        //     var appid = $(this).closest("a").data('appid');
-        //     var res = deleteEquipment(appid);
-        // });
+        $(document).on('click','.delete',function (e) {
+            e.preventDefault();
+            var eqpid = $(this).closest("a").data('eqpid');
+            var res = deleteEquipment(eqpid);
 
-        // function deleteEquipment(appid){
-        //     Swal.fire({
-        //         title: 'Are you sure?',
-        //         text: "You won't be able to revert this!",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Yes, delete it!'
-        //         }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             $.ajax({
-        //                 type: "POST",
-        //                 url: "{{route('appointment_create',['action' => 'Delete','id' =>"appid"])}}",
-        //                 data: {'id':appid,'_token':'{{csrf_token()}}'},
-        //                 success: function (response) {
-        //                     if(response.success){
-        //                         $('*[data-appid="' + appid + '"]').closest("tr").remove();
-        //                         Swal.fire(
-        //                         'Deleted!',
-        //                         'Record has been deleted successfully.',
-        //                         'success'
-        //                         );
-        //                     }
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
+        });
+
+        function deleteEquipment(eqpid){
+            console.log("iiiiii"+eqpid);
+            let url = "{{ route('equipment_delete', ':id') }}";
+            url = url.replace(':id', eqpid);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {'id':eqpid,'_token':'{{csrf_token()}}'},
+                        success: function (response) {
+                            if(response.success == 1){
+                                $('*[data-eqpid="' + eqpid + '"]').closest("tr").remove();
+                                Swal.fire(
+                                'Deleted!',
+                                'Record has been deleted successfully.',
+                                'success'
+                                );
+                            }else if(response.success == 2){
+                                Swal.fire({
+                                icon: 'warning',
+                                title: 'Delete Fail',
+                                text: 'This equipment is currenty in use',
+
+                })
+                            }
+                        }
+                    });
+                }
+            });
+        }
 });
 </script>
 @endpush
