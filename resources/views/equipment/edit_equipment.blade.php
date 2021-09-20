@@ -24,7 +24,7 @@
                         <div class="row row-sm">
                             <div class="col-6">
                                 <div class="form-group @error('equipment_code') has-danger @enderror">
-                                    <label class="form-label">Equipment Code: </label>
+                                    <label class="form-label">Equipment Code: <span class="tx-danger">*</span></label>
                                      <input class="form-control" name="equipment_code" id="equipment_code" placeholder="Input Equipment Code"  type="text"
                                      @if(!empty(old('equipment_code'))) value="{{old('equipment_code')}}" @else value="{{$data['result']->equipment_code}}" @endif>
                                     @error('equipment_code')
@@ -35,7 +35,7 @@
                                 </div>
 
                                 <div class="form-group @error('category') has-danger @enderror">
-                                    <label class="form-label">Equipment Category: </label>
+                                    <label class="form-label">Equipment Category: <span class="tx-danger">*</span></label>
                                     <select class="form-control select2" name="category" id="category" data-parsley-class-handler="#slWrapper"
                                     data-parsley-errors-container="#slErrorContainer" data-placeholder="Choose one">
                                         <option value="Select a Category" label="Select a Category">
@@ -79,7 +79,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group @error('equipment_price') has-danger @enderror">
-                                    <label class="form-label">Price(Rs.): </label>
+                                    <label class="form-label">Price(Rs.): <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="equipment_price" id="equipment_price" placeholder="Input Price"  type="text"
                                     @if(!empty(old('equipment_price'))) value="{{old('equipment_price')}}" @else value="{{$data['result']->equipment_price}}" @endif>
                                     @error('equipment_price')
@@ -92,7 +92,7 @@
 
                             <div class="col-6">
                                 <div class="form-group @error('equipment_name') has-danger @enderror">
-                                    <label class="form-label">Equipment Name: </label>
+                                    <label class="form-label">Equipment Name: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="equipment_name" id="equipment_name" placeholder="Input Equipment Name"  type="text"
                                     @if(!empty(old('equipment_name'))) value="{{old('equipment_name')}}" @else value="{{$data['result']->equipment_name}}" @endif>
                                     @error('equipment_name')
@@ -103,7 +103,7 @@
                                 </div>
 
                                 <div class="form-group" @error('registered_date') has-danger @enderror>
-                                <label class="form-label">Registered Date: </label>
+                                <label class="form-label">Registered Date: <span class="tx-danger">*</span></label>
                                 <div class="row row-sm ">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -124,7 +124,7 @@
                                 </div>
 
                                 <div class="form-group" @error('status') has-danger @enderror>
-                                    <label class="form-label">Status: </label>
+                                    <label class="form-label">Status: <span class="tx-danger">*</span></label>
                                     <select class="form-control select2" data-parsley-class-handler="#slWrapper" name="status" id="status" data-parsley-errors-container="#slErrorContainer" data-placeholder="Choose one">
                                         <option label="Select Status">
                                             Select Status
@@ -175,7 +175,7 @@
 
 
                         <div class="form-group @error('muscles_used') has-danger @enderror">
-                            <label>Muscles Used </label>
+                            <label>Muscles Used <span class="tx-danger">*</span></label>
                                 <textarea class="form-control col-md-8"  name="muscles_used" id="muscles_used" rows="5" >@if(!empty(old('muscles_used'))) {{old('muscles_used')}} @else {{$data['result']->muscles_used}} @endif</textarea>
                             @error('muscles_used')
                             <span class="invalid-feedback" role="alert">
@@ -185,7 +185,7 @@
                         </div>
 
                         <div class="form-group @error('equipment_desc') has-danger @enderror">
-                            <label>Equipment Description </label>
+                            <label>Equipment Description <span class="tx-danger">*</span></label>
                                 <textarea class="form-control col-md-8" placeholder="Enter Equipment Description" name="equipment_desc" id="equipment_desc" rows="5">@if(!empty(old('equipment_desc'))) {{old('equipment_desc')}} @else {{$data['result']->equipment_desc}} @endif</textarea>
                             @error('equipment_desc')
                             <span class="invalid-feedback" role="alert">
