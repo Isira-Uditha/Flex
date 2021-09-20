@@ -93,7 +93,6 @@
 
             <table style="width:100%"><!-- 3 -->
                 <tr style="width:600px">
-                    {{-- <td style="background-color:#A6A6A6;width:100%; color:#FFF; padding-left:15px; padding-bottom:7px; padding-top:7px; font-weight:bold">@if($date['from'] != '') Appointments &nbsp;  From {{' : '.$date['from']}} &nbsp; To {{ ' : '.$date['to']}} @else All Appointments @endif</td> --}}
                 </tr>
             </table>
         </header>
