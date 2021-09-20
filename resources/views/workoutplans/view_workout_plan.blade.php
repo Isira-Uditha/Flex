@@ -131,6 +131,7 @@
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="form-group col-md-12">
+                                    <a href="{{route('workout_plan_index')}}" type="button" id="add" class="btn btn-success">OK</a>
                                 </div>
                             </div>
 
