@@ -3,12 +3,12 @@
 ## Group Details
 
 **Member Details :**
-|        Name               | Student ID | UserName
-
-| Bandara W.A.I.U.          | IT19017334 | Isira-Uditha
-| Kuruppuarachchi K.A.D.K.S.| IT19028156 | KasuniSandeepa
-| Alwis T.A.D.T.N.D.        | IT19016108 | tharushikadealwis
-| Maduwantha N.N.D.         | IT19026480 | NishanNiriella
+|        Name               | Student ID | UserName          |
+| ------------------------- |:----------:| -----------------:|
+| Bandara W.A.I.U.          | IT19017334 | Isira-Uditha      |
+| Kuruppuarachchi K.A.D.K.S.| IT19028156 | KasuniSandeepa    |
+| Alwis T.A.D.T.N.D.        | IT19016108 | tharushikadealwis |
+| Maduwantha N.N.D.         | IT19026480 | NishanNiriella    |
 
 ## Project Description
 This is a web application which will be used to manage daily activities of a gymnasium under the name Flex Gym Management System. 
