@@ -15,10 +15,11 @@ This is a web application which will be used to manage daily activities of a gym
 This project facilitates to automate daily tasks of employees of gym while providing a great service to its clients. Further, this will provide 
 the facilities to the client to make their day-to-day work easier and more efficient with a healthy life. 
 So, this web application consists of four (4) main core functionalities.
-  •	User Management 
-  •	Equipment Management 
-  •	Workout and Diet Schedule Management 
-  •	Appointment Management and Monthly Payment
+  	
+  - User Management 
+  - Equipment Management 
+  -	Workout and Diet Schedule Management 
+  -	Appointment Management and Monthly Payment
 
 ## Technologies
   PHP Laraval Framework
